@@ -401,6 +401,33 @@ function renderArchiveNav(dates: string[], current: string): string {
 }
 
 /**
+ * A coin with nothing to say about it.
+ *
+ * At 24 tokens, giving every coin a full card with a trader table pads the page
+ * with rows that carry no information — and a padded recap is exactly the thing
+ * that stops people reading one. A coin with no catalyst, no pairing and no
+ * namesake gets a single line instead: it ran, here is how far, that is all we
+ * know. The reference format does the same thing under "More Plays".
+ */
+function renderCompactRow(r: Runner): string {
+  const cap = r.mcap ? usd(r.mcap.high) : usd(r.fdvUsd);
+  const mult = r.mcap && r.mcap.multiple > 1 ? ` <span class="cx">${r.mcap.multiple}x</span>` : "";
+  const copies = r.tickerCopies > 0 ? ` <span class="cwarn">${r.tickerCopies + 1} same ticker</span>` : "";
+  return `
+    <div class="crow">
+      <span class="cname">$${esc(r.symbol)}</span>
+      <span class="ccap">hit ${esc(cap)}${mult}</span>
+      ${copies}
+    </div>`;
+}
+
+/** Nothing beyond the price is known about this coin. */
+function hasNothingToSay(r: Runner, notes: DayNotes): boolean {
+  const timeline = notes.coins?.[r.symbol]?.timeline ?? [];
+  return timeline.length === 0 && !r.pairing && !r.namesake;
+}
+
+/**
  * One narrative section.
  *
  * The subtitle states the mechanical basis for the grouping — "3 coins trading
@@ -463,8 +490,13 @@ export function renderPage(
   let rank = 0;
   const sections = groups
     .map((g) => {
-      const cards = g.runners.map((r) => renderCard(r, ++rank, notes, bar)).join("\n");
-      return renderSection(g, cards, notes);
+      // Coins we can say something about get a card; the rest get one line.
+      const detailed = g.runners.filter((r) => !hasNothingToSay(r, notes));
+      const bare = g.runners.filter((r) => hasNothingToSay(r, notes));
+
+      const cards = detailed.map((r) => renderCard(r, ++rank, notes, bar)).join("\n");
+      const rows = bare.length > 0 ? `<div class="crows">${bare.map(renderCompactRow).join("")}</div>` : "";
+      return renderSection(g, cards + rows, notes);
     })
     .join("\n");
 
@@ -482,6 +514,14 @@ export function renderPage(
     --up:#22c98f; --down:#f0616d; --warn:#e0a33a; --accent:#6c8cff;
   }
   .tl-more { margin-top:8px; padding-left:66px; font-size:11px; color:var(--dim); }
+  .crows { border:1px solid var(--border); border-radius:10px; background:var(--surface);
+           padding:4px 0; margin-top:10px; }
+  .crow { display:flex; align-items:baseline; gap:10px; padding:7px 14px; font-size:13px; }
+  .crow + .crow { border-top:1px solid var(--border); }
+  .cname { font-weight:650; color:var(--text); min-width:120px; }
+  .ccap { color:var(--muted); }
+  .cx { color:var(--up); font-weight:600; }
+  .cwarn { color:var(--warn); font-size:11px; }
   .group { margin:0 0 34px; }
   .group-head { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
                 margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
