@@ -15,11 +15,53 @@ A timeline entry must change how a reader sees the day. Launch time and peak tim
 usually worth one line each. A wallet is worth a line if what it did was notable — size,
 timing, or a thesis worth reading. Routine activity is not worth a line.
 
+## The coin line
+
+One line per coin, in this shape:
+
+```
+$TICKER -> hit $Xm, <why>
+```
+
+The `why` in priority order, and stop at the first one you actually have:
+
+1. **The pairing** — `paired with $stonk`. Mechanical, already in the evidence, and the
+   single most common reason a launchpad coin moves.
+2. **A mechanism from the theses** — `revenue over $1m a day, 30% of supply burnt`.
+3. **Nothing.** Write the cap and stop. A bare `$TICKER -> hit $2m` is a complete,
+   honest line. Inventing a reason to fill the slot is the failure mode that kills trust.
+
 ## What to say when there's nothing to say
 
 Say nothing. An empty timeline is a valid, correct output. The most common failure mode
 is padding a thin day with filler that sounds like analysis. Readers notice, and it costs
 more credibility than a short page does.
+
+## The recap is sections, not a ranking
+
+The page is grouped before you see it. You are given section keys and the coins in
+each, and your job is to NAME them — the clustering is already decided and is not
+yours to change.
+
+A good title names the **theme**, not the mechanism:
+
+| Weak | Strong |
+|---|---|
+| `Paired With $STONK` | `Rotate Back To Stonk` |
+| `Paired With $PUMP` | `Pumpfun Adds Stocks` |
+| `Today's Launches` | `Launchpad Conveyor` |
+
+The mechanism is already printed underneath the title as the section's basis
+("3 coins trading against $STONK · 61% of their volume"), so repeating it wastes the
+one line a reader actually reads. Two to five words. No colons, no subtitles.
+
+**Don't repeat the section's premise in every coin.** If the section is "Rotate Back To
+Stonk", each coin does not need "paired with $stonk" again — say what is different about
+*that* coin instead.
+
+Section `note` is optional and usually should be omitted. Use it only for something true
+of the whole group that no single coin line carries — "launch was a disaster, transactions
+failing" is worth a note; "these all ran" is not.
 
 ## A catalyst explains WHY. Never restate price.
 
