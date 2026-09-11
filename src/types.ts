@@ -128,6 +128,102 @@ export interface Snapshot {
   runners: Runner[];
 }
 
+// ===========================================================================
+// fomo layer — PLATFORM-SOURCED, NEVER ARCHIVED
+//
+// Read under read-only permission granted 2026-09-11. Storage was explicitly
+// NOT granted, so nothing below may reach data/. It lives in memory during a
+// run and in the gitignored render, then is dropped.
+//
+// Source today is a manual export (you paste a profile page, we parse it).
+// The parser's *output shape* is the contract, so when read-only API access
+// lands it becomes a drop-in swap with no downstream changes.
+//
+// Note these are NOT part of Snapshot. That is deliberate: a type that cannot
+// be reached from Snapshot cannot be accidentally serialised into the archive.
+// ===========================================================================
+
+/** One swap from a trader's history. */
+export interface FomoTrade {
+  symbol: string;
+  action: "buy" | "sell";
+  amountUsd: number;
+  /** Market cap at the time of the trade — the unit fomo displays in. */
+  mcapUsd: number | null;
+  /** Source shows relative ages ("17m"), so this is minutes before exportedAt. */
+  agoMinutes: number | null;
+  /** Absolute time, derived from agoMinutes + exportedAt. */
+  at: string | null;
+}
+
+/** A trader's written call on a token. The reason this product exists. */
+export interface FomoThesis {
+  symbol: string;
+  text: string;
+  agoMinutes: number | null;
+  at: string | null;
+  pnlUsd: number | null;
+  changePct: number | null;
+  /** Whether the position was closed when the thesis was shown. */
+  closed: boolean;
+}
+
+/** An open position on a trader's profile. */
+export interface FomoPosition {
+  symbol: string;
+  valueUsd: number;
+  changePct: number | null;
+}
+
+/**
+ * One trader's profile as exported. Every field here is platform-sourced.
+ *
+ * `parseWarnings` is load-bearing: the source is a rendered page, so layout
+ * changes degrade parsing silently unless surfaced. A run that parses zero
+ * trades should say so loudly rather than render an empty day.
+ */
+export interface TraderDay {
+  handle: string;
+  displayName: string | null;
+  followers: number | null;
+  following: number | null;
+  bio: string | null;
+  portfolioUsd: number | null;
+  pnl24hUsd: number | null;
+  tradeCount: number | null;
+  avgHold: string | null;
+  trades: FomoTrade[];
+  theses: FomoThesis[];
+  positions: FomoPosition[];
+  exportedAt: string;
+  parseWarnings: string[];
+}
+
+/**
+ * A token surfaced because notable traders bought it — the inverted pipeline.
+ *
+ * The old pipeline asked "what has a big market cap?" and used that as a proxy
+ * for "worth writing about". This asks "did people with real followings put
+ * real money in and explain why?", which is a far better proxy and is why the
+ * $1m FDV floor does not apply here. Median cap fomo traders actually trade is
+ * ~$72k — 14x below that floor.
+ */
+export interface TraderLedToken {
+  symbol: string;
+  /** Handles that bought, most-recent first. */
+  buyers: string[];
+  buyCount: number;
+  sellCount: number;
+  totalBuyUsd: number;
+  totalSellUsd: number;
+  theses: FomoThesis[];
+  /** Combined follower count of everyone who bought — attention, not price. */
+  followerReach: number;
+  firstBuyMcapUsd: number | null;
+  lastTradeMcapUsd: number | null;
+  firstBuyAt: string | null;
+}
+
 export interface FilterConfig {
   /** Quote tokens whose price we trust as a USD proxy. Cross-pairs distort the % change. */
   allowedQuoteSymbols: string[];

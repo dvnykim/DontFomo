@@ -11,9 +11,10 @@
     "recap": "node --experimental-strip-types --env-file-if-exists=.env src/run.ts",
     "recap:force": "node --experimental-strip-types --env-file-if-exists=.env src/run.ts --force",
     "narrate": "node --experimental-strip-types --env-file-if-exists=.env src/narrate.ts",
+    "traders": "node --experimental-strip-types src/import-traders.ts",
     "site": "node --experimental-strip-types src/site/build.ts",
     "daily": "npm run recap && npm run narrate && npm run site",
-    "test": "node --experimental-strip-types --test src/*.test.ts",
+    "test": "node --experimental-strip-types --test 'src/**/*.test.ts'",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

@@ -10,3 +10,7 @@ dist/
 # Generated from data/ by `npm run site`. The snapshots are the source of truth;
 # rendered HTML is rebuilt on deploy. data/ is deliberately NOT ignored.
 site/
+
+# Manual fomo exports. Platform content is read, used and dropped — storage was
+# never granted. This is a compliance boundary, not a convenience.
+input/

@@ -1,0 +1,116 @@
+/**
+ * Manual trader import.
+ *
+ *   1. Open a fomo profile, select all, copy.
+ *   2. Save as input/<handle>.txt
+ *   3. npm run traders
+ *
+ * `input/` is gitignored. Platform content is read, used, and dropped — it must
+ * never reach the committed archive. See the ephemeral-data policy in
+ * DECISIONS.md.
+ *
+ * The export timestamp comes from each file's mtime. Every age on a fomo page
+ * is relative ("17m"), so an anchor is mandatory — and the moment you saved the
+ * paste is exactly that anchor, which beats making you type one.
+ */
+
+import { readdir, readFile, stat } from "node:fs/promises";
+import path from "node:path";
+import { parseProfile } from "./sources/fomo-manual.ts";
+import { buildTraderLedTokens, isDistribution } from "./traders.ts";
+import type { TraderDay } from "./types.ts";
+
+const INPUT_DIR = path.join(import.meta.dirname, "..", "input");
+
+function usd(n: number): string {
+  if (n >= 1e6) return `$${(n / 1e6).toFixed(2)}m`;
+  if (n >= 1e3) return `$${(n / 1e3).toFixed(1)}k`;
+  return `$${n.toFixed(0)}`;
+}
+
+export async function loadTraderDays(dir = INPUT_DIR): Promise<TraderDay[]> {
+  let files: string[];
+  try {
+    files = (await readdir(dir)).filter((f) => f.endsWith(".txt"));
+  } catch {
+    return [];
+  }
+
+  const days: TraderDay[] = [];
+  for (const file of files.sort()) {
+    const full = path.join(dir, file);
+    const [raw, info] = await Promise.all([readFile(full, "utf8"), stat(full)]);
+    if (!raw.trim()) continue;
+    days.push(parseProfile(raw, info.mtime.toISOString()));
+  }
+  return days;
+}
+
+async function main() {
+  const days = await loadTraderDays();
+
+  if (days.length === 0) {
+    console.log(
+      `No exports found in input/\n\n` +
+        `  1. open a fomo profile, select all, copy\n` +
+        `  2. save it as input/<handle>.txt\n` +
+        `  3. run this again\n`,
+    );
+    return;
+  }
+
+  console.log(`Parsed ${days.length} profile${days.length === 1 ? "" : "s"}\n`);
+
+  let unusable = 0;
+  for (const d of days) {
+    const reach = d.followers === null ? "?" : d.followers.toLocaleString();
+    console.log(
+      `  @${d.handle.padEnd(16)} ${String(d.trades.length).padStart(3)} trades  ` +
+        `${String(d.theses.length).padStart(2)} theses  ${reach.padStart(8)} followers`,
+    );
+    for (const w of d.parseWarnings) console.log(`      ! ${w}`);
+    if (d.trades.length === 0) unusable++;
+  }
+
+  if (unusable === days.length) {
+    console.log(
+      `\nEvery export parsed zero trades. That usually means the page layout\n` +
+        `changed, or the paste captured only part of the page. Check that the\n` +
+        `"All swaps" table is included in what you copied.`,
+    );
+    process.exitCode = 1;
+    return;
+  }
+
+  const tokens = buildTraderLedTokens(days);
+  console.log(`\n${tokens.length} tokens, ranked by independent buyers:\n`);
+
+  for (const [i, t] of tokens.entries()) {
+    const entry = t.firstBuyMcapUsd === null ? "" : ` from ${usd(t.firstBuyMcapUsd)}`;
+    const tag = isDistribution(t) ? "  [distributing]" : "";
+    console.log(
+      `${String(i + 1).padStart(2)}. $${t.symbol.padEnd(14)} ` +
+        `${t.buyers.length} buyer${t.buyers.length === 1 ? " " : "s"}  ` +
+        `${usd(t.totalBuyUsd).padStart(8)} in${entry}${tag}`,
+    );
+    console.log(`     ${t.buyers.map((b) => "@" + b).join(", ")}`);
+    for (const th of t.theses) {
+      const when = th.agoMinutes === null ? "" : `${th.agoMinutes}m ago: `;
+      console.log(`     "${when}${th.text.slice(0, 90)}${th.text.length > 90 ? "…" : ""}"`);
+    }
+    console.log("");
+  }
+
+  const withThesis = tokens.filter((t) => t.theses.length > 0).length;
+  console.log(
+    `${withThesis}/${tokens.length} tokens have a written thesis — those are the ones\n` +
+      `that can carry a catalyst line. The rest are activity without explanation.`,
+  );
+}
+
+if (import.meta.filename === process.argv[1]) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
