@@ -343,11 +343,21 @@ function allowedNumbers(r: Runner, theses: FomoThesis[] = [], cfg?: FilterConfig
     ...(r.traders ?? []).flatMap((t) => [t.pnlUsd, t.realizedPnlUsd, t.volumeUsd]),
   ].filter((n): n is number => typeof n === "number");
 
+  if (r.pairing) money.push(r.pairing.volumeUsd);
   for (const m of money) ok.add(usd(m).toLowerCase());
   // Guarded: an unguarded template would add the literal string "nullx" for a
   // launch, which is harmless but also means no multiple is ever licensed — and
   // silently so.
-  if (r.mcap?.multiple != null) ok.add(`${r.mcap.multiple}x`);
+  if (r.mcap?.multiple != null) {
+    ok.add(`${r.mcap.multiple}x`);
+    // Rounding is not fabrication. The model wrote "296x" for a 296.5x move and
+    // had the line deleted, which teaches it nothing except to avoid the figure.
+    // Both directions: Math.round(296.5) is 297, so rounding alone still
+    // rejected the truncation the model actually wrote.
+    ok.add(`${Math.round(r.mcap.multiple)}x`);
+    ok.add(`${Math.floor(r.mcap.multiple)}x`);
+    ok.add(`${r.mcap.multiple.toFixed(1)}x`);
+  }
 
   const counts = [
     r.txns24h.buyers,
@@ -379,11 +389,13 @@ function unsupportedNumber(text: string, allowed: Set<string>): string | null {
   // line. Clock times are consumed for the same reason ("15:00" -> "15").
   rest = rest.replace(/\b\d{1,2}:\d{2}\b/g, " ");
 
-  for (const [, amount] of [...rest.matchAll(/(\$\d[\d.,]*\s?[kmb]?)/g)]) {
+  // The \b is load-bearing: without it "$640 booked" matches as "$640 b" and
+  // is reported as the fabricated figure "$640b".
+  for (const [, amount] of [...rest.matchAll(/(\$\d[\d.,]*\s?[kmb]?)\b/g)]) {
     const norm = amount!.replace(/[\s,]/g, "");
     if (!allowed.has(norm)) return norm;
   }
-  rest = rest.replace(/\$\d[\d.,]*\s?[kmb]?/g, " ");
+  rest = rest.replace(/\$\d[\d.,]*\s?[kmb]?\b/g, " ");
 
   for (const [, mult] of [...rest.matchAll(/\b(\d+(?:\.\d+)?x)\b/g)]) {
     if (!allowed.has(mult!)) return mult!;

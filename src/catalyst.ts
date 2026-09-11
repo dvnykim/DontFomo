@@ -36,7 +36,7 @@ const MECHANISM =
 
 /** What a named wallet actually did — not derivable from a chart. */
 const WALLET_FACT =
-  /\b(banked|bagged|realised|realized|underwater|bundlers?|bots?|sniped|accumulat\w*|whales?|holders?|wallets?|bought|sold|exited?|sampled|cleared|profit\w*|p&l|pnl)\b|@[A-Za-z0-9_]{2,}/i;
+  /\b(banked|bagged|realised|realized|underwater|bundlers?|bots?|sniped|accumulat\w*|whales?|holders?|wallets?|bought|sold|exited?|sampled|cleared|profit\w*|p&l|pnl|tickers?|copies|copycat)\b|@[A-Za-z0-9_]{2,}/i;
 
 /** Price-shaped facts: caps, multiples, percentages. */
 const PRICE_FACT = /(\$\s?[\d,.]+\s*[kmb]\b|\b\d[\d,.]*\s*x\b|\b\d[\d,.]*\s*%)/i;

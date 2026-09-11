@@ -558,3 +558,42 @@ test("still catches a fabricated figure after the fix", () => {
     assert.equal(report.dropped.length, 1, `should have dropped: ${bad}`);
   }
 });
+
+test("accepts a rounded or truncated multiple", () => {
+  // Math.round(296.5) is 297, so allowing only the rounded form still rejected
+  // the "296x" the model actually wrote.
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 30_000, high: 8_800_000, current: 8_800_000, multiple: 296.5, peakAt: null },
+    },
+  ]);
+
+  for (const form of ["296.5x", "296x", "297x"]) {
+    const report = validateOutput(narrative(`peaked on a ${form} run`), snap);
+    assert.equal(report.dropped.length, 0, `${form} should be accepted`);
+  }
+});
+
+test("does not read a trailing word as a magnitude suffix", () => {
+  // "$640 booked" matched as "$640 b" and was reported as the figure $640b.
+  const snap = snapshot([{ symbol: "CATE", traders: [trader({ realizedPnlUsd: 640 })] }]);
+  const report = validateOutput(narrative("the wallet only booked $640"), snap);
+
+  assert.ok(
+    !report.dropped.some((d) => /\$640b/.test(d.reason)),
+    JSON.stringify(report.dropped),
+  );
+});
+
+test("licenses the pairing volume it prints as evidence", () => {
+  const snap = snapshot([
+    {
+      symbol: "EMBER",
+      pairing: { symbol: "MET", volumeUsd: 15_900_000, share: 0.23, dominant: false },
+    },
+  ]);
+  const report = validateOutput(narrative("$16m of volume ran against $MET", "EMBER"), snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
