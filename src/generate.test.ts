@@ -83,6 +83,7 @@ function snapshot(runners: Partial<Runner>[]): Snapshot {
 function narrative(text: string, symbol = "CATE"): GeneratedNarrative {
   return {
     mood: "test",
+    groups: [],
     coins: [{ symbol, label: "", timeline: [{ time: "12:00", text }] }],
   };
 }
@@ -325,4 +326,36 @@ test("drops vague absolutes about nobody making money", () => {
   const report = validateOutput(n, snap);
 
   assert.equal(report.dropped.length, 1);
+});
+
+// ------------------------------------------------------------- section titles
+
+test("blanks a section title naming an unsupported ticker", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("held the range");
+  n.groups = [{ key: "pair:fake", title: "Rotation Into $GHOSTCOIN" }];
+
+  const report = validateOutput(n, snap);
+
+  assert.equal(n.groups[0]!.title, "", "a header is the most prominent text on the page");
+  assert.match(report.dropped[0]!.reason, /section title/);
+});
+
+test("blanks a section title claiming another day", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("held the range");
+  n.groups = [{ key: "fresh", title: "Same As Yesterday" }];
+
+  validateOutput(n, snap);
+  assert.equal(n.groups[0]!.title, "");
+});
+
+test("keeps a legitimate section title", () => {
+  const snap = snapshot([{ symbol: "CATE" }, { symbol: "baton" }]);
+  const n = narrative("held the range");
+  n.groups = [{ key: "pair:baton", title: "Rotate Back Into $baton" }];
+
+  const report = validateOutput(n, snap);
+  assert.equal(n.groups[0]!.title, "Rotate Back Into $baton");
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
 });

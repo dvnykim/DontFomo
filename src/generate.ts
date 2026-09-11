@@ -22,6 +22,7 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import type { Runner, Snapshot } from "./types.ts";
 import { usd } from "./format.ts";
+import { groupRunners } from "./group.ts";
 
 const ROOT = new URL("../", import.meta.url).pathname;
 const PROMPTS_DIR = join(ROOT, "prompts");
@@ -40,8 +41,23 @@ const CoinNarrative = z.object({
   timeline: z.array(TimelineEntry),
 });
 
+const GroupTitle = z.object({
+  key: z.string().describe("The group key exactly as given in the evidence, e.g. 'pair:stonk'."),
+  title: z
+    .string()
+    .describe(
+      "Editorial section header, 2-5 words, e.g. 'Rotate Back To Stonk'. Name the THEME, " +
+        "not the mechanism — never 'Paired With $X' when you can say what the rotation was.",
+    ),
+  note: z
+    .string()
+    .optional()
+    .describe("Optional single line of context for the section. Omit if there is nothing to add."),
+});
+
 const DayNarrative = z.object({
   mood: z.string().describe("One line on how the day felt. Trader voice, lowercase ok."),
+  groups: z.array(GroupTitle).describe("A title for each group key in the evidence."),
   coins: z.array(CoinNarrative),
 });
 
@@ -66,6 +82,25 @@ async function readPrompt(name: string): Promise<string> {
  */
 function buildEvidence(snapshot: Snapshot): string {
   const lines: string[] = [`DATE: ${snapshot.date} (UTC)`, ""];
+
+  // Sections are decided mechanically before the model sees anything, so it
+  // names groups rather than inventing them. A model asked to both cluster and
+  // label will cheerfully cluster to fit a label it likes.
+  const groups = groupRunners(snapshot.runners);
+  if (groups.length > 0) {
+    lines.push("SECTIONS (title each one by its key):");
+    for (const g of groups) {
+      const members = g.runners.map((r) => "$" + r.symbol).join(", ");
+      const why =
+        g.kind === "pairing" && g.pairedWith
+          ? `all trading against $${g.pairedWith}`
+          : g.kind === "fresh"
+            ? "launched today, no shared pairing"
+            : "already trading, no shared pairing";
+      lines.push(`  ${g.key}  [${why}]  ${members}`);
+    }
+    lines.push("");
+  }
 
   for (const r of snapshot.runners) {
     const m = r.mcap;
@@ -429,6 +464,30 @@ export function validateOutput(
       }
     }
   }
+  // Section titles run the same gauntlet as coin labels. A header is the most
+  // prominent text on the page, so an invented ticker or figure there does more
+  // damage than the same claim buried in a timeline line.
+  for (const g of narrative.groups ?? []) {
+    const problem =
+      crossDayClaim(g.title) ??
+      populationClaim(g.title) ??
+      [...g.title.matchAll(/@([A-Za-z0-9_]{2,30})/g)]
+        .map((m) => m[1]!.toLowerCase())
+        .find((h) => !handles.has(h)) ??
+      [...g.title.matchAll(/\$([A-Za-z][A-Za-z0-9]{1,14})/g)]
+        .map((m) => m[1]!.toLowerCase())
+        .find((t) => !tickers.has(t));
+
+    if (problem) {
+      report.dropped.push({
+        symbol: g.key,
+        text: g.title,
+        reason: `unsupported section title ("${problem}")`,
+      });
+      g.title = "";
+    }
+  }
+
   return report;
 }
 

@@ -64,6 +64,14 @@ async function main() {
   const { narrative, validation, provenance } = result;
 
   // Convert to the notes shape the renderer already consumes.
+  // Section titles, keyed the same way the renderer groups. The clustering is
+  // mechanical and recomputed at render time; only these names come from the model.
+  const groups: Record<string, { title?: string; note?: string }> = {};
+  for (const g of narrative.groups ?? []) {
+    if (!g.title.trim()) continue;
+    groups[g.key] = g.note?.trim() ? { title: g.title, note: g.note } : { title: g.title };
+  }
+
   const coins: Record<string, { label?: string; timeline?: Array<{ time: string; text: string }> }> = {};
   for (const c of narrative.coins) {
     coins[c.symbol] = { label: c.label, timeline: c.timeline };
@@ -72,7 +80,11 @@ async function main() {
   await mkdir(NOTES_DIR, { recursive: true });
   await writeFile(
     outPath,
-    JSON.stringify({ _generated: provenance, mood: narrative.mood, coins }, null, 2) + "\n",
+    JSON.stringify(
+      { _generated: provenance, mood: narrative.mood, groups, coins },
+      null,
+      2,
+    ) + "\n",
     "utf8",
   );
 

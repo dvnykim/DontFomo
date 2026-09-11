@@ -324,6 +324,12 @@ export interface FilterConfig {
    * negative realised P&L — counting those as winners would be actively misleading.
    */
   botTags: string[];
+  /**
+   * How many coins reach the page. The reference recaps carry 40+ across a
+   * dozen sections; a top-10 reads as a leaderboard, which is the thing this
+   * product is explicitly not. Each runner costs ~2 keyless requests, so this
+   * is a time budget as much as an editorial one.
+   */
   maxRunners: number;
   /** How many traders to keep per coin. */
   maxTradersPerRunner: number;
@@ -342,6 +348,6 @@ export const DEFAULT_FILTERS: FilterConfig = {
   botTradesPerWalletThreshold: 50,
   bigWinnerPnlUsd: 10_000,
   botTags: ["bundler", "dev"],
-  maxRunners: 10,
+  maxRunners: 24,
   maxTradersPerRunner: 8,
 };
