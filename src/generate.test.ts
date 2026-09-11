@@ -165,7 +165,7 @@ test("keeps figures that match the snapshot", () => {
       txns24h: { buys: 0, sells: 0, buyers: 13_407, sellers: 13_202 },
     },
   ]);
-  const n = narrative("marked $70m, a 2x off the $35m base. 13407 buyers");
+  const n = narrative("supply burn took it to $70m, a 2x off the $35m base, 13407 buyers");
   const report = validateOutput(n, snap);
 
   assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
@@ -357,5 +357,43 @@ test("keeps a legitimate section title", () => {
 
   const report = validateOutput(n, snap);
   assert.equal(n.groups[0]!.title, "Rotate Back Into $baton");
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+// ------------------------------------------------------- price restatement
+
+test("drops a timeline line that is only price", () => {
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 35_000_000, high: 70_000_000, current: 60_000_000, multiple: 2, peakAt: null },
+      volume24hUsd: 46_000_000,
+    },
+  ]);
+  const n = narrative("$35m to $70m (2x) on $46m volume");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 1);
+  assert.match(report.dropped[0]!.reason, /price restatement/);
+});
+
+test("keeps a launch marker, which anchors rather than explains", () => {
+  const snap = snapshot([{ symbol: "CATE", fdvUsd: 471_000 }]);
+  const n = narrative("launched at $471k");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("keeps price when a mechanism is attached to it", () => {
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 35_000_000, high: 70_000_000, current: 60_000_000, multiple: 2, peakAt: null },
+    },
+  ]);
+  const n = narrative("supply burn accelerated and it ran to $70m");
+  const report = validateOutput(n, snap);
+
   assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
 });

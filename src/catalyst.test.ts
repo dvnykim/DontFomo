@@ -113,9 +113,21 @@ test("exempts short launch and peak markers", () => {
   assert.ok(!isPriceRestatement("topped at $2.4m"));
 });
 
-test("a marker that grows into an argument still needs a mechanism", () => {
+test("a marker that grows into an argument still needs a reason", () => {
   assert.ok(
-    isPriceRestatement("peaked 24 min after launch, 3.1x to $1.4m on $16m volume, 8 of 8 wallets bots"),
+    isPriceRestatement("peaked 24 min after launch, 3.1x to $1.4m on $16m volume and $80k liquidity"),
     "once it argues, it must explain",
   );
+});
+
+test("aggregate participation is not a reason on its own", () => {
+  // Buyer and seller counts are on every terminal, so a line built from them
+  // is still something the reader can see at a glance.
+  assert.ok(isPriceRestatement("$142m to $236m (1.7x) on $46m volume, 16161 buyers vs 14067 sellers"));
+});
+
+test("a specific wallet fact is a reason", () => {
+  // Per-wallet P&L needs data no chart carries.
+  assert.ok(!isPriceRestatement("@someone bought early and banked $4k"));
+  assert.ok(!isPriceRestatement("8 of 8 top wallets were bundlers, all underwater on $2.5m"));
 });

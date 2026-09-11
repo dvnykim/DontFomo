@@ -330,6 +330,15 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
       `paired with <strong>$${esc(r.pairing.symbol)}</strong></div>`
     : "";
 
+  // Copycat warning. Buying the wrong contract is one of the easiest ways to
+  // lose money on a launch, and three tokens called EMBER cleared the filters
+  // on a single day.
+  const copies =
+    r.tickerCopies > 0
+      ? `<span class="flag flag-warn" title="Other tokens using this exact ticker also ran today. Check the contract.">` +
+        `${r.tickerCopies + 1} tokens named $${esc(r.symbol)}</span>`
+      : "";
+
   return `
   <article class="card${isHero ? " hero" : ""}">
     <header class="card-head">
@@ -346,7 +355,7 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
       </div>
     </header>
 
-    <div class="badges">${winners}${renderFlags(r.flags)}</div>
+    <div class="badges">${copies}${winners}${renderFlags(r.flags)}</div>
 
     ${renderCatalysts(r.symbol, notes)}
     ${renderTraders(r, bar)}

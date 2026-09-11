@@ -21,7 +21,7 @@ function runner(symbol: string, capM: number, pair?: string, ageDays = 0.5, dex 
     change: { m5: 0, h1: 0, h6: 0, h24: 0 },
     txns24h: { buys: 0, sells: 0, buyers: 0, sellers: 0 },
     sources: ["volume"], churn: 1, buyerSellerRatio: 1, buysPerBuyer: 1,
-    sellsPerSeller: 1, score: capM, flags: [], traders: null,
+    sellsPerSeller: 1, score: capM, flags: [], traders: null, tickerCopies: 0,
     bigWinners: null, botTraders: null,
   };
 }

@@ -23,6 +23,7 @@ import { z } from "zod";
 import type { Runner, Snapshot } from "./types.ts";
 import { usd } from "./format.ts";
 import { groupRunners } from "./group.ts";
+import { isPriceRestatement } from "./catalyst.ts";
 
 const ROOT = new URL("../", import.meta.url).pathname;
 const PROMPTS_DIR = join(ROOT, "prompts");
@@ -377,6 +378,18 @@ export function validateOutput(
           symbol: coin.symbol,
           text: entry.text,
           reason: `unsupported figure ${badNumber}`,
+        });
+        return false;
+      }
+
+      // A catalyst explains why. A line built from price is a caption for a
+      // chart the reader is already looking at — and an audit of the 15 lines
+      // published on 2026-09-11 found 10 of them were exactly that.
+      if (isPriceRestatement(entry.text)) {
+        report.dropped.push({
+          symbol: coin.symbol,
+          text: entry.text,
+          reason: "price restatement — names no mechanism",
         });
         return false;
       }

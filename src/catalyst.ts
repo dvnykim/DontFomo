@@ -13,9 +13,26 @@
 import type { TraderLedToken, FomoThesis } from "./types.ts";
 import { rankTheses } from "./thesis.ts";
 
-/** Mechanisms a catalyst can rest on. Mirrors thesis.ts deliberately. */
+/**
+ * Things a line can rest on other than price.
+ *
+ * Two families, and the boundary between them is the whole judgement:
+ *
+ *   MECHANISM — why it moved. Revenue, burns, listings, pairings.
+ *   WALLET FACT — what a specific wallet did. Banked, realised, underwater,
+ *                 bundler. This needs per-wallet P&L, which no chart shows.
+ *
+ * Deliberately EXCLUDED: buyers, sellers, volume, liquidity. Those are real
+ * numbers and they are also on every terminal, so a line built from them is
+ * still something the reader could see at a glance — which was the original
+ * complaint. Aggregate participation is context for a claim, not a claim.
+ */
 const MECHANISM =
-  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|treasury|emission|leaderboard|ship(?:ping|s|ped)?|acquired|communit\w+|protocol|deploy|migrat\w*|narrative|competitor|holders?|whale|accumulat\w*|dev|team|roadmap|exchange|pair(?:ed|ing)?)\b/i;
+  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|treasury|emission|leaderboard|ship(?:ping|s|ped)?|acquired|communit\w+|protocol|deploy|migrat\w*|narrative|competitor|dev|team|roadmap|exchange|pair(?:ed|ing)?)\b/i;
+
+/** What a named wallet actually did — not derivable from a chart. */
+const WALLET_FACT =
+  /\b(banked|bagged|realised|realized|underwater|bundlers?|bots?|sniped|accumulat\w*|whales?|holders?|wallets?|bought|sold|exited?)\b|@[A-Za-z0-9_]{2,}/i;
 
 /** Price-shaped facts: caps, multiples, percentages. */
 const PRICE_FACT = /(\$\s?[\d,.]+\s*[kmb]\b|\b\d[\d,.]*\s*x\b|\b\d[\d,.]*\s*%)/i;
@@ -43,7 +60,7 @@ const MARKER_MAX_WORDS = 12;
  */
 export function isPriceRestatement(text: string): boolean {
   if (!PRICE_FACT.test(text)) return false;
-  if (MECHANISM.test(text)) return false;
+  if (MECHANISM.test(text) || WALLET_FACT.test(text)) return false;
 
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   if (MARKER.test(text.trim()) && words <= MARKER_MAX_WORDS) return false;

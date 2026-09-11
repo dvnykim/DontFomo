@@ -119,6 +119,15 @@ export interface Runner extends RawPool {
   /** Null when the OHLCV lookup failed. */
   mcap: McapRange | null;
   /**
+   * How many OTHER tokens with this exact ticker also cleared the filters today.
+   *
+   * Copycat launches are routine — three separate "EMBER" tokens ran on
+   * 2026-09-11 — and showing the same ticker three times reads as a bug. Only
+   * the deepest survives, but the count is kept because it is real information:
+   * a reader searching that ticker can very easily buy the wrong one.
+   */
+  tickerCopies: number;
+  /**
    * What this token is paired against, when it is paired with anything other
    * than a pricing venue. Null means SOL/stables only — an ordinary launch.
    */

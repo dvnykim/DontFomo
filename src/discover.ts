@@ -149,7 +149,8 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
       score: scoreRunner(p, churn, age, cfg),
       flags: computeFlags(p, churn, age, cfg),
       mcap: null,
-    pairing: null, // filled by the enrichment pass, which costs one call per runner
+    pairing: null,
+    tickerCopies: 0, // filled by the enrichment pass, which costs one call per runner
       traders: null, // null = not fetched (no Birdeye key); [] = fetched, none found
       bigWinners: null,
       botTraders: null,
@@ -160,7 +161,39 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
   survivors.sort((a, b) => b.score - a.score);
 
   return {
-    runners: survivors.slice(0, cfg.maxRunners),
+    runners: dedupeBySymbol(survivors).slice(0, cfg.maxRunners),
     stats: { afterFilters: survivors.length },
   };
+}
+
+/**
+ * One entry per ticker, keeping the deepest market.
+ *
+ * Dedupe already runs on the base TOKEN, which is correct — but distinct tokens
+ * routinely share a ticker. On 2026-09-11 three separate EMBER contracts and two
+ * NVIDIAs all cleared the filters, and a page listing "$EMBER" three times with
+ * three different market caps reads as a broken page rather than a real market.
+ *
+ * Liquidity decides, not score: among tokens wearing the same name, the one with
+ * the deepest book is the one a reader will actually end up trading.
+ *
+ * The count of losers is kept on the survivor rather than discarded. "Three
+ * tokens launched under this ticker today" is a genuine warning — buying the
+ * wrong contract is one of the easiest ways to lose money on a launch.
+ */
+export function dedupeBySymbol(runners: Runner[]): Runner[] {
+  const best = new Map<string, Runner>();
+  const counts = new Map<string, number>();
+
+  for (const r of runners) {
+    const key = r.symbol.trim().toLowerCase();
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+    const incumbent = best.get(key);
+    if (!incumbent || r.liquidityUsd > incumbent.liquidityUsd) best.set(key, r);
+  }
+
+  for (const [key, r] of best) r.tickerCopies = (counts.get(key) ?? 1) - 1;
+
+  // Preserve the incoming score order rather than the map's insertion order.
+  return runners.filter((r) => best.get(r.symbol.trim().toLowerCase()) === r);
 }
