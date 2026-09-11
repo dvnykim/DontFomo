@@ -18,6 +18,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { parseProfile } from "./sources/fomo-manual.ts";
 import { buildTraderLedTokens, isDistribution } from "./traders.ts";
+import { enrichTraderLedTokens } from "./enrich-traders.ts";
 import type { TraderDay } from "./types.ts";
 
 const INPUT_DIR = path.join(import.meta.dirname, "..", "input");
@@ -83,15 +84,34 @@ async function main() {
   }
 
   const tokens = buildTraderLedTokens(days);
+
+  // Resolution is rate-limited (~2 keyless calls per token at 7s each), so it
+  // is opt-in. Without it the recap knows what was bought but not what happened.
+  if (process.argv.includes("--onchain")) {
+    console.log(`\nResolving ${tokens.length} tickers on-chain (~${Math.ceil(tokens.length * 14 / 60)} min)...\n`);
+    const report = await enrichTraderLedTokens(tokens);
+    console.log(
+      `\n  ${report.resolved}/${tokens.length} resolved` +
+        (report.unresolved.length ? `, unverified: ${report.unresolved.join(", ")}` : "") +
+        (report.lowConfidence.length ? `\n  low confidence (>3x off reported cap): ${report.lowConfidence.join(", ")}` : ""),
+    );
+  }
+
   console.log(`\n${tokens.length} tokens, ranked by independent buyers:\n`);
 
   for (const [i, t] of tokens.entries()) {
     const entry = t.firstBuyMcapUsd === null ? "" : ` from ${usd(t.firstBuyMcapUsd)}`;
     const tag = isDistribution(t) ? "  [distributing]" : "";
+    const chain =
+      t.onchain === null
+        ? ""
+        : t.onchain.mcap
+          ? `  -> ${usd(t.onchain.mcap.high)} peak (${t.onchain.mcap.multiple.toFixed(1)}x)`
+          : `  -> ${usd(t.onchain.fdvUsd)} now`;
     console.log(
       `${String(i + 1).padStart(2)}. $${t.symbol.padEnd(14)} ` +
         `${t.buyers.length} buyer${t.buyers.length === 1 ? " " : "s"}  ` +
-        `${usd(t.totalBuyUsd).padStart(8)} in${entry}${tag}`,
+        `${usd(t.totalBuyUsd).padStart(8)} in${entry}${chain}${tag}`,
     );
     console.log(`     ${t.buyers.map((b) => "@" + b).join(", ")}`);
     for (const th of t.theses) {

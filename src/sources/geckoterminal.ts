@@ -172,3 +172,114 @@ export function dedupeByBaseToken(pools: RawPool[]): RawPool[] {
 }
 
 export { splitPoolName };
+
+// ===========================================================================
+// Symbol resolution — the bridge from trader-led discovery to on-chain data
+//
+// Trader exports give a ticker and the market cap fomo showed at trade time.
+// Neither alone is enough to identify a token, because tickers collide badly:
+// searching "ONYC" returns a $310m established token AND the $47k microcap a
+// trader actually bought. Picking the top hit would publish a fabrication.
+//
+// The market cap is the disambiguator. Measured against real trades, exact
+// ticker + nearest FDV resolved every symbol within 1.6x, while rejecting the
+// ONYC imposter at 9,896x off.
+// ===========================================================================
+
+export interface PoolCandidate {
+  poolAddress: string;
+  name: string;
+  baseSymbol: string;
+  fdvUsd: number;
+  liquidityUsd: number;
+  volume24hUsd: number;
+  priceUsd: number;
+  createdAt: string | null;
+}
+
+export interface ResolvedToken extends PoolCandidate {
+  /** How far on-chain FDV sat from the caller's hint, as a multiple >= 1. */
+  mcapRatio: number | null;
+}
+
+/** Widest gap between reported and on-chain market cap we will still accept. */
+export const MAX_MCAP_RATIO = 5;
+
+function toCandidate(p: any): PoolCandidate | null {
+  const a = p?.attributes;
+  const addr = a?.address ?? p?.id;
+  if (!a || typeof addr !== "string") return null;
+  return {
+    poolAddress: addr.replace(/^solana_/, ""),
+    name: String(a.name ?? ""),
+    baseSymbol: String(a.name ?? "").split("/")[0]!.trim(),
+    fdvUsd: num(a.fdv_usd),
+    liquidityUsd: num(a.reserve_in_usd),
+    volume24hUsd: num(a.volume_usd?.h24),
+    priceUsd: num(a.base_token_price_usd),
+    createdAt: typeof a.pool_created_at === "string" ? a.pool_created_at : null,
+  };
+}
+
+/**
+ * Pick the pool a trader actually traded.
+ *
+ * Pure so the judgement is testable without the network — this decides what
+ * gets published, so it needs pinning down more than the fetch does.
+ *
+ * Order of operations matters:
+ *   1. Exact ticker only. Fuzzy matching invents tokens.
+ *   2. Market cap within tolerance. This is what rejects ticker squatters.
+ *   3. Deepest liquidity among survivors — several correctly-matched pools are
+ *      abandoned shells with ~$0 reserves; the live one is the real market.
+ *
+ * Returns null rather than a best guess. An unresolved token renders as
+ * "couldn't verify on-chain", which is honest; a wrong token is a fabrication.
+ */
+export function selectBestPool(
+  candidates: PoolCandidate[],
+  symbol: string,
+  mcapHintUsd: number | null,
+  maxRatio = MAX_MCAP_RATIO,
+): ResolvedToken | null {
+  const want = symbol.trim().toLowerCase();
+  const exact = candidates.filter((c) => c.baseSymbol.toLowerCase() === want);
+  if (exact.length === 0) return null;
+
+  const withRatio = exact.map((c) => ({
+    ...c,
+    mcapRatio:
+      mcapHintUsd === null || mcapHintUsd <= 0 || c.fdvUsd <= 0
+        ? null
+        : Math.max(c.fdvUsd / mcapHintUsd, mcapHintUsd / c.fdvUsd),
+  }));
+
+  // No hint: fall back to the deepest pool for that ticker.
+  if (mcapHintUsd === null || mcapHintUsd <= 0) {
+    return withRatio.sort((a, b) => b.liquidityUsd - a.liquidityUsd)[0] ?? null;
+  }
+
+  const plausible = withRatio.filter((c) => c.mcapRatio !== null && c.mcapRatio <= maxRatio);
+  if (plausible.length === 0) return null;
+
+  return plausible.sort((a, b) => b.liquidityUsd - a.liquidityUsd)[0]!;
+}
+
+/**
+ * Resolve a ticker + reported market cap to a real Solana pool.
+ * One request; callers must space them by REQUEST_DELAY_MS.
+ */
+export async function resolveTokenBySymbol(
+  symbol: string,
+  mcapHintUsd: number | null,
+  network = "solana",
+): Promise<ResolvedToken | null> {
+  const q = encodeURIComponent(symbol.trim());
+  const json = await getJson(`/search/pools?query=${q}&network=${network}&page=1`);
+  const candidates = (json?.data ?? [])
+    .map(toCandidate)
+    .filter((c: PoolCandidate | null): c is PoolCandidate => c !== null);
+  return selectBestPool(candidates, symbol, mcapHintUsd);
+}
+
+export { REQUEST_DELAY_MS, sleep };

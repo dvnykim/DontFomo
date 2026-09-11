@@ -70,6 +70,7 @@ export function buildTraderLedTokens(
         firstBuyMcapUsd: null,
         lastTradeMcapUsd: null,
         firstBuyAt: null,
+        onchain: null,
       };
       acc.set(k, t);
     }

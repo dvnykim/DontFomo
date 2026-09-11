@@ -200,6 +200,26 @@ export interface TraderDay {
 }
 
 /**
+ * A trader-led token matched to a real pool.
+ *
+ * `mcapRatio` is a confidence measure, not decoration: it is how far on-chain
+ * FDV sat from the cap fomo reported at trade time. A resolution at 1.2x is
+ * near-certain; the renderer should hedge above ~3x.
+ */
+export interface OnchainMatch {
+  poolAddress: string;
+  name: string;
+  fdvUsd: number;
+  liquidityUsd: number;
+  volume24hUsd: number;
+  priceUsd: number;
+  createdAt: string | null;
+  mcapRatio: number | null;
+  /** Intraday range, when OHLCV was fetched. */
+  mcap: McapRange | null;
+}
+
+/**
  * A token surfaced because notable traders bought it — the inverted pipeline.
  *
  * The old pipeline asked "what has a big market cap?" and used that as a proxy
@@ -222,6 +242,12 @@ export interface TraderLedToken {
   firstBuyMcapUsd: number | null;
   lastTradeMcapUsd: number | null;
   firstBuyAt: string | null;
+  /**
+   * Null means the ticker could not be verified on-chain — either no pool with
+   * that exact ticker, or none whose market cap was close enough to be the one
+   * actually traded. Rendered as unverified rather than guessed at.
+   */
+  onchain: OnchainMatch | null;
 }
 
 export interface FilterConfig {

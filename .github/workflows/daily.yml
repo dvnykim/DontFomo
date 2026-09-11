@@ -77,3 +77,41 @@ jobs:
           fi
           git commit -m "recap: $(date -u +%Y-%m-%d)"
           git push
+
+  # Publish the rendered page. Separate job because site/ is gitignored by
+  # design — the rendered HTML carries platform content that must not be
+  # archived, so it is built fresh and deployed, never committed.
+  deploy:
+    needs: recap
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Pull the commit the recap job just pushed, not the one this run started on.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Render site
+        run: node --experimental-strip-types src/site/build.ts
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
