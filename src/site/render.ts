@@ -88,9 +88,19 @@ const WARN_FLAGS = new Set([
   "thin-float",
 ]);
 
-function renderFlags(flags: string[]): string {
+/**
+ * Flags on a single coin.
+ *
+ * `universal` holds flags that fired on nearly every runner. Those are dropped
+ * here and stated once at the bottom of the page instead: a warning printed on
+ * 22 of 24 cards has no discriminating power left, it just trains the reader to
+ * ignore badges. The finding is real and still reported — once, where it reads
+ * as a fact about the day rather than about one coin.
+ */
+function renderFlags(flags: string[], universal: Set<string> = new Set()): string {
   return flags
     .filter((f) => f !== "launched-today") // already stated by the launch time
+    .filter((f) => !universal.has(f))
     .map(
       (f) =>
         `<span class="flag${WARN_FLAGS.has(f) ? " flag-warn" : ""}">${esc(FLAG_LABELS[f] ?? f)}</span>`,
@@ -283,7 +293,13 @@ function renderCatalysts(symbol: string, notes: DayNotes): string {
     </details>`;
 }
 
-function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): string {
+function renderCard(
+  r: Runner,
+  rank: number,
+  notes: DayNotes,
+  bar: number,
+  universal: Set<string> = new Set(),
+): string {
   const label = notes.coins?.[r.symbol]?.label ?? (rank === 1 ? "Runner of the Day" : "");
   const isHero = rank === 1;
 
@@ -361,7 +377,7 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
       </div>
     </header>
 
-    <div class="badges">${copies}${winners}${renderFlags(r.flags)}</div>
+    <div class="badges">${copies}${winners}${renderFlags(r.flags, universal)}</div>
 
     ${renderCatalysts(r.symbol, notes)}
     ${renderTraders(r, bar)}
@@ -495,6 +511,18 @@ export function renderPage(
     : `${runners.length} coins ran on Solana. What they were paired with, when they peaked, ` +
       `and what the wallets actually did.`;
 
+  // A flag on nearly every coin is a property of the day, not of any coin.
+  const UNIVERSAL_AT = 0.6;
+  const flagCounts = new Map<string, number>();
+  for (const r of runners) {
+    for (const f of new Set(r.flags)) flagCounts.set(f, (flagCounts.get(f) ?? 0) + 1);
+  }
+  const universal = new Set(
+    [...flagCounts]
+      .filter(([f, n]) => f !== "launched-today" && runners.length >= 4 && n / runners.length >= UNIVERSAL_AT)
+      .map(([f]) => f),
+  );
+
   // Sections, not a ranked list. Eight coins running for one reason is the
   // story; ten unrelated facts in rank order is a leaderboard.
   const groups = groupRunners(runners);
@@ -505,7 +533,7 @@ export function renderPage(
       const detailed = g.runners.filter((r) => !hasNothingToSay(r, notes));
       const bare = g.runners.filter((r) => hasNothingToSay(r, notes));
 
-      const cards = detailed.map((r) => renderCard(r, ++rank, notes, bar)).join("\n");
+      const cards = detailed.map((r) => renderCard(r, ++rank, notes, bar, universal)).join("\n");
       const rows = bare.length > 0 ? `<div class="crows">${bare.map(renderCompactRow).join("")}</div>` : "";
       return renderSection(g, cards + rows, notes);
     })
@@ -714,6 +742,12 @@ export function renderPage(
   }
 
   <footer class="page">
+    ${
+      universal.size > 0
+        ? `<b>${[...universal].map((f) => esc(FLAG_LABELS[f] ?? f)).join(", ")}</b> applied to
+           most coins today, so it is stated here rather than on every card.<br>`
+        : ""
+    }
     Grouped by what each token trades against &mdash; coins sharing a pairing ran for the
     same reason. Sections without one are split by age, which means we know they ran and
     not why.<br>

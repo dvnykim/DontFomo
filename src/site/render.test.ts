@@ -129,3 +129,28 @@ test("renders an empty day without throwing", () => {
   const html = renderPage(snapshot([]));
   assert.match(html, /Nothing cleared the filters/);
 });
+
+test("a flag on nearly every coin moves to the page, not each card", () => {
+  // A warning printed on 22 of 24 cards has no discriminating power left; it
+  // just trains the reader to ignore badges.
+  const many = Array.from({ length: 6 }, (_, i) =>
+    runner({ symbol: `T${i}`, baseTokenId: `t${i}`, flags: ["bot-driven-selling"], namesake: { kind: "ai", name: "Claude" } }),
+  );
+  const html = renderPage(snapshot(many));
+
+  const badges = html.match(/class="flag[^"]*">[^<]*bot/gi) ?? [];
+  assert.equal(badges.length, 0, "not repeated on every card");
+  assert.match(html, /applied to\s+most coins today/, "stated once instead");
+});
+
+test("a flag on a minority stays on its card", () => {
+  const runners = [
+    runner({ symbol: "A", baseTokenId: "a", flags: ["fading"], namesake: { kind: "ai", name: "Claude" } }),
+    ...Array.from({ length: 5 }, (_, i) =>
+      runner({ symbol: `B${i}`, baseTokenId: `b${i}`, namesake: { kind: "ai", name: "Claude" } }),
+    ),
+  ];
+  const html = renderPage(snapshot(runners));
+
+  assert.match(html, /class="flag/, "a discriminating flag is still worth showing");
+});
