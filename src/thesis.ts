@@ -26,14 +26,18 @@ import type { FomoThesis } from "./types.ts";
  * "this is going up" is not. These are the words that separate the two.
  */
 const SUBSTANCE =
-  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|volume|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|holders?|liquidity|market ?cap|treasury|emission|leaderboard|ship(?:ping|s|ped)?|update|acquired|communit\w+|protocol|deploy|migrat\w*|ATH|narrative|rotation|competitor)\b/gi;
+  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?backs?|bought ?back|supply|volume|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|holders?|liquidity|market ?cap|treasury|emission|leaderboard|ship(?:ping|s|ped)?|update|acquired|communit\w+|protocol|deploy|migrat\w*|narrative|rotation|competitor|ecosystem|flywheel|incentive|alignment|tvl|rwa|dev|roadmap)\b/gi;
 
 /** Pure sentiment. Present in most posts; on its own it is not information. */
 const HYPE =
   /\b(moon|lfg|wagmi|gm|ez|send it|ape[ds]?|valhalla|aura|pump it|to the moon|easy|rich|100x|1000x)\b|🚀|🌙/gi;
 
-/** A concrete figure — the thing that makes a claim checkable. */
-const FIGURE = /(\$[\d,.]+\s*[kmb]?\b|\b\d[\d,.]*\s*(?:%|x)\b|\b\d[\d,.]{2,}\b)/gi;
+/**
+ * A concrete figure — what makes a claim checkable. Written loosely because
+ * traders write money every possible way: "$1.5m", "900k$", "1.5 mil", "10%".
+ */
+const FIGURE =
+  /(\$\s?[\d,.]+|[\d,.]+\s?\$|\b\d[\d,.]*\s*(?:%|x|k|m|b|mil|million|billion)\b|\b\d[\d,.]{2,}\b)/gi;
 
 export interface ThesisScore {
   score: number;
@@ -62,44 +66,52 @@ export function scoreThesis(t: FomoThesis, opts: { peakAt?: string | null } = {}
     score -= 6;
   }
 
+  // Substance dominates by design. A thesis is read to learn WHY someone
+  // bought; everything else is context on how much to trust that reason.
   const substance = countMatches(SUBSTANCE, text);
   if (substance > 0) {
-    const pts = Math.min(substance, 4) * 3;
+    const pts = Math.min(substance, 5) * 5;
     score += pts;
     reasons.push(`names ${substance} mechanism${substance === 1 ? "" : "s"} (+${pts})`);
   }
 
   const figures = countMatches(FIGURE, text);
   if (figures > 0) {
-    const pts = Math.min(figures, 3) * 2;
+    const pts = Math.min(figures, 3) * 3;
     score += pts;
     reasons.push(`${figures} concrete figure${figures === 1 ? "" : "s"} (+${pts})`);
   }
 
   const hype = countMatches(HYPE, text);
   if (hype > 0 && substance === 0) {
-    const pts = Math.min(hype, 3) * 2;
+    const pts = Math.min(hype, 3) * 3;
     score -= pts;
     reasons.push(`sentiment only, no mechanism (-${pts})`);
   }
 
+  // Likes are weak evidence and capped hard. A large account bullposting
+  // collects hundreds of them for a one-liner; that is reach, not information.
+  // They break ties between substantive posts, nothing more.
   if (t.likes !== null && t.likes > 0) {
-    const pts = Math.round(Math.log2(t.likes + 1) * 1.5 * 10) / 10;
+    const pts = Math.min(Math.round(Math.log2(t.likes + 1) * 0.5 * 10) / 10, 3);
     score += pts;
-    reasons.push(`${t.likes} likes (+${pts})`);
+    reasons.push(`${t.likes} likes (+${pts}, capped)`);
   }
 
+  // Stake is capped too. Conviction is real signal, but a big bag does not
+  // make a one-liner informative — it makes the author worth watching, which
+  // is a different product surface.
   if (t.pnlUsd !== null && t.pnlUsd > 0) {
-    const pts = Math.round(Math.log10(t.pnlUsd) * 1.2 * 10) / 10;
+    const pts = Math.min(Math.round(Math.log10(t.pnlUsd) * 1.0 * 10) / 10, 5);
     score += pts;
-    reasons.push(`$${Math.round(t.pnlUsd).toLocaleString()} at stake (+${pts})`);
+    reasons.push(`$${Math.round(t.pnlUsd).toLocaleString()} at stake (+${pts}, capped)`);
   }
 
   // Length helps up to a point: a paragraph explaining a mechanism beats a
   // sentence, but an essay is not four times better than a paragraph.
   if (words >= 25) {
-    score += 3;
-    reasons.push("developed argument (+3)");
+    score += 4;
+    reasons.push("developed argument (+4)");
   }
 
   if (opts.peakAt && t.at) {
