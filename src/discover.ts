@@ -11,6 +11,7 @@
  */
 
 import type { FilterConfig, RawPool, Runner } from "./types.ts";
+import { hasReportedLiquidity } from "./types.ts";
 import { detectNamesake } from "./namesake.ts";
 import { splitPoolName } from "./sources/geckoterminal.ts";
 
@@ -50,7 +51,7 @@ function scoreRunner(
   // biggest movers. Volume stands in when depth is missing: a pool's reserves
   // are typically a small fraction of what trades through it in a day, so ~1%
   // keeps the two roughly comparable. A proxy, and deliberately a conservative one.
-  const depthBasis = p.liquidityUsd > 0 ? p.liquidityUsd : p.volume24hUsd / 100;
+  const depthBasis = hasReportedLiquidity(p.liquidityUsd) ? p.liquidityUsd : p.volume24hUsd / 100;
   const depth = Math.log10(1 + depthBasis);
   const breadth = Math.log10(1 + p.txns24h.buyers);
   // No penalty for unknown churn — see Runner.churn.
@@ -116,7 +117,7 @@ function computeFlags(p: RawPool, churn: number | null, age: number | null, cfg:
   }
   // Ran hard on the day but is bleeding on the hour — likely already round-tripping.
   if (p.change.h24 > 100 && p.change.h1 < -15) flags.push("fading");
-  if (p.liquidityUsd > 0 && p.fdvUsd / p.liquidityUsd > 500) flags.push("thin-float");
+  if (hasReportedLiquidity(p.liquidityUsd) && p.fdvUsd / p.liquidityUsd > 500) flags.push("thin-float");
 
   return flags;
 }
@@ -155,7 +156,7 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
     // Liquidity OR demonstrated trading. See illiquidVolumeFloorUsd: depth is
     // simply not reported for most pools here, so requiring it threw away the
     // market rather than the rugs.
-    const hasDepth = p.liquidityUsd >= cfg.minLiquidityUsd;
+    const hasDepth = hasReportedLiquidity(p.liquidityUsd) && p.liquidityUsd >= cfg.minLiquidityUsd;
     const provenByFlow = p.volume24hUsd >= cfg.illiquidVolumeFloorUsd;
     if (!hasDepth && !provenByFlow && !reject("liquidity")) continue;
     if (p.volume24hUsd < cfg.minVolume24hUsd && !reject("volume")) continue;
@@ -165,7 +166,7 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
 
     // Null, not Infinity. Unreported depth means churn is unknowable, and
     // treating unknown as "maximally suspicious" libels most of the page.
-    const churn = p.liquidityUsd > 0 ? p.volume24hUsd / p.liquidityUsd : null;
+    const churn = hasReportedLiquidity(p.liquidityUsd) ? p.volume24hUsd / p.liquidityUsd : null;
     const age = ageInDays(p.createdAt);
 
     survivors.push({

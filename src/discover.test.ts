@@ -117,6 +117,23 @@ test("reports which filter did the rejecting", () => {
   assert.equal(stats.rejections["24h gain"], 1);
 });
 
+test("treats dust liquidity as unreported, not as a real market", () => {
+  // The trap: GeckoTerminal signals "no reserves data" with 0.01 and 0.00
+  // rather than a missing field, so a `> 0` check looks correct and does
+  // nothing. A pool showing $0.01 against $43m of volume produced a churn of
+  // 43 trillion, which flagged wash trading and zeroed the score.
+  const { runners } = selectRunners(
+    [pool({ liquidityUsd: 0.01, volume24hUsd: 43_000_000 })],
+    DEFAULT_FILTERS,
+  );
+
+  assert.equal(runners.length, 1);
+  assert.equal(runners[0]!.churn, null, "$0.01 of depth is not a depth measurement");
+  assert.ok(!runners[0]!.flags.includes("possible-wash-trading"));
+  assert.ok(!runners[0]!.flags.includes("thin-float"));
+  assert.ok(runners[0]!.score > 0, "and it must still be rankable");
+});
+
 test("unknown churn is not treated as wash trading", () => {
   // Infinity > any threshold, so a missing depth field used to flag the coin
   // as possible wash trading AND cut its score by 40%. Most of the page would

@@ -13,6 +13,23 @@
 
 export const SCHEMA_VERSION = 2;
 
+/**
+ * Below this, reported liquidity is an artifact rather than a market.
+ *
+ * GeckoTerminal does not report reserves for most pools on this network, and it
+ * signals that with values like 0.01 and 0.00 rather than with a missing field.
+ * A `> 0` check therefore looks correct and does nothing: a pool showing $0.01
+ * of depth against $43m of volume produced a churn of 43 TRILLION, which then
+ * flagged it for wash trading and zeroed its score.
+ *
+ * Any real market clears this by orders of magnitude.
+ */
+export const MIN_MEANINGFUL_LIQUIDITY_USD = 1_000;
+
+/** True when a pool's reported depth is meaningful enough to reason about. */
+export const hasReportedLiquidity = (liquidityUsd: number): boolean =>
+  liquidityUsd >= MIN_MEANINGFUL_LIQUIDITY_USD;
+
 export interface RawPool {
   poolAddress: string;
   name: string;

@@ -370,7 +370,7 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
       <span>${esc(r.dex)}</span>
       <span>now ${esc(usd(r.mcap?.current ?? r.fdvUsd))}</span>
       <span>${
-        r.liquidityUsd > 0
+        r.liquidityUsd >= 1000
           ? `liq ${esc(usd(r.liquidityUsd))}`
           : `<span title="GeckoTerminal does not report reserves for this pool type. It is unknown, not zero.">depth not reported</span>`
       }</span>
