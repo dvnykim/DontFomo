@@ -21,7 +21,26 @@
 
 import type { Runner } from "./types.ts";
 
-export type GroupKind = "pairing" | "fresh" | "established" | "other";
+export type GroupKind = "pairing" | "venue" | "fresh" | "established" | "other";
+
+/**
+ * AMM identifiers map to the launchpad a trader would name. `pumpswap` is
+ * pump.fun's pool program, so a coin trading there launched on pump.fun —
+ * which is a real theme, and the axis the reference recaps group on.
+ */
+const VENUE_NAMES: Record<string, string> = {
+  pumpswap: "pump.fun",
+  pumpfun: "pump.fun",
+  meteora: "Meteora",
+  raydium: "Raydium",
+  orca: "Orca",
+  launchlab: "LaunchLab",
+  moonshot: "Moonshot",
+  believe: "Believe",
+};
+
+export const venueName = (dex: string): string =>
+  VENUE_NAMES[dex.toLowerCase()] ?? dex;
 
 export interface NarrativeGroup {
   /** Stable identity, e.g. "pair:stonk". Used to attach a generated title. */
@@ -37,11 +56,16 @@ export interface NarrativeGroup {
 export interface GroupConfig {
   /** Below this a shared pairing is a coincidence, not a theme. */
   minGroupSize: number;
+  /**
+   * Below this a shared venue is just "two coins launched on the biggest
+   * launchpad", which is true of most days and therefore says nothing.
+   */
+  minVenueSize: number;
   /** A token younger than this is a launch rather than a mover. */
   freshDays: number;
 }
 
-export const DEFAULT_GROUPS: GroupConfig = { minGroupSize: 2, freshDays: 1 };
+export const DEFAULT_GROUPS: GroupConfig = { minGroupSize: 2, minVenueSize: 3, freshDays: 1 };
 
 /** Total peak market cap, so the biggest story leads. */
 function groupWeight(g: NarrativeGroup): number {
@@ -98,7 +122,27 @@ export function groupRunners(
     });
   }
 
-  // 3. Everything else splits on age. This is a weak grouping and is meant to
+  // 3. Shared launch venue. Weaker than a pairing but still a real theme —
+  //    "eleven coins came off pump.fun today" is a sentence about the market.
+  const rest0 = runners.filter((r) => !claimed.has(r));
+  const byVenue = new Map<string, Runner[]>();
+  for (const r of rest0) {
+    if (!r.dex) continue;
+    byVenue.set(r.dex, [...(byVenue.get(r.dex) ?? []), r]);
+  }
+  for (const [dex, members] of byVenue) {
+    if (members.length < cfg.minVenueSize) continue;
+    for (const m of members) claimed.add(m);
+    groups.push({
+      key: `venue:${dex.toLowerCase()}`,
+      title: `Off ${venueName(dex)}`,
+      kind: "venue",
+      pairedWith: null,
+      runners: members.sort((a, b) => (b.mcap?.high ?? b.fdvUsd) - (a.mcap?.high ?? a.fdvUsd)),
+    });
+  }
+
+  // 4. Everything else splits on age. This is a weak grouping and is meant to
   //    be: it says "we know these ran and not why", which is honest.
   const rest = runners.filter((r) => !claimed.has(r));
   const fresh = rest.filter((r) => r.ageDays !== null && r.ageDays < cfg.freshDays);
@@ -128,8 +172,9 @@ export function groupRunners(
   // Biggest story first, but multi-token themes outrank lone coins of similar
   // size: "eight coins ran on one thing" is the more interesting sentence.
   return groups.sort((a, b) => {
-    const themed = (g: NarrativeGroup) => (g.kind === "pairing" && g.runners.length > 1 ? 1 : 0);
-    return themed(b) - themed(a) || groupWeight(b) - groupWeight(a);
+    const rankOf = (g: NarrativeGroup) =>
+      g.kind === "pairing" && g.runners.length > 1 ? 3 : g.kind === "pairing" ? 2 : g.kind === "venue" ? 1 : 0;
+    return rankOf(b) - rankOf(a) || groupWeight(b) - groupWeight(a);
   });
 }
 

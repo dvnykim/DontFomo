@@ -8,14 +8,14 @@ import assert from "node:assert/strict";
 import { groupRunners, flatten } from "./group.ts";
 import type { Runner, Pairing } from "./types.ts";
 
-function runner(symbol: string, capM: number, pair?: string, ageDays = 0.5): Runner {
+function runner(symbol: string, capM: number, pair?: string, ageDays = 0.5, dex = "x"): Runner {
   const pairing: Pairing | null = pair
     ? { symbol: pair, volumeUsd: 5_000_000, share: 0.5, dominant: true }
     : null;
   return {
     symbol, ageDays, pairing,
     mcap: { low: capM * 1e5, high: capM * 1e6, current: capM * 1e6, multiple: 10, peakAt: null },
-    poolAddress: `pool-${symbol}`, name: `${symbol} / SOL`, dex: "x",
+    poolAddress: `pool-${symbol}`, name: `${symbol} / SOL`, dex,
     baseTokenId: `t-${symbol}`, quoteTokenId: "sol", createdAt: null,
     priceUsd: 1, fdvUsd: capM * 1e6, liquidityUsd: 1e5, volume24hUsd: 1e6,
     change: { m5: 0, h1: 0, h6: 0, h24: 0 },
@@ -67,11 +67,11 @@ test("gives a lone paired coin its own section", () => {
   assert.match(solo.title, /mario/);
 });
 
-test("splits unpaired coins by age", () => {
+test("splits unpaired coins by age when they share no venue", () => {
   const groups = groupRunners([
-    runner("new1", 3, undefined, 0.2),
-    runner("new2", 2, undefined, 0.4),
-    runner("old", 20, undefined, 40),
+    runner("new1", 3, undefined, 0.2, "dexA"),
+    runner("new2", 2, undefined, 0.4, "dexB"),
+    runner("old", 20, undefined, 40, "dexC"),
   ]);
 
   const fresh = groups.find((g) => g.kind === "fresh")!;
@@ -111,4 +111,40 @@ test("handles a day with no pairings at all", () => {
 
 test("returns nothing for an empty day", () => {
   assert.deepEqual(groupRunners([]), []);
+});
+
+test("groups unpaired coins by launch venue", () => {
+  const groups = groupRunners([
+    runner("a", 5, undefined, 0.2, "pumpswap"),
+    runner("b", 4, undefined, 0.3, "pumpswap"),
+    runner("c", 3, undefined, 0.4, "pumpswap"),
+    runner("d", 2, undefined, 0.5, "meteora"),
+  ]);
+
+  const venue = groups.find((g) => g.kind === "venue")!;
+  assert.equal(venue.runners.length, 3);
+  assert.match(venue.title, /pump\.fun/, "name the launchpad a trader would say");
+  assert.equal(groups.find((g) => g.kind === "fresh")!.runners[0]!.symbol, "d");
+});
+
+test("ignores a venue too small to be a theme", () => {
+  // Two coins on the biggest launchpad is true most days and says nothing.
+  const groups = groupRunners([
+    runner("a", 5, undefined, 0.2, "pumpswap"),
+    runner("b", 4, undefined, 0.3, "pumpswap"),
+  ]);
+
+  assert.equal(groups.find((g) => g.kind === "venue"), undefined);
+});
+
+test("a pairing outranks a venue", () => {
+  const groups = groupRunners([
+    runner("p1", 2, "STONK", 0.2, "pumpswap"),
+    runner("p2", 2, "STONK", 0.2, "pumpswap"),
+    runner("v1", 40, undefined, 0.2, "meteora"),
+    runner("v2", 40, undefined, 0.2, "meteora"),
+    runner("v3", 40, undefined, 0.2, "meteora"),
+  ]);
+
+  assert.equal(groups[0]!.pairedWith, "STONK", "a shared reason beats a shared venue");
 });
