@@ -21,6 +21,10 @@ import { rankTheses } from "./thesis.ts";
  *   MECHANISM — why it moved. Revenue, burns, listings, pairings.
  *   WALLET FACT — what a specific wallet did. Banked, realised, underwater,
  *                 bundler. This needs per-wallet P&L, which no chart shows.
+ *                 Includes "sampled" and "cleared" because "3 of 8 sampled
+ *                 cleared $10k" is the exact phrasing the sample rule requires;
+ *                 filtering it would leave the model no safe way to report
+ *                 trader results at all.
  *
  * Deliberately EXCLUDED: buyers, sellers, volume, liquidity. Those are real
  * numbers and they are also on every terminal, so a line built from them is
@@ -32,7 +36,7 @@ const MECHANISM =
 
 /** What a named wallet actually did — not derivable from a chart. */
 const WALLET_FACT =
-  /\b(banked|bagged|realised|realized|underwater|bundlers?|bots?|sniped|accumulat\w*|whales?|holders?|wallets?|bought|sold|exited?)\b|@[A-Za-z0-9_]{2,}/i;
+  /\b(banked|bagged|realised|realized|underwater|bundlers?|bots?|sniped|accumulat\w*|whales?|holders?|wallets?|bought|sold|exited?|sampled|cleared|profit\w*|p&l|pnl)\b|@[A-Za-z0-9_]{2,}/i;
 
 /** Price-shaped facts: caps, multiples, percentages. */
 const PRICE_FACT = /(\$\s?[\d,.]+\s*[kmb]\b|\b\d[\d,.]*\s*x\b|\b\d[\d,.]*\s*%)/i;
