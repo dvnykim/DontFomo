@@ -100,3 +100,59 @@ just agreed not to build, laundered through the LLM.
 able to backfill "what did traders say on day N" — that data exists only in the rendered
 page for that day. This is the correct trade given the permission scope, but it does mean
 the thesis layer never becomes a compounding asset the way the price archive does.
+
+## 2026-09-11 — Invert the pipeline: traders and pairings pick the coins
+
+**Decision.** Stop using market cap as the proxy for "worth writing about". Use what
+tokens are paired against, what they are named after, and what traders said.
+
+**Why.** Measured, not assumed. Of 10 coins the market-cap pipeline surfaced on
+2026-09-11, exactly one appeared in a top trader's 68 open positions — a $109 dust
+holding. 30 of his 34 live trades sat below the $1m floor, median cap ~$72k. The two
+halves were describing different markets.
+
+**Consequence accepted.** Coverage now depends on signals that are absent on some days.
+A day with no pairings and no captured theses produces a page of one-line entries. That
+is the correct output for such a day, and the temptation to pad it is the thing most
+likely to make this product worthless.
+
+## 2026-09-11 — Never state how many people made money
+
+**Decision.** No surface — page, generated line, or section title — may state a count of
+winners without disclosing that it is a sample. Enforced by `populationClaim`, not by
+prompt.
+
+**Why.** Trader data is roughly the 8 highest-volume wallets out of thousands of buyers.
+A published line read "only two real winners cleared here" for a token where a single
+trader was up $1.17m. That is not a cautiously-worded true fact; it is false, and it is
+false in the direction that most damages a reader who was there.
+
+**Consequence accepted.** Some genuinely interesting sentences cannot be written. "Nobody
+made money on this" is often true and we may not say it.
+
+## 2026-09-11 — A catalyst explains why; price restatement is blocked mechanically
+
+**Decision.** `isPriceRestatement` drops any generated line carrying price facts that
+names no mechanism, wallet fact, or pairing. Short launch/peak markers are exempt.
+
+**Why.** An audit of the 15 lines published on 2026-09-11 found 14 were price
+restatements — chart captions for a chart the reader is already looking at — and the one
+survivor was the false winners claim. A style rule in the prompt had not prevented any
+of it.
+
+**Consequence accepted.** Coins whose only available fact is price now render as a single
+line. Pages are shorter and more honest.
+
+## 2026-09-11 — Unknown is not the same as bad
+
+**Decision.** Missing data is represented as `null` and excluded from judgement, never
+coerced to a value that happens to be actionable.
+
+**Why.** `churn` was `volume / liquidity`, and liquidity is unreported for most pools on
+this network. Computed as `Infinity`, it exceeded every threshold — flagging those coins
+as possible wash trading and cutting their scores 40%. Roughly 15 of 24 coins would have
+carried a public accusation generated entirely by an absent field. The same absent field,
+used as a filter, had been rejecting 135 of 178 pools and holding coverage at 12.
+
+**Consequence accepted.** Some real wash trading goes unflagged, because on a pool with
+no reported depth we genuinely cannot tell.
