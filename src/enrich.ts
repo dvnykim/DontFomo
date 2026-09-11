@@ -6,7 +6,7 @@
  */
 
 import type { FilterConfig, Runner } from "./types.ts";
-import { fetchDayRange } from "./sources/geckoterminal.ts";
+import { fetchDayRange, fetchTokenPairing } from "./sources/geckoterminal.ts";
 import { fetchTopTraders, hasApiKey, RATE_LIMIT_MS } from "./sources/birdeye.ts";
 
 const REQUEST_DELAY_MS = 7_000;
@@ -92,4 +92,40 @@ export async function enrichWithTraders(
     if (i < runners.length - 1) await sleep(RATE_LIMIT_MS);
   }
   return fetched;
+}
+
+/**
+ * What each runner is paired against.
+ *
+ * Discovery only ever sees SOL and stablecoin pools, because a cross-pair
+ * quotes its change in another volatile token and the percentage stops meaning
+ * what it appears to. That is right for price and wrong for narrative: the
+ * pairing is the most common catalyst in the recaps this product is modelled
+ * on, and on 2026-09-11 the STONK/KNOTS pool traded $6.9m against $3.1m in
+ * KNOTS/SOL — the pairing was the venue, and the pipeline saw only the SOL side.
+ *
+ * One request per runner. Failures are per-token: an unknown pairing is null,
+ * never a guess.
+ */
+export async function enrichWithPairings(runners: Runner[], network = "solana"): Promise<number> {
+  let found = 0;
+
+  for (const [i, r] of runners.entries()) {
+    if (i > 0) await sleep(REQUEST_DELAY_MS);
+    try {
+      r.pairing = await fetchTokenPairing(r.baseTokenId, r.symbol, network);
+      if (r.pairing) {
+        found++;
+        const flag = r.pairing.dominant ? " (dominant venue)" : "";
+        console.log(
+          `  $${r.symbol} paired with $${r.pairing.symbol}` +
+            ` — $${(r.pairing.volumeUsd / 1e6).toFixed(1)}m, ` +
+            `${Math.round(r.pairing.share * 100)}% of volume${flag}`,
+        );
+      }
+    } catch (err) {
+      console.warn(`  $${r.symbol}: pairing lookup failed — ${(err as Error).message}`);
+    }
+  }
+  return found;
 }

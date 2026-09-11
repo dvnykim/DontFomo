@@ -148,7 +148,8 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
       sellsPerSeller: Number(perWallet(p.txns24h.sells, p.txns24h.sellers).toFixed(1)),
       score: scoreRunner(p, churn, age, cfg),
       flags: computeFlags(p, churn, age, cfg),
-      mcap: null, // filled by the enrichment pass, which costs one call per runner
+      mcap: null,
+    pairing: null, // filled by the enrichment pass, which costs one call per runner
       traders: null, // null = not fetched (no Birdeye key); [] = fetched, none found
       bigWinners: null,
       botTraders: null,

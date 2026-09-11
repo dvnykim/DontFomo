@@ -9,7 +9,7 @@
  * Rate limit is ~10 req/min keyless, so calls are serialized with a delay.
  */
 
-import type { RawPool } from "../types.ts";
+import type { RawPool, Pairing } from "../types.ts";
 
 const BASE = "https://api.geckoterminal.com/api/v2";
 // 10 req/min keyless. 7s leaves headroom; at 6.5s the run reliably tripped a 429
@@ -283,3 +283,124 @@ export async function resolveTokenBySymbol(
 }
 
 export { REQUEST_DELAY_MS, sleep };
+
+// ===========================================================================
+// Pairing detection
+//
+// `allowedQuoteSymbols` keeps discovery on SOL/stable pools, which is correct
+// for PRICE: a cross-pair quotes its change in another volatile token, so the
+// percentage does not mean what it appears to. But filtering those pools threw
+// away the pairing *fact* along with the distorted price, and the pairing is
+// the single most common catalyst in the recaps this product is modelled on.
+//
+// So: price still comes from the SOL pool, and the pairing comes from asking
+// what else the token trades against. One extra request per runner.
+// ===========================================================================
+
+/**
+ * Below these a pairing is not a catalyst. See the reasoning in derivePairing:
+ * the share floor is what keeps the relationship pointing the right way.
+ */
+export const MIN_PAIRING_SHARE = 0.15;
+export const MIN_PAIRING_VOLUME_USD = 25_000;
+
+/** Venues a token trades against for pricing rather than for narrative. */
+const PRICING_VENUES = new Set([
+  "sol", "wsol", "usdc", "usdt", "usdg", "usd1", "jitosol", "msol", "bsol", "weth", "wbtc",
+]);
+
+/**
+ * The other side of a pool, given the token we care about.
+ * Pool names read "BASE / QUOTE", and our token may be on either side —
+ * KNOTS' biggest pool is named "STONK / KNOTS".
+ */
+export function otherSide(poolName: string, symbol: string): string | null {
+  const parts = poolName.split("/").map((p) => p.trim()).filter(Boolean);
+  if (parts.length !== 2) return null;
+  const want = symbol.trim().toLowerCase();
+  const [a, b] = parts as [string, string];
+  if (a.toLowerCase() === want) return b;
+  if (b.toLowerCase() === want) return a;
+  return null;
+}
+
+export interface PoolVenue {
+  name: string;
+  volume24hUsd: number;
+}
+
+/**
+ * Pure so the judgement is testable without the network.
+ *
+ * Ranks by combined volume because a pairing routinely spans several pools of
+ * different depths — KNOTS/STONK existed four times over, and only the sum
+ * shows it beating the SOL venue.
+ */
+export function derivePairing(pools: PoolVenue[], symbol: string): Pairing | null {
+  const byQuote = new Map<string, number>();
+  let total = 0;
+
+  for (const p of pools) {
+    const other = otherSide(p.name, symbol);
+    if (!other) continue;
+    total += p.volume24hUsd;
+    const key = other.toLowerCase();
+    byQuote.set(key, (byQuote.get(key) ?? 0) + p.volume24hUsd);
+  }
+  if (total <= 0) return null;
+
+  let best: { symbol: string; volumeUsd: number } | null = null;
+  let pricingVolume = 0;
+
+  for (const [key, vol] of byQuote) {
+    if (PRICING_VENUES.has(key)) {
+      pricingVolume += vol;
+      continue;
+    }
+    if (!best || vol > best.volumeUsd) {
+      // Recover the original casing; traders write $STONK, not $stonk.
+      const cased = pools.map((p) => otherSide(p.name, symbol)).find((o) => o?.toLowerCase() === key);
+      best = { symbol: cased ?? key, volumeUsd: vol };
+    }
+  }
+  if (!best) return null;
+
+  const share = best.volumeUsd / total;
+
+  // Materiality, which also resolves DIRECTION.
+  //
+  // A pairing is a relationship between unequals: KNOTS was launched against
+  // STONK, not the reverse. Both tokens see the same pools, so without a floor
+  // the pipeline reports "$STONK paired with $KNOTS" — true as arithmetic,
+  // backwards as a claim, and the opposite of what a recap would say.
+  //
+  // Share settles it. That pair is 60% of KNOTS' volume and 7% of STONK's:
+  // the smaller token depends on the pairing, the larger one does not.
+  //
+  // The floor also drops dust. Several runners had sub-$5k pools whose only
+  // effect would be to attach a confident-sounding catalyst to a move that had
+  // nothing to do with them.
+  if (share < MIN_PAIRING_SHARE || best.volumeUsd < MIN_PAIRING_VOLUME_USD) return null;
+
+  return {
+    symbol: best.symbol,
+    volumeUsd: best.volumeUsd,
+    share,
+    dominant: best.volumeUsd > pricingVolume,
+  };
+}
+
+/** Every pool a token trades in. One request; space calls by REQUEST_DELAY_MS. */
+export async function fetchTokenPairing(
+  tokenAddress: string,
+  symbol: string,
+  network = "solana",
+): Promise<Pairing | null> {
+  const addr = tokenAddress.replace(/^solana_/, "");
+  const json = await getJson(`/networks/${network}/tokens/${addr}/pools?page=1`);
+  const pools: PoolVenue[] = (json?.data ?? []).map((p: any) => ({
+    name: String(p?.attributes?.name ?? ""),
+    volume24hUsd: num(p?.attributes?.volume_usd?.h24),
+  }));
+  return derivePairing(pools, symbol);
+}

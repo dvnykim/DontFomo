@@ -80,6 +80,17 @@ function buildEvidence(snapshot: Snapshot): string {
     );
     if (r.flags.length) lines.push(`quality flags: ${r.flags.join(", ")}`);
 
+    // The pairing is usually the catalyst on a launchpad coin, and unlike price
+    // it explains something. Put it in front of the model explicitly.
+    if (r.pairing) {
+      lines.push(
+        `  PAIRED WITH $${r.pairing.symbol} — $${(r.pairing.volumeUsd / 1e6).toFixed(1)}m, ` +
+          `${Math.round(r.pairing.share * 100)}% of its volume` +
+          (r.pairing.dominant ? ", more than its SOL and stablecoin pools combined" : "") +
+          `. This is usually WHY it moved — lead with it.`,
+      );
+    }
+
     if (r.traders === null) {
       lines.push("traders: not available");
     } else if (r.traders.length === 0) {

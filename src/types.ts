@@ -76,6 +76,29 @@ export interface McapRange {
   peakAt: string | null;
 }
 
+/**
+ * What a token is paired against — the catalyst format traders actually use.
+ *
+ * On launchpads like stonk.fun a coin is launched *paired* to another asset,
+ * and that pairing IS the reason it moved: "$KNOTS hit $45m, paired with
+ * $stonk" says more than any price figure can.
+ *
+ * It is also mechanically derivable, which makes it the rare catalyst that
+ * needs no model and no platform data. On 2026-09-11 the STONK/KNOTS pool did
+ * $6.9m of volume against $3.1m in KNOTS/SOL — the pairing was the dominant
+ * venue, and the pipeline recorded only the SOL side.
+ */
+export interface Pairing {
+  /** The other side, e.g. "STONK". Never a pricing venue like SOL or USDC. */
+  symbol: string;
+  /** Combined 24h volume across every pool quoting this pair. */
+  volumeUsd: number;
+  /** Share of the token's total pool volume running through this pairing. */
+  share: number;
+  /** True when the pairing out-trades the SOL and stablecoin venues combined. */
+  dominant: boolean;
+}
+
 /** A pool that survived filtering, with derived signals attached. */
 export interface Runner extends RawPool {
   symbol: string;
@@ -95,6 +118,11 @@ export interface Runner extends RawPool {
   flags: string[];
   /** Null when the OHLCV lookup failed. */
   mcap: McapRange | null;
+  /**
+   * What this token is paired against, when it is paired with anything other
+   * than a pricing venue. Null means SOL/stables only — an ordinary launch.
+   */
+  pairing: Pairing | null;
 
   // ---- trader layer: null until a Birdeye key is configured ----
   /** Ranked by PnL descending. Null means "not fetched", [] means "none found". */

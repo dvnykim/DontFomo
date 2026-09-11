@@ -278,6 +278,33 @@ Discovered by testing, and both shape the design:
 - Keyless limit is ~10 req/min; a full run takes ~3 minutes and occasionally 429s.
   The client backs off and retries.
 
+## Pairing is the catalyst
+
+On launchpads like stonk.fun a coin is launched *paired* to another asset, and that
+pairing is the reason it ran. The recaps this product is modelled on say so directly:
+
+> `$KNOTS -> hit $45m, paired with $stonk`
+
+That is derivable with no model and no platform data — it is just which pools the token
+actually trades in. The pipeline was throwing it away: discovery filters to SOL and
+stablecoin pools for sound pricing reasons, and the pairing went out with the distorted
+percentage. On 2026-09-11 the `STONK/KNOTS` pools traded **$9.8m** against **$4.3m** in
+`KNOTS/SOL` — the pairing was the token's main venue and the snapshot recorded only the
+SOL side.
+
+Price still comes from the SOL pool. The pairing comes from one extra request per runner.
+
+### Share is what makes it a claim rather than arithmetic
+
+A pairing is a relationship between unequals, and both tokens see the same pools. Taken
+naively the pipeline reports `$STONK paired with $KNOTS`, which is true as arithmetic and
+backwards as a claim — STONK is a $236m token that does not depend on a launch against it.
+
+Share settles direction: that pair is **61% of KNOTS' volume and 7% of STONK's**. A floor
+of 15% (and $25k) keeps the relationship pointing at the smaller token and drops dust —
+several runners had sub-$5k pools whose only effect would have been to attach a
+confident-sounding catalyst to a move they had nothing to do with.
+
 ## Why git is the database
 
 Each day's snapshot is committed as JSON and never revised — free storage, free history,
@@ -298,8 +325,10 @@ Notes from calibrating against live data:
   useless.
 - **There's a market-cap floor.** Without it the list fills with sub-$500k coins doing
   2x, which nobody writes recaps about.
-- **Cross-pairs are excluded.** A pool like `EMBER/MET` quotes its change in another
-  volatile token, so the number doesn't mean what it appears to.
+- **Cross-pairs are excluded from PRICING, not from the record.** A pool like `EMBER/MET`
+  quotes its change in another volatile token, so the percentage doesn't mean what it
+  appears to. But the pairing itself is usually *why the token moved* — see
+  [Pairing is the catalyst](#pairing-is-the-catalyst).
 - **Flags warn, they don't drop.** "This ran but looks washed" is itself worth saying.
 
 ## Known gaps
