@@ -215,3 +215,69 @@ test("market-narrative lines with no named entities pass through", () => {
   assert.equal(report.kept, 1);
   assert.equal(report.dropped.length, 0);
 });
+
+// ---------------------------------------------------------------- cross-day claims
+
+test("drops a line claiming continuity with another day", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("ran the same as yesterday, no new buyers");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 1);
+  assert.match(report.dropped[0]!.reason, /another day/);
+});
+
+test("allows intraday repetition wording", () => {
+  // "again" and "still" have legitimate same-day readings; blocking them would
+  // cost real lines to prevent a problem that isn't there.
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("bounced again off the same level, still bid into the close");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("blanks an unsupported label but keeps the timeline", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("held the range all afternoon");
+  n.coins[0]!.label = "Same As Yesterday";
+
+  const report = validateOutput(n, snap);
+
+  assert.equal(n.coins[0]!.label, "", "label must not survive");
+  assert.equal(n.coins[0]!.timeline.length, 1, "timeline is still good");
+  assert.match(report.dropped[0]!.reason, /unsupported label/);
+});
+
+test("blanks a label naming a ticker not in the snapshot", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("held the range");
+  n.coins[0]!.label = "Rode $FAKECOIN's Wave";
+
+  validateOutput(n, snap);
+  assert.equal(n.coins[0]!.label, "");
+});
+
+test("blanks a label with a fabricated figure", () => {
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 35_000_000, high: 70_000_000, current: 60_000_000, multiple: 2, peakAt: null },
+    },
+  ]);
+  const n = narrative("held the range");
+  n.coins[0]!.label = "The Clean 9x";
+
+  validateOutput(n, snap);
+  assert.equal(n.coins[0]!.label, "", "labels were previously unchecked");
+});
+
+test("keeps a legitimate label untouched", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("held the range");
+  n.coins[0]!.label = "Runner Of The Day";
+
+  const report = validateOutput(n, snap);
+  assert.equal(n.coins[0]!.label, "Runner Of The Day");
+  assert.equal(report.dropped.length, 0);
+});

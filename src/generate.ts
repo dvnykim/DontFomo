@@ -249,6 +249,25 @@ export interface ValidationReport {
  * Mechanically strips any generated line that names an entity absent from the
  * evidence. This is the load-bearing guardrail — the prompt is advisory, this is not.
  */
+/**
+ * Claims about other days.
+ *
+ * `buildEvidence` is handed exactly one snapshot, so the model has no access to
+ * yesterday. Any assertion of continuity is therefore unsupported by
+ * construction — not a style preference but a thing it cannot know. A real
+ * generation labelled a coin "Same As Yesterday", which was plausible, uncheckable
+ * and exactly the kind of confident-sounding filler that erodes trust.
+ *
+ * Deliberately conservative: "again" and "still" are excluded because both have
+ * legitimate intraday readings ("bounced again", "still bid").
+ */
+const CROSS_DAY =
+  /\b(yesterday|same as (?:yesterday|before)|(?:second|third|fourth) day|last (?:week|time|night)|days in a row|round two)\b/i;
+
+export function crossDayClaim(text: string): string | null {
+  return text.match(CROSS_DAY)?.[0] ?? null;
+}
+
 export function validateOutput(
   narrative: GeneratedNarrative,
   snapshot: Snapshot,
@@ -270,6 +289,16 @@ export function validateOutput(
           symbol: coin.symbol,
           text: entry.text,
           reason: `unsupported figure ${badNumber}`,
+        });
+        return false;
+      }
+
+      const crossDay = crossDayClaim(entry.text);
+      if (crossDay) {
+        report.dropped.push({
+          symbol: coin.symbol,
+          text: entry.text,
+          reason: `claims about another day ("${crossDay}") — evidence is one snapshot`,
         });
         return false;
       }
@@ -311,6 +340,31 @@ export function validateOutput(
       report.kept++;
       return true;
     });
+
+    // Labels were an unguarded channel: everything above checked timeline text
+    // only, so a fabricated ticker, figure or cross-day claim in the header
+    // reached the page unchecked. Blank it rather than dropping the coin — the
+    // timeline is still good, it just loses its headline.
+    if (coin.label) {
+      const labelProblem =
+        (numbers ? unsupportedNumber(coin.label, numbers) : null) ??
+        crossDayClaim(coin.label) ??
+        [...coin.label.matchAll(/@([A-Za-z0-9_]{2,30})/g)]
+          .map((m) => m[1]!.toLowerCase())
+          .find((h) => !handles.has(h)) ??
+        [...coin.label.matchAll(/\$([A-Za-z][A-Za-z0-9]{1,14})/g)]
+          .map((m) => m[1]!.toLowerCase())
+          .find((t) => !tickers.has(t));
+
+      if (labelProblem) {
+        report.dropped.push({
+          symbol: coin.symbol,
+          text: coin.label,
+          reason: `unsupported label ("${labelProblem}")`,
+        });
+        coin.label = "";
+      }
+    }
   }
   return report;
 }
