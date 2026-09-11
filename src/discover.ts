@@ -36,7 +36,7 @@ function churnLimit(age: number | null, cfg: FilterConfig): number {
  */
 function scoreRunner(
   p: RawPool,
-  churn: number,
+  churn: number | null,
   age: number | null,
   cfg: FilterConfig,
   /** Percentage gain to score on. Defaults to 24h open→close. */
@@ -45,7 +45,8 @@ function scoreRunner(
   const gain = Math.log10(1 + Math.max(0, gainPct));
   const depth = Math.log10(1 + p.liquidityUsd);
   const breadth = Math.log10(1 + p.txns24h.buyers);
-  const washPenalty = churn > churnLimit(age, cfg) ? 0.6 : 1;
+  // No penalty for unknown churn — see Runner.churn.
+  const washPenalty = churn !== null && churn > churnLimit(age, cfg) ? 0.6 : 1;
   return Number((gain * depth * breadth * washPenalty).toFixed(3));
 }
 
@@ -90,10 +91,10 @@ function perWallet(trades: number, wallets: number): number {
 }
 
 /** Quality warnings worth showing the reader rather than silently filtering out. */
-function computeFlags(p: RawPool, churn: number, age: number | null, cfg: FilterConfig): string[] {
+function computeFlags(p: RawPool, churn: number | null, age: number | null, cfg: FilterConfig): string[] {
   const flags: string[] = [];
 
-  if (churn > churnLimit(age, cfg)) flags.push("possible-wash-trading");
+  if (churn !== null && churn > churnLimit(age, cfg)) flags.push("possible-wash-trading");
   if (age !== null && age < 1) flags.push("launched-today");
 
   // A handful of wallets doing thousands of trades is the clearest bot signal
@@ -154,14 +155,16 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
     if (p.change.h24 < cfg.minChange24hPct && !reject("24h gain")) continue;
     if (p.txns24h.buyers < cfg.minBuyers24h && !reject("unique buyers")) continue;
 
-    const churn = p.liquidityUsd > 0 ? p.volume24hUsd / p.liquidityUsd : Infinity;
+    // Null, not Infinity. Unreported depth means churn is unknowable, and
+    // treating unknown as "maximally suspicious" libels most of the page.
+    const churn = p.liquidityUsd > 0 ? p.volume24hUsd / p.liquidityUsd : null;
     const age = ageInDays(p.createdAt);
 
     survivors.push({
       ...p,
       symbol: base,
       ageDays: age === null ? null : Number(age.toFixed(2)),
-      churn: Number(churn.toFixed(2)),
+      churn: churn === null ? null : Number(churn.toFixed(2)),
       buyerSellerRatio: Number(
         (p.txns24h.sellers > 0 ? p.txns24h.buyers / p.txns24h.sellers : 0).toFixed(2),
       ),

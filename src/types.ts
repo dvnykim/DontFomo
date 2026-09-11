@@ -103,8 +103,15 @@ export interface Pairing {
 export interface Runner extends RawPool {
   symbol: string;
   ageDays: number | null;
-  /** 24h volume / current liquidity. Very high values suggest wash trading. */
-  churn: number;
+  /**
+   * 24h volume / current liquidity. Very high values suggest wash trading.
+   *
+   * NULL when liquidity is not reported, which is most pools on this network.
+   * It must not be treated as "infinitely high churn": that flagged every such
+   * coin as possible wash trading and cut its score by 40%, on the basis of a
+   * missing field. Unknown is not the same as bad.
+   */
+  churn: number | null;
   /** Unique buyers / unique sellers over 24h. */
   buyerSellerRatio: number;
   /**
