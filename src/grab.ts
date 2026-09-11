@@ -38,6 +38,19 @@ function detectHandle(raw: string): string | null {
   return null;
 }
 
+/**
+ * Token pages title themselves "$659.1M MC | PONS | fomo". On those pages every
+ * thesis is about that token and no per-row symbol is rendered, so the title is
+ * the only place the symbol appears.
+ */
+function detectTokenSymbol(raw: string): string | null {
+  for (const line of raw.split("\n").slice(0, 6)) {
+    const m = line.match(/\|\s*([A-Za-z0-9_+.]{2,15})\s*\|\s*fomo\s*$/i);
+    if (m) return m[1]!;
+  }
+  return null;
+}
+
 async function main() {
   const explicit = process.argv[2]?.replace(/^@/, "");
   const raw = await readClipboard();
@@ -47,24 +60,51 @@ async function main() {
     process.exit(1);
   }
 
-  const handle = explicit ?? detectHandle(raw);
-  if (!handle) {
+  const tokenSymbol = detectTokenSymbol(raw);
+  const name = explicit ?? detectHandle(raw) ?? tokenSymbol;
+  if (!name) {
     console.error(
-      "Could not find an @handle in the clipboard.\n" +
-        "Either the copy missed the top of the page, or this isn't a profile.\n" +
-        "You can force it: npm run grab -- <handle>",
+      "Could not identify this page.\n" +
+        "Expected a trader profile (@handle) or a token page (symbol in the title).\n" +
+        "You can force it: npm run grab -- <name>",
     );
     process.exit(1);
   }
 
-  // Parse before writing so a useless paste never lands on disk.
-  const parsed = parseProfile(raw, new Date().toISOString());
+  // On a token page every thesis is about that one token and no per-row symbol
+  // is rendered, so without a default they all parse to nothing. Fall back to
+  // the name given on the command line before giving up.
+  const defaultSymbol = tokenSymbol ?? (explicit && !detectHandle(raw) ? explicit : null);
+
+  // Parse before writing so a useless capture never lands on disk.
+  const parsed = parseProfile(raw, new Date().toISOString(), defaultSymbol);
+
+  // The failure this guards against: Cmd+A on fomo returns the page chrome --
+  // nav, footer, your own balances -- and none of the virtualised feed. It
+  // looks like a successful 5kB capture and contains no data at all. Writing it
+  // would leave a file that parses to nothing and a recap that quietly has no
+  // theses in it.
+  const empty = parsed.trades.length === 0 && parsed.theses.length === 0;
+  if (empty) {
+    const looksLikeSelectAll = !raw.startsWith("FOMO-EXPORT");
+    console.error(
+      `Captured ${(raw.length / 1024).toFixed(1)} kB but found no trades and no theses — not saving.\n` +
+        (looksLikeSelectAll
+          ? "\nThis looks like a Cmd+A copy. That does not work on fomo: the feed is a\n" +
+            "virtualised scroll container the selection API skips, so you get the nav\n" +
+            "and footer and nothing else.\n\n" +
+            "Use the bookmarklet instead — see tools/capture.js.\n"
+          : "\nThe bookmarklet ran but the feed was empty. Open the Thesis tab on a token\n" +
+            "page, or scroll a profile until swaps render, then capture again.\n"),
+    );
+    process.exit(1);
+  }
 
   await mkdir(INPUT_DIR, { recursive: true });
-  const out = path.join(INPUT_DIR, `${handle}.txt`);
+  const out = path.join(INPUT_DIR, `${name}.txt`);
   await writeFile(out, raw, "utf8");
 
-  console.log(`Saved input/${handle}.txt  (${(raw.length / 1024).toFixed(0)} kB)`);
+  console.log(`Saved input/${name}.txt  (${(raw.length / 1024).toFixed(0)} kB)`);
   console.log(
     `  ${parsed.trades.length} trades   ${parsed.theses.length} theses   ` +
       `${parsed.positions.length} positions   ` +
@@ -73,14 +113,7 @@ async function main() {
 
   for (const w of parsed.parseWarnings) console.log(`  ! ${w}`);
 
-  if (parsed.trades.length === 0) {
-    console.log(
-      `\n  No trades parsed. The "All swaps" table is usually below the fold —\n` +
-        `  scroll to the bottom of the profile before Cmd+A so it renders.`,
-    );
-  } else {
-    console.log(`\n  Run \`npm run traders\` once you've grabbed everyone.`);
-  }
+  console.log(`\n  Run \`npm run traders\` once you've captured everything.`);
 }
 
 main().catch((err) => {

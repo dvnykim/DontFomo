@@ -202,13 +202,18 @@ function parseTheses(lines: string[], exportedAt: string, defaultSymbol: string 
     const text = body.join(" ").trim();
     if (!text) continue;
 
+    // A real thesis always has an author above it. Requiring one kills the
+    // false positive where the chart-overlay checkbox labelled "Thesis" gets
+    // read as an entry and the surrounding UI chrome becomes its body.
+    if (!author || isNoise(author)) continue;
+
     const key = `${symbol}|${author}|${text.slice(0, 60)}`;
     if (seen.has(key)) continue;
     seen.add(key);
 
     out.push({
       symbol,
-      author: author && !isNoise(author) ? author : null,
+      author,
       text,
       agoMinutes,
       at: isoFrom(exportedAt, agoMinutes),
