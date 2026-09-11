@@ -24,6 +24,8 @@ import type { Runner, Snapshot } from "./types.ts";
 import { usd } from "./format.ts";
 import { groupRunners } from "./group.ts";
 import { isPriceRestatement } from "./catalyst.ts";
+import { rankTheses } from "./thesis.ts";
+import type { FomoThesis } from "./types.ts";
 
 const ROOT = new URL("../", import.meta.url).pathname;
 const PROMPTS_DIR = join(ROOT, "prompts");
@@ -81,7 +83,17 @@ async function readPrompt(name: string): Promise<string> {
  * The evidence block. This is the ONLY ground truth the model gets — if a fact
  * isn't in here, any statement of it is by definition unsupported.
  */
-function buildEvidence(snapshot: Snapshot): string {
+/**
+ * Theses keyed by token symbol.
+ *
+ * Passed alongside the snapshot rather than attached to it, and deliberately so:
+ * Runner is archived to data/, and platform content must never reach the archive.
+ * Keeping theses off the Snapshot type means they cannot be serialised there by
+ * accident — the same reasoning as the fomo layer in types.ts.
+ */
+export type ThesesBySymbol = Map<string, FomoThesis[]>;
+
+function buildEvidence(snapshot: Snapshot, theses: ThesesBySymbol = new Map()): string {
   const lines: string[] = [`DATE: ${snapshot.date} (UTC)`, ""];
 
   // Sections are decided mechanically before the model sees anything, so it
@@ -126,6 +138,23 @@ function buildEvidence(snapshot: Snapshot): string {
       lines.push(
         `  ${r.tickerCopies + 1} separate tokens used this exact ticker today; this is the deepest.`,
       );
+    }
+
+    // Theses: the only source that says WHY in the trader's own words. Ranked
+    // before the model sees them so noise never reaches it, and marked SUMMARISE
+    // because reproducing them verbatim would rebuild an archive we agreed not
+    // to keep.
+    const forCoin = theses.get(r.symbol.toLowerCase()) ?? [];
+    if (forCoin.length > 0) {
+      const top = rankTheses(forCoin, { peakAt: r.mcap?.peakAt ?? null, limit: 4, minScore: 1 });
+      if (top.length > 0) {
+        lines.push(`  THESES — traders explaining why. SUMMARISE, never quote:`);
+        for (const t of top) {
+          const who = t.author ? `@${t.author}` : "unattributed";
+          const stake = t.pnlUsd !== null ? `, $${Math.round(t.pnlUsd).toLocaleString()} position` : "";
+          lines.push(`    - ${who}${stake}: ${t.text}`);
+        }
+      }
     }
 
     // The pairing is usually the catalyst on a launchpad coin, and unlike price
@@ -209,16 +238,32 @@ function words(s: string): string[] {
  * archive we agreed not to build, just laundered through the model. Paraphrase and
  * reference are fine; copying is not.
  */
-function thesisShingles(snapshot: Snapshot): Set<string> {
+/**
+ * Every thesis the model could have seen, as word runs.
+ *
+ * MUST cover both sources. Theses reach generation two ways — attached to a
+ * trader on the snapshot, and passed separately in ThesesBySymbol — and reading
+ * only the first would leave the second able to be reproduced verbatim into
+ * notes/, which is committed. That is precisely the laundering path this check
+ * exists to close: paraphrase is fine, copying rebuilds an archive we agreed
+ * not to keep.
+ */
+function thesisShingles(snapshot: Snapshot, extra: ThesesBySymbol = new Map()): Set<string> {
   const shingles = new Set<string>();
-  for (const r of snapshot.runners) {
-    for (const t of r.traders ?? []) {
-      if (!t.thesis) continue;
-      const w = words(t.thesis);
-      for (let i = 0; i + VERBATIM_RUN <= w.length; i++) {
-        shingles.add(w.slice(i, i + VERBATIM_RUN).join(" "));
-      }
+
+  const add = (text: string | null) => {
+    if (!text) return;
+    const w = words(text);
+    for (let i = 0; i + VERBATIM_RUN <= w.length; i++) {
+      shingles.add(w.slice(i, i + VERBATIM_RUN).join(" "));
     }
+  };
+
+  for (const r of snapshot.runners) {
+    for (const t of r.traders ?? []) add(t.thesis);
+  }
+  for (const list of extra.values()) {
+    for (const t of list) add(t.text);
   }
   return shingles;
 }
@@ -239,8 +284,19 @@ function copiesThesis(text: string, shingles: Set<string>): boolean {
  * handle/ticker filter doesn't catch it — a plausible-but-wrong market cap reads as
  * authoritative and is invisible without checking the source.
  */
-function allowedNumbers(r: Runner): Set<string> {
+function allowedNumbers(r: Runner, theses: FomoThesis[] = []): Set<string> {
   const ok = new Set<string>();
+
+  // Figures quoted inside a thesis are evidence too. The guard's rule is "no
+  // number that is not in the evidence", and thesis text IS evidence — without
+  // this, summarising "revenue multiple back under 1.0x" is deleted because 1.0
+  // is not a price fact about the pool, which would gut exactly the catalysts
+  // the theses exist to provide.
+  for (const t of theses) {
+    for (const m of t.text.matchAll(/\$?\d[\d,.]*\s*[kmb%x]?/gi)) {
+      ok.add(m[0].trim().toLowerCase().replace(/\s+/g, ""));
+    }
+  }
 
   const money = [
     r.mcap?.low,
@@ -294,7 +350,10 @@ function unsupportedNumber(text: string, allowed: Set<string>): string | null {
 }
 
 /** Handles and tickers that legitimately appear in the evidence. */
-function allowedEntities(snapshot: Snapshot): { handles: Set<string>; tickers: Set<string> } {
+function allowedEntities(
+  snapshot: Snapshot,
+  theses: ThesesBySymbol = new Map(),
+): { handles: Set<string>; tickers: Set<string> } {
   const handles = new Set<string>();
   const tickers = new Set<string>();
 
@@ -306,6 +365,14 @@ function allowedEntities(snapshot: Snapshot): { handles: Set<string>; tickers: S
     if (r.pairing) tickers.add(r.pairing.symbol.toLowerCase());
     for (const t of r.traders ?? []) {
       if (t.handle) handles.add(t.handle.toLowerCase());
+    }
+  }
+  // Thesis authors are nameable: we showed the model their posts, so it must be
+  // able to attribute them.
+  for (const list of theses.values()) {
+    for (const t of list) {
+      if (t.author) handles.add(t.author.toLowerCase());
+      tickers.add(t.symbol.toLowerCase());
     }
   }
   return { handles, tickers };
@@ -376,16 +443,17 @@ export function populationClaim(text: string): string | null {
 export function validateOutput(
   narrative: GeneratedNarrative,
   snapshot: Snapshot,
+  theses: ThesesBySymbol = new Map(),
 ): ValidationReport {
-  const { handles, tickers } = allowedEntities(snapshot);
-  const shingles = thesisShingles(snapshot);
+  const { handles, tickers } = allowedEntities(snapshot, theses);
+  const shingles = thesisShingles(snapshot, theses);
   const report: ValidationReport = { kept: 0, dropped: [] };
 
   const bySymbol = new Map(snapshot.runners.map((r) => [r.symbol.toLowerCase(), r]));
 
   for (const coin of narrative.coins) {
     const runner = bySymbol.get(coin.symbol.toLowerCase());
-    const numbers = runner ? allowedNumbers(runner) : null;
+    const numbers = runner ? allowedNumbers(runner, theses.get(coin.symbol.toLowerCase()) ?? []) : null;
 
     coin.timeline = coin.timeline.filter((entry) => {
       const badNumber = numbers ? unsupportedNumber(entry.text, numbers) : null;
@@ -526,7 +594,10 @@ export interface GenerationResult {
   provenance: { model: string; generatedAt: string; evidenceSha256: string };
 }
 
-export async function generateNarrative(snapshot: Snapshot): Promise<GenerationResult | null> {
+export async function generateNarrative(
+  snapshot: Snapshot,
+  theses: ThesesBySymbol = new Map(),
+): Promise<GenerationResult | null> {
   if (!hasApiKey()) {
     console.log("  no ANTHROPIC_API_KEY — skipping narrative generation");
     return null;
@@ -534,7 +605,7 @@ export async function generateNarrative(snapshot: Snapshot): Promise<GenerationR
   if (snapshot.runners.length === 0) return null;
 
   const client = new Anthropic();
-  const evidence = buildEvidence(snapshot);
+  const evidence = buildEvidence(snapshot, theses);
   const style = await readPrompt("style.md");
   const examples = await readPrompt("examples.md");
 
@@ -563,7 +634,7 @@ export async function generateNarrative(snapshot: Snapshot): Promise<GenerationR
     return null;
   }
 
-  const validation = validateOutput(narrative, snapshot);
+  const validation = validateOutput(narrative, snapshot, theses);
 
   return {
     narrative,

@@ -412,3 +412,97 @@ test("a pairing symbol counts as a known ticker", () => {
 
   assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
 });
+
+// --------------------------------------------- theses passed outside the snapshot
+
+test("blocks verbatim copying of a thesis passed outside the snapshot", () => {
+  // Theses reach generation two ways. Reading only the snapshot left the other
+  // path able to be reproduced verbatim into notes/, which IS committed — the
+  // exact laundering route this check exists to close.
+  const snap = snapshot([{ symbol: "PONS" }]);
+  const theses = new Map([
+    [
+      "pons",
+      [
+        {
+          symbol: "PONS", author: "someone",
+          text: "market cap to last seven day revenue is back well below one times and supply keeps burning",
+          agoMinutes: 30, at: null, pnlUsd: null, changePct: null, likes: 2, closed: false,
+        },
+      ],
+    ],
+  ]);
+
+  const n = narrative(
+    "market cap to last seven day revenue is back well below one times and supply keeps burning",
+    "PONS",
+  );
+  const report = validateOutput(n, snap, theses as any);
+
+  assert.equal(report.dropped.length, 1);
+  assert.match(report.dropped[0]!.reason, /verbatim/);
+});
+
+test("allows a paraphrase, including figures the thesis itself quoted", () => {
+  // A thesis is evidence. Summarising "revenue multiple at 0.8x" must survive
+  // even though 0.8 is not a price fact about the pool — otherwise the numeric
+  // guard deletes exactly the catalysts theses exist to supply.
+  const snap = snapshot([{ symbol: "PONS" }]);
+  const theses = new Map([
+    [
+      "pons",
+      [
+        {
+          symbol: "PONS", author: "someone",
+          text: "market cap to last 7 day revenue back well below 1.0x, and 30% of supply is burned",
+          agoMinutes: 30, at: null, pnlUsd: null, changePct: null, likes: 2, closed: false,
+        },
+      ],
+    ],
+  ]);
+
+  const n = narrative("revenue multiple sits at 1.0x with 30% of supply burned", "PONS");
+  const report = validateOutput(n, snap, theses as any);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("still rejects a figure the thesis never mentioned", () => {
+  const snap = snapshot([{ symbol: "PONS" }]);
+  const theses = new Map([
+    [
+      "pons",
+      [
+        {
+          symbol: "PONS", author: "someone", text: "revenue keeps compounding and supply is burning",
+          agoMinutes: 30, at: null, pnlUsd: null, changePct: null, likes: 2, closed: false,
+        },
+      ],
+    ],
+  ]);
+
+  const n = narrative("revenue is running at $40m a year", "PONS");
+  const report = validateOutput(n, snap, theses as any);
+
+  assert.equal(report.dropped.length, 1, "a thesis does not license inventing new figures");
+});
+
+test("a thesis author is nameable", () => {
+  const snap = snapshot([{ symbol: "PONS" }]);
+  const theses = new Map([
+    [
+      "pons",
+      [
+        {
+          symbol: "PONS", author: "ctfarmer", text: "revenue and burns keep compounding here",
+          agoMinutes: 30, at: null, pnlUsd: null, changePct: null, likes: 2, closed: false,
+        },
+      ],
+    ],
+  ]);
+
+  const n = narrative("@ctfarmer made the revenue case", "PONS");
+  const report = validateOutput(n, snap, theses as any);
+
+  assert.equal(report.dropped.length, 0, "we showed the model their post; it must be able to attribute it");
+});

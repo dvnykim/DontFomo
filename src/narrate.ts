@@ -11,7 +11,8 @@
 
 import { mkdir, readFile, readdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
-import { generateNarrative, hasApiKey } from "./generate.ts";
+import { generateNarrative, hasApiKey, type ThesesBySymbol } from "./generate.ts";
+import { loadTraderDays } from "./import-traders.ts";
 import type { Snapshot } from "./types.ts";
 
 const ROOT = new URL("../", import.meta.url).pathname;
@@ -55,7 +56,25 @@ async function main() {
   const snapshot = JSON.parse(await readFile(join(DATA_DIR, `${date}.json`), "utf8")) as Snapshot;
   console.log(`Generating narrative for ${date} (${snapshot.runners.length} runners)...`);
 
-  const result = await generateNarrative(snapshot);
+  // Captured theses, if any. These are platform content: they reach the model
+  // and the rendered page, and never the committed snapshot.
+  const theses: ThesesBySymbol = new Map();
+  const days = await loadTraderDays();
+  for (const day of days) {
+    for (const t of day.theses) {
+      const key = t.symbol.trim().toLowerCase();
+      theses.set(key, [...(theses.get(key) ?? []), t]);
+    }
+  }
+  if (days.length > 0) {
+    const matched = snapshot.runners.filter((r) => theses.has(r.symbol.toLowerCase())).length;
+    console.log(
+      `  ${days.length} capture(s), ${theses.size} token(s) with theses, ` +
+        `${matched} matching today's runners`,
+    );
+  }
+
+  const result = await generateNarrative(snapshot, theses);
   if (!result) {
     console.error("Generation produced nothing.");
     process.exit(1);
