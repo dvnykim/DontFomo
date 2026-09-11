@@ -40,6 +40,28 @@ npm run grab         # capture a fomo profile from the clipboard -> input/
 npm run traders      # aggregate exports; --onchain resolves tickers to pools
 ```
 
+## The daily routine
+
+**Automatic, no action needed.** At 09:00 UTC the Action collects the snapshot, derives
+pairings and namesakes, generates the narrative and publishes to GitHub Pages. If you do
+nothing, a correct recap ships every day — it just has fewer catalysts.
+
+**Optional, ~2 minutes, adds the "why".** Theses are the one input that cannot be
+automated yet:
+
+1. Open a token page on the platform and click the **Thesis** tab
+2. Click the **fomo grab** bookmarklet (see `tools/capture.js`)
+3. `npm run grab -- <SYMBOL>`
+4. Repeat for the coins that mattered, then `npm run daily`
+
+`npm run grab` refuses to write a capture with no trades and no theses, so a bad paste
+fails loudly instead of producing a quiet, empty day.
+
+**Do not use Cmd+A.** The thesis feed is a virtualised scroll container that the
+browser's selection API skips — select-all returns the page chrome and none of the
+content, which looks like a successful capture and contains nothing. That is why the
+bookmarklet exists.
+
 ## Schedule
 
 The Action runs at **09:00 UTC**, chosen from measured data rather than convenience.
