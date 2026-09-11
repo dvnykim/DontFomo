@@ -415,16 +415,29 @@ Notes from calibrating against live data:
 
 ## Known gaps
 
-- **Everything is `launched-today`.** Established coins rarely move 30%+ in a day, so
-  they never clear the filters. Covering the "existing coin that ran 3x" category needs
-  a second bucket with its own thresholds.
+- **`minChange24hPct: 30` still biases toward launches.** Established coins rarely move
+  30% in a day, so the page skews fresh. The coverage fix helped (81 pools clear the
+  filters against 12), but an "existing coin that ran 3x" bucket would need its own
+  thresholds.
+- **Thesis capture is manual and therefore fragile.** It needs a person and a browser
+  every day, and daily manual processes lapse. The archive survives a missed day — the
+  on-chain half is fully automatic — but the *why* for that day is gone permanently.
+  Read-only API access from the platform is the only real fix.
 - **`bot-driven-selling` fires on nearly every runner.** The numbers are real (one runner
   had 3,047 unique buyers against 45 sellers doing ~29k sells), so it looks like a true
   property of fresh launches rather than a bad threshold. Weak discriminator, genuine
   finding — don't tune it just to make output look cleaner.
-- **Trader sampling is volume-biased.** See the Birdeye constraints above — modest-size
-  winners can be missed entirely. Fixing this properly means computing P&L from raw
-  transaction history (Helius) rather than a pre-ranked endpoint.
+- **Trader sampling is volume-biased, and the sample is tiny.** Birdeye returns roughly
+  the 8 highest-volume wallets out of thousands of buyers, so a modest-size winner is
+  routinely missed. **Nothing on the page may state how many people made money** — it
+  says "2 of 8 sampled", and `populationClaim` drops any generated line that doesn't
+  disclose the sample. An earlier version wrote "only two real winners cleared here" for
+  a token where one trader alone was up $1.17m. Fixing it properly means computing P&L
+  from raw transaction history (Helius) rather than a pre-ranked endpoint.
+- **Most coins get no catalyst.** Pairing covers some, namesake covers some, theses need
+  manual capture. Everything else renders as one line saying what it hit and nothing
+  more. That is the intended behaviour, not a gap to paper over — but it does mean a
+  day with few pairings produces a thin page.
 - **Ranking is scored twice.** Discovery ranks on 24h open→close because the true
   multiple costs a call per token; the shortlist is re-ranked once real multiples and
   winner counts are known. A token outside the initial cut can't climb in.
