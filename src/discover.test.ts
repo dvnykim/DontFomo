@@ -142,3 +142,19 @@ test("real churn is still flagged", () => {
   assert.ok(runners[0]!.churn! > 500);
   assert.ok(runners[0]!.flags.includes("possible-wash-trading"), "an established coin churning 600x is suspicious");
 });
+
+test("scores a coin with unreported depth instead of zeroing it", () => {
+  // log10(1 + 0) is 0, and the score is a product — so every zero-liquidity
+  // coin scored exactly 0.0 and sorted last in arbitrary order, including the
+  // day's biggest movers (one ran 81x).
+  const { runners } = selectRunners(
+    [
+      pool({ baseTokenId: "a", name: "A / SOL", liquidityUsd: 0, volume24hUsd: 30_000_000 }),
+      pool({ baseTokenId: "b", name: "B / SOL", liquidityUsd: 0, volume24hUsd: 2_000_000 }),
+    ],
+    DEFAULT_FILTERS,
+  );
+
+  assert.ok(runners[0]!.score > 0, "a real market should not score zero for a missing field");
+  assert.ok(runners[0]!.score > runners[1]!.score, "more flow should still outrank less");
+});

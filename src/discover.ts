@@ -44,7 +44,14 @@ function scoreRunner(
   gainPct: number = p.change.h24,
 ): number {
   const gain = Math.log10(1 + Math.max(0, gainPct));
-  const depth = Math.log10(1 + p.liquidityUsd);
+  // Depth rewards real markets over thin ones. Liquidity is unreported for most
+  // pools here, and log10(1 + 0) is 0 — which zeroed the entire product and sent
+  // every such coin to the bottom in arbitrary order, including the day's
+  // biggest movers. Volume stands in when depth is missing: a pool's reserves
+  // are typically a small fraction of what trades through it in a day, so ~1%
+  // keeps the two roughly comparable. A proxy, and deliberately a conservative one.
+  const depthBasis = p.liquidityUsd > 0 ? p.liquidityUsd : p.volume24hUsd / 100;
+  const depth = Math.log10(1 + depthBasis);
   const breadth = Math.log10(1 + p.txns24h.buyers);
   // No penalty for unknown churn — see Runner.churn.
   const washPenalty = churn !== null && churn > churnLimit(age, cfg) ? 0.6 : 1;

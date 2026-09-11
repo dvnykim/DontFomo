@@ -17,6 +17,13 @@ const BASE = "https://api.geckoterminal.com/api/v2";
 const REQUEST_DELAY_MS = 7_000;
 const MAX_PAGE = 10;
 
+/**
+ * Above this, an intraday multiple is almost certainly measuring the launch
+ * candle rather than a market. Real launches do run hundreds of x; they do not
+ * run tens of thousands.
+ */
+const LAUNCH_ARTIFACT_MULTIPLE = 200;
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const num = (v: unknown): number => {
@@ -58,9 +65,9 @@ export async function fetchDayRange(
     if (candles.length === 0) return null;
 
     // Candle tuple: [timestamp, open, high, low, close, volume]
-    let low = Infinity;
     let high = 0;
     let peakTs: number | null = null;
+    const lows: number[] = [];
 
     for (const c of candles) {
       const [ts, , h, l] = c;
@@ -68,9 +75,25 @@ export async function fetchDayRange(
         high = h;
         peakTs = typeof ts === "number" ? ts : null;
       }
-      if (typeof l === "number" && l > 0 && l < low) low = l;
+      if (typeof l === "number" && l > 0) lows.push(l);
     }
-    if (high <= 0 || !Number.isFinite(low)) return null;
+    if (high <= 0 || lows.length === 0) return null;
+
+    lows.sort((a, b) => a - b);
+    let low = lows[0]!;
+
+    // The launch candle's low is the first trade ever printed, often a fraction
+    // of a cent before any real market exists. Taken literally it produced
+    // "$8k to $293m (37,282x)" for a token that actually traded from ~$600k —
+    // a headline absurd enough to make a reader discard the whole page.
+    //
+    // When the extreme low implies an implausible multiple, fall back to the
+    // second-lowest hour, which is a real price someone could have traded at.
+    // Only ever raises the low, never lowers it, so the multiple is
+    // conservative rather than flattering.
+    if (lows.length > 1 && high / low > LAUNCH_ARTIFACT_MULTIPLE) {
+      low = lows[1]!;
+    }
 
     // Hourly candles, so this resolves the peak to the hour it printed in.
     return { low, high, peakAt: peakTs === null ? null : new Date(peakTs * 1000).toISOString() };

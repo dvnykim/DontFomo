@@ -484,6 +484,17 @@ export function renderPage(
     timeZone: "UTC",
   });
 
+  // The share card is the whole preview most people ever see. Lead with the
+  // day's read when there is one — a generic description wastes the only line
+  // that decides whether anyone opens the link.
+  const topLine = notes.mood?.trim();
+  const shareDescription = topLine
+    ? topLine.length > 180
+      ? topLine.slice(0, 177) + "..."
+      : topLine
+    : `${runners.length} coins ran on Solana. What they were paired with, when they peaked, ` +
+      `and what the wallets actually did.`;
+
   // Sections, not a ranked list. Eight coins running for one reason is the
   // story; ten unrelated facts in rank order is a leaderboard.
   const groups = groupRunners(runners);
@@ -506,7 +517,13 @@ export function renderPage(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DontFomo &mdash; ${esc(pretty)}</title>
-<meta name="description" content="What ran on Solana on ${esc(pretty)}, when it peaked, and who made money.">
+<meta name="description" content="${esc(shareDescription)}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DontFomo &mdash; ${esc(pretty)}">
+<meta property="og:description" content="${esc(shareDescription)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="DontFomo &mdash; ${esc(pretty)}">
+<meta name="twitter:description" content="${esc(shareDescription)}">
 <style>
   :root {
     --bg:#0a0b0d; --surface:#131519; --surface-2:#1a1d23; --border:#24282f;
