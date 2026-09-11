@@ -16,9 +16,14 @@ is mechanical. This automates that half and leaves the editorial half to a human
 
 ## Status
 
-**v1.** Runner discovery, market-cap ranges, peak timing, the day timeline and per-wallet
-trader P&L all work against live data. Theses are the one remaining gap and are gated on
-platform permission.
+**v1, shipping daily.** Runner discovery, market-cap ranges, peak timing, the day
+timeline, per-wallet trader P&L and generated narrative all run unattended at 09:00 UTC
+and publish to GitHub Pages.
+
+**v2 in progress: the pipeline is being inverted.** Measured against real fomo activity,
+market cap turned out to be the wrong filter — see [Why the pipeline
+inverted](#why-the-pipeline-inverted). Trader-led discovery is built and tested; it is
+gated on read-only API access, with a manual export path in the meantime.
 
 ## Quick start
 
@@ -28,8 +33,11 @@ npm run daily        # recap -> narrate -> site  (the whole pipeline)
 
 npm run recap        # writes data/<UTC-date>.json  (~3 min, keyless rate limit)
 npm run narrate      # generates notes/<UTC-date>.json  (needs ANTHROPIC_API_KEY)
-npm run site         # renders site/index.html
+npm run site         # renders one page per day into site/
 npm test             # guardrail tests
+
+npm run grab         # capture a fomo profile from the clipboard -> input/
+npm run traders      # aggregate exports; --onchain resolves tickers to pools
 ```
 
 ## Schedule
@@ -63,10 +71,72 @@ highest-volume hour.
    ├─ OHLCV per survivor  → intraday low/high + peak time
    ├─ Birdeye per survivor → per-wallet P&L        (optional, needs key)
    │
-   └─ data/YYYY-MM-DD.json  → committed to the repo
-                │
-   you  ────────┴─ notes/YYYY-MM-DD.json (hand-written) → npm run site → deploy
+   ├─ data/YYYY-MM-DD.json  → committed to the repo
+   │
+   ├─ narrate: Claude writes notes/YYYY-MM-DD.json from the snapshot,
+   │           every claim filtered by validateOutput   (non-fatal if it fails)
+   │
+   └─ deploy:  render one page per day → GitHub Pages
 ```
+
+The narration step is `continue-on-error` — a generation failure must never cost the
+day's snapshot. It is *not* silent, though: a failed run posts a warning annotation and
+a run-summary entry, because a broken generator that leaves the job green could go
+unnoticed for weeks.
+
+## Why the pipeline inverted
+
+The original pipeline asked *what has a big market cap?* and used that as a proxy for
+*worth writing about*. Checked against what fomo traders actually do, that proxy is
+simply wrong.
+
+Comparing the 10 coins discovery surfaced on 2026-09-11 against one top trader's activity:
+
+| | |
+|---|---|
+| Coins the on-chain pipeline surfaced | 10 |
+| That trader's open positions | 68 |
+| **Overlap** | **1** — a $109 dust holding |
+| His live trades below the $1m FDV floor | **30 of 34** |
+| Median cap he trades | **$72k** — 14x below the floor |
+
+The two halves were describing different markets. A thesis layer bolted onto the old
+pipeline would almost never have matched anything.
+
+So the question inverts: instead of finding big coins and asking who traded them, find
+what traders with real followings bought and look those up. **Conviction and attention
+replace market cap as the filter** — and "did someone with 15,815 followers put real
+money in and explain why" is a far better proxy for *worth writing about* than a market
+cap ever was.
+
+Ranking is on **independent buyers**, then follower reach, then dollars. Not on price
+performance: one trader buying is noise, four is a story, and price is what every other
+tool already shows.
+
+### Resolving a ticker to a real token
+
+Trader exports give a ticker and the cap fomo displayed at trade time. Neither alone
+identifies a token, because **tickers collide badly**. Searching `ONYC` returns a $310m
+established token *and* the $47k microcap a trader actually bought. Taking the top hit
+would publish a fabrication.
+
+The reported market cap is the disambiguator. Against real trades, exact ticker + nearest
+FDV resolved every symbol within **1.6x** while rejecting the ONYC imposter at **9,896x**
+off. Liquidity breaks ties, because several correctly-matched pools are abandoned shells
+with ~$0 reserves.
+
+Unresolvable tickers return `null` and render as unverified. **A wrong token is worse
+than an unresolved one.**
+
+### Why the export is manual
+
+fomo has no REST API — profile data arrives over a WebSocket, so there is nothing to
+`fetch` from a cron job. The rendered page is only reachable behind a login, and that
+session can trade, withdraw and export the wallet.
+
+Putting such a credential in CI would be indefensible regardless of what the terms
+permit, so the export stays manual until read-only API access is granted. `TraderDay` is
+the contract; swapping the source replaces one file.
 
 ## The schema is the contract
 
@@ -90,10 +160,25 @@ The UI renders those differently on purpose.
 the renderer needs no special case. It refuses to overwrite existing notes without
 `--force`, so a hand-written day is never silently replaced.
 
-**The guardrail is mechanical, not prompted.** `validateOutput` strips any generated line
-naming an `@handle` or `$ticker` that isn't in the evidence block. Prompts can be talked
-around; a post-hoc filter cannot. Dropped lines are logged with a reason, never silently
-discarded. See `src/generate.test.ts` and the policy table in [DECISIONS.md](DECISIONS.md).
+**The guardrails are mechanical, not prompted.** Prompts can be talked around; a post-hoc
+filter cannot. `validateOutput` checks every generated line *and every editorial label*:
+
+| Check | Blocks |
+|---|---|
+| `unsupportedNumber` | Figures not derivable from that coin's snapshot. Clock times are stripped first so `15:00` isn't read as `15` |
+| `copiesThesis` | 8-word overlap with any thesis — a licensing problem, so it is checked first |
+| `crossDayClaim` | "same as yesterday", "second day", "last week". Evidence is one snapshot, so continuity claims are unsupported *by construction* |
+| unsupported `@handle` / `$ticker` | Entities absent from the evidence |
+
+Each was added after finding the failure in real output, not in the abstract. The
+cross-day check exists because a generation labelled a coin "Same As Yesterday" — plausible,
+uncheckable, and exactly the filler that erodes trust. Labels went unchecked entirely until
+that surfaced, so a fabricated figure in a header reached the page while the same figure in
+a timeline line was caught.
+
+A bad label is blanked rather than dropping the coin: the timeline is still good, it just
+loses its headline. Dropped lines are logged with a reason, never silently discarded.
+See `src/generate.test.ts` and the policy table in [DECISIONS.md](DECISIONS.md).
 
 Every generated file records `_generated: {model, generatedAt, evidenceSha256}` so a bad
 line is traceable and the input is reproducible.
@@ -131,12 +216,9 @@ The site renders prompts wherever human context belongs. Hand-write or edit
 ```
 
 Keys are token symbols as they appear in the snapshot; everything is optional.
-**This file is never generated.** The catalyst behind a run is off-chain and social;
-deriving it from price data would mean inventing it. Later this becomes AI-assisted
-*from real theses* — which is augmentation, not fabrication.
-
-> `notes/2026-09-10.json` currently holds clearly-marked `EXAMPLE` placeholders to
-> demonstrate the populated layout. Replace before publishing.
+This file **is** generated by `npm run narrate`, and hand-written notes are never
+silently replaced — generation refuses to overwrite without `--force`. Write it by hand
+whenever you know something the data cannot show.
 
 ## Data sources
 
