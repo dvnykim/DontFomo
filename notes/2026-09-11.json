@@ -1,22 +1,22 @@
 {
   "_generated": {
     "model": "claude-opus-4-8",
-    "generatedAt": "2026-09-11T22:18:50.546Z",
+    "generatedAt": "2026-09-11T22:20:33.972Z",
     "evidenceSha256": "a1256c8cc7dfa6f5"
   },
-  "mood": "stonk still running the whole board while a conveyor of stock/ai name-tags churned through bots all day",
+  "mood": "stock and ai namesakes on the conveyor all day, bots churning both sides — the stonk complex is where the real money sat",
   "groups": {
     "pair:stonk:knots": {
-      "title": "Trading Off Stonk"
+      "title": "Riding Stonk's Coattails"
     },
     "pair:met:ember": {
-      "title": "Ember Rides Met"
+      "title": "Ember Runs With Met"
     },
     "namesake:stock": {
-      "title": "Ticker Cosplay: Blue Chips"
+      "title": "Blue Chip Tickers"
     },
     "namesake:ai": {
-      "title": "AI Name Tags"
+      "title": "AI Names Printed"
     },
     "namesake:brand": {
       "title": "Brand Name Grabs"
@@ -25,133 +25,157 @@
       "title": "Pumpswap Conveyor"
     },
     "established": {
-      "title": "Stonk Still Leading"
+      "title": "Stonk Holds Bid"
     }
   },
   "coins": {
     "STONK": {
-      "label": "Deepest Book In The Set",
+      "label": "Anchor Of The Day",
       "timeline": [
         {
           "time": "05:00",
-          "text": "peaked at $453m on the 2.9x run, $4.7m liquidity and 21.7k buyers vs 19.5k sellers — a real book, not bots"
+          "text": "peaked at $453m before fading back to $252m"
         },
         {
           "time": "05:00",
-          "text": "top realised wallet banked $186k across just 83 trades; 3 of 8 sampled wallets cleared the bar, none automated"
+          "text": "top realised wallet banked $186k in 83 trades; 3 of 8 sampled wallets cleared $10k, none bots"
         }
       ]
     },
     "KNOTS": {
-      "label": "Stonk Sidecar",
+      "label": "Stonk Proxy",
       "timeline": [
         {
           "time": "10:00",
-          "text": "peaked at $52m with 60% of volume routed through the $STONK pair, more than its SOL and stable pools combined"
+          "text": "peaked $52m — 60% of volume ran against $STONK, more than its SOL and stable pools combined"
         }
       ]
     },
     "EMBER": {
-      "label": "Met Pair Runner",
-      "timeline": []
+      "label": "Met Pairing Rip",
+      "timeline": [
+        {
+          "time": "11:00",
+          "text": "peaked $49m (23.6x) on the $MET pairing, ~23% of its volume"
+        }
+      ]
     },
     "TSLA": {
-      "label": "Bot Churn Peak",
+      "label": "Tesla Ticker",
       "timeline": [
         {
           "time": "02:00",
-          "text": "peaked at $293m then round-tripped to $81m; all 8 sampled wallets were bots running ~14k trades each, buy and sell side both flagged"
+          "text": "peaked $293m then round-tripped to $81m; all 8 sampled wallets were bots running ~14k trades each"
         }
       ]
     },
     "GOOGL": {
-      "label": "",
+      "label": "Google Ticker",
       "timeline": []
     },
     "AAPL": {
-      "label": "",
+      "label": "Apple Ticker",
       "timeline": []
     },
     "AMZN": {
-      "label": "",
+      "label": "Amazon Ticker",
       "timeline": []
     },
     "DeepSeek": {
-      "label": "",
-      "timeline": []
+      "label": "296x Namesake",
+      "timeline": [
+        {
+          "time": "20:00",
+          "text": "peaked $8.8m off a $30k base named after DeepSeek; 8 of 8 sampled were bots"
+        }
+      ]
     },
     "NVIDIA": {
-      "label": "",
+      "label": "Nvidia Ticker",
       "timeline": []
     },
     "DeepSeekAI": {
-      "label": "",
+      "label": "Second DeepSeek",
       "timeline": []
     },
     "SPCX": {
-      "label": "",
+      "label": "SpaceX Ticker",
       "timeline": []
     },
     "NIKE": {
-      "label": "",
+      "label": "Nike Ticker",
       "timeline": []
     },
     "FLYBRAIN": {
-      "label": "Top Pumpswap Launch",
+      "label": "Biggest Fresh Launch",
       "timeline": [
         {
+          "time": "04:27",
+          "text": "launched"
+        },
+        {
           "time": "09:00",
-          "text": "peaked at $20m, $31m volume against zero liquidity and only 45 sellers"
+          "text": "peaked $20m; every sampled wallet a bot"
         }
       ]
     },
     "PAYAI": {
-      "label": "",
+      "label": "Midday Launch",
       "timeline": []
     },
     "IOPN": {
-      "label": "Volume Outlier",
+      "label": "Volume Churn",
       "timeline": [
         {
           "time": "21:00",
-          "text": "peaked at $6.2m but turned $67m of volume — pure bot churn, 8 of 8 sampled automated"
+          "text": "peaked $6.2m on $67m volume against a $0 liquidity book — all 8 sampled bots"
         }
       ]
     },
     "CNPY": {
-      "label": "",
-      "timeline": []
+      "label": "120x Off The Floor",
+      "timeline": [
+        {
+          "time": "17:00",
+          "text": "peaked $5.7m from a $47k base"
+        }
+      ]
     },
     "$1": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "MCAT": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "+": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "Nasduck": {
-      "label": "",
-      "timeline": []
+      "label": "Slow Grind",
+      "timeline": [
+        {
+          "time": "14:00",
+          "text": "peaked $2.1m (3.8x)"
+        }
+      ]
     },
     "MARIO": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "BREW": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "RocketFrog": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     },
     "CHILLGUY": {
-      "label": "",
+      "label": "Launch",
       "timeline": []
     }
   }

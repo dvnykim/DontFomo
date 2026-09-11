@@ -22,6 +22,7 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import type { FilterConfig, Runner, Snapshot } from "./types.ts";
 import { usd } from "./format.ts";
+import { hasReportedLiquidity } from "./types.ts";
 import { groupRunners } from "./group.ts";
 import { isPriceRestatement } from "./catalyst.ts";
 import { rankTheses } from "./thesis.ts";
@@ -133,7 +134,14 @@ function buildEvidence(snapshot: Snapshot, theses: ThesesBySymbol = new Map()): 
     );
     lines.push(`launched: ${r.createdAt ?? "unknown"}   peaked: ${m?.peakAt ?? "unknown"}`);
     lines.push(
-      `liquidity ${usd(r.liquidityUsd)} | 24h volume ${usd(r.volume24hUsd)} | ` +
+      // "liquidity $0" invites the model to report a missing field as a fact,
+      // and it did: "on $67m volume against a $0 liquidity book". Depth is not
+      // reported for most pools on this network; saying so is the honest input.
+      `liquidity ${
+        hasReportedLiquidity(r.liquidityUsd)
+          ? usd(r.liquidityUsd)
+          : "NOT REPORTED (unknown, not zero — never describe it as $0 or as thin)"
+      } | 24h volume ${usd(r.volume24hUsd)} | ` +
         `${r.txns24h.buyers} unique buyers vs ${r.txns24h.sellers} sellers`,
     );
     if (r.flags.length) lines.push(`quality flags: ${r.flags.join(", ")}`);
