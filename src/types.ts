@@ -387,6 +387,18 @@ export interface FilterConfig {
   maxRunners: number;
   /** How many traders to keep per coin. */
   maxTradersPerRunner: number;
+  /**
+   * How many coins get trader data at all.
+   *
+   * Birdeye's free tier is 30k compute units a month. Fetching all 24 runners
+   * daily is ~720 calls a month before any retry, which risks exhausting the
+   * budget mid-month and losing the data entirely on the days it matters.
+   *
+   * It is also largely wasted: a coin with no catalyst renders as a single line
+   * that shows no traders, so the call bought nothing. Ranked by score, so the
+   * coins most likely to carry a full card are the ones that get it.
+   */
+  maxTraderFetches: number;
 }
 
 export const DEFAULT_FILTERS: FilterConfig = {
@@ -405,4 +417,5 @@ export const DEFAULT_FILTERS: FilterConfig = {
   botTags: ["bundler", "dev"],
   maxRunners: 24,
   maxTradersPerRunner: 8,
+  maxTraderFetches: 12,
 };

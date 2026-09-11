@@ -62,8 +62,15 @@ export async function enrichWithTraders(
     return null;
   }
 
+  // Highest-scoring first: those are the coins most likely to carry a full card,
+  // and a coin rendered as a single line shows no traders at all.
+  const targets = [...runners].sort((a, b) => b.score - a.score).slice(0, cfg.maxTraderFetches);
+  if (targets.length < runners.length) {
+    console.log(`  fetching traders for the top ${targets.length} of ${runners.length} (API budget)`);
+  }
+
   let fetched = 0;
-  for (const [i, r] of runners.entries()) {
+  for (const [i, r] of targets.entries()) {
     const traders = await fetchTopTraders(
       r.baseTokenId.replace(/^solana_/, ""),
       cfg.maxTradersPerRunner,
@@ -81,12 +88,12 @@ export async function enrichWithTraders(
       r.botTraders = traders.filter((t) => t.isBot).length;
       fetched++;
       console.log(
-        `  traders ${i + 1}/${runners.length} ${r.symbol}: ` +
+        `  traders ${i + 1}/${targets.length} ${r.symbol}: ` +
           `${traders.length} found, ${r.bigWinners} real winners over ` +
           `$${(cfg.bigWinnerPnlUsd / 1000).toFixed(0)}k, ${r.botTraders} bots`,
       );
     } else {
-      console.log(`  traders ${i + 1}/${runners.length} ${r.symbol}: unavailable`);
+      console.log(`  traders ${i + 1}/${targets.length} ${r.symbol}: unavailable`);
     }
 
     if (i < runners.length - 1) await sleep(RATE_LIMIT_MS);
