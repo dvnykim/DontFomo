@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.local
+.DS_Store
+dist/
+
+# Local editor/preview config, not project config.
+.claude/
+
+# Generated from data/ by `npm run site`. The snapshots are the source of truth;
+# rendered HTML is rebuilt on deploy. data/ is deliberately NOT ignored.
+site/

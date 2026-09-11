@@ -1,0 +1,27 @@
+{
+  "name": "dontfomo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automated daily recap of what ran, and who caught it.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "recap": "node --experimental-strip-types --env-file-if-exists=.env src/run.ts",
+    "recap:force": "node --experimental-strip-types --env-file-if-exists=.env src/run.ts --force",
+    "narrate": "node --experimental-strip-types --env-file-if-exists=.env src/narrate.ts",
+    "site": "node --experimental-strip-types src/site/build.ts",
+    "daily": "npm run recap && npm run narrate && npm run site",
+    "test": "node --experimental-strip-types --test src/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
+    "zod": "^4.6.1"
+  }
+}

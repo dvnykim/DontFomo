@@ -1,0 +1,515 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-09-11",
+  "generatedAt": "2026-09-11T02:08:11.334Z",
+  "network": "solana",
+  "window": {
+    "from": "2026-09-10T02:08:11.334Z",
+    "to": "2026-09-11T02:08:11.334Z"
+  },
+  "config": {
+    "allowedQuoteSymbols": [
+      "SOL",
+      "USDC",
+      "USDT"
+    ],
+    "minLiquidityUsd": 50000,
+    "minVolume24hUsd": 250000,
+    "minFdvUsd": 1000000,
+    "minChange24hPct": 30,
+    "minBuyers24h": 150,
+    "churnWarnThresholdNew": 400,
+    "churnWarnThresholdEstablished": 50,
+    "establishedAfterDays": 2,
+    "botTradesPerWalletThreshold": 50,
+    "bigWinnerPnlUsd": 10000,
+    "botTags": [
+      "bundler",
+      "dev"
+    ],
+    "maxRunners": 10,
+    "maxTradersPerRunner": 8
+  },
+  "stats": {
+    "poolsScanned": 220,
+    "afterDedupe": 178,
+    "afterFilters": 11,
+    "runnersKept": 10,
+    "tradersFetched": 0
+  },
+  "runners": [
+    {
+      "poolAddress": "8QKJHcXiVfo7jY9mY8kpoZgJMG4F9JM2mPY243VALjMB",
+      "name": "HOOD / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_2JsUJYaV1HHTYxyXfX6Ry3RDwqDcNxaZ5mHzZfB3YvKd",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T13:45:52Z",
+      "priceUsd": 0.00021062513536548223,
+      "fdvUsd": 20951552.87,
+      "liquidityUsd": 453920.4057,
+      "volume24hUsd": 172442007.152602,
+      "change": {
+        "m5": 1.645,
+        "h1": 58.446,
+        "h6": 227.918,
+        "h24": 1764.626
+      },
+      "txns24h": {
+        "buys": 133926,
+        "sells": 90936,
+        "buyers": 2043,
+        "sellers": 67
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "HOOD",
+      "ageDays": 0.52,
+      "churn": 379.89,
+      "buyerSellerRatio": 30.49,
+      "buysPerBuyer": 65.6,
+      "sellsPerSeller": 1357.3,
+      "score": 65.36,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling",
+        "bot-driven-buying"
+      ],
+      "mcap": {
+        "current": 20951553,
+        "low": 669490,
+        "high": 21379662,
+        "multiple": 31.9,
+        "peakAt": "2026-09-11T02:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "DPVxHwyywSK8cNPtGGPzENA1cKCyGXRhEZJj1mx4Fp8t",
+      "name": "NVIDIA / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_95oopEy2SkJmuM8PxtLg42sUE5MDnKgDtTvN37MKZXtC",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T21:51:38Z",
+      "priceUsd": 0.000049622745758690045,
+      "fdvUsd": 4991839.99091051,
+      "liquidityUsd": 321542.974,
+      "volume24hUsd": 67674217.1129143,
+      "change": {
+        "m5": -0.122,
+        "h1": 31.67,
+        "h6": 436.187,
+        "h24": 436.187
+      },
+      "txns24h": {
+        "buys": 53149,
+        "sells": 40512,
+        "buyers": 1998,
+        "sellers": 47
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "NVIDIA",
+      "ageDays": 0.18,
+      "churn": 210.47,
+      "buyerSellerRatio": 42.51,
+      "buysPerBuyer": 26.6,
+      "sellsPerSeller": 862,
+      "score": 54.303,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 4991840,
+        "low": 473697,
+        "high": 5055359,
+        "multiple": 10.7,
+        "peakAt": "2026-09-11T01:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "GjuRp96RLUTpFUrB6euwczRbsiig3ZidU4ZnoxC5Nnpc",
+      "name": "SPCX / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_Hq5SHpPPAPrV8JZoyCyuMvNxd6PhUZYPVXsRNEcR7Zun",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T20:27:14Z",
+      "priceUsd": 0.00005364055100859906,
+      "fdvUsd": 5335847.426,
+      "liquidityUsd": 315991.4878,
+      "volume24hUsd": 54562899.0295106,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 541.635,
+        "h24": 541.635
+      },
+      "txns24h": {
+        "buys": 40477,
+        "sells": 28038,
+        "buyers": 2026,
+        "sellers": 41
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "SPCX",
+      "ageDays": 0.24,
+      "churn": 172.67,
+      "buyerSellerRatio": 49.41,
+      "buysPerBuyer": 20,
+      "sellsPerSeller": 683.9,
+      "score": 53.002,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 5335847,
+        "low": 579182,
+        "high": 5339179,
+        "multiple": 9.2,
+        "peakAt": "2026-09-11T00:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "Em8KKUPMzv9ayeVDpmqPDmyvxcgigMULCMWYEskkSvDg",
+      "name": "+ / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_4Rx9j1ZKE6E1D1XgXU4DXkZTC3TTPM5HVec3qCDiEmWY",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-11T00:56:49Z",
+      "priceUsd": 0.00018912580951835952,
+      "fdvUsd": 1881021.972,
+      "liquidityUsd": 349563.385,
+      "volume24hUsd": 18491573.8189689,
+      "change": {
+        "m5": -0.4,
+        "h1": 29.898,
+        "h6": 367.732,
+        "h24": 367.732
+      },
+      "txns24h": {
+        "buys": 17330,
+        "sells": 14333,
+        "buyers": 3061,
+        "sellers": 58
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "+",
+      "ageDays": 0.05,
+      "churn": 52.9,
+      "buyerSellerRatio": 52.78,
+      "buysPerBuyer": 5.7,
+      "sellsPerSeller": 247.1,
+      "score": 51.291,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1881022,
+        "low": 399981,
+        "high": 2197070,
+        "multiple": 5.5,
+        "peakAt": "2026-09-11T01:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "5dZWginzURwEJj5w58pWYD2Ytj4nxxWED3SD1wPo2d5x",
+      "name": "Claude / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_DK1mQXojdSo7sUjoUnWB3Ks9jCXF4beiREQ2gG2DZJmJ",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T23:31:33Z",
+      "priceUsd": 0.00005818962452167153,
+      "fdvUsd": 5777806.679,
+      "liquidityUsd": 383437.1293,
+      "volume24hUsd": 82993818.1472397,
+      "change": {
+        "m5": 1.248,
+        "h1": 42.568,
+        "h6": 547.402,
+        "h24": 547.402
+      },
+      "txns24h": {
+        "buys": 39328,
+        "sells": 31664,
+        "buyers": 2034,
+        "sellers": 48
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "Claude",
+      "ageDays": 0.11,
+      "churn": 216.45,
+      "buyerSellerRatio": 42.38,
+      "buysPerBuyer": 19.3,
+      "sellsPerSeller": 659.7,
+      "score": 50.926,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 5777807,
+        "low": 881280,
+        "high": 5930068,
+        "multiple": 6.7,
+        "peakAt": "2026-09-11T02:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "zxTpi4BtaWX3mgdAPoezkMD1hxx8CdeCfrqXMWvSCLX",
+      "name": "STONK / SOL",
+      "dex": "meteora",
+      "baseTokenId": "solana_6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-08-12T10:51:40Z",
+      "priceUsd": 0.26405977424906285,
+      "fdvUsd": 226556277.688495,
+      "liquidityUsd": 4431693.8169,
+      "volume24hUsd": 43885981.9595521,
+      "change": {
+        "m5": 1.549,
+        "h1": 19.287,
+        "h6": 26.275,
+        "h24": 42.576
+      },
+      "txns24h": {
+        "buys": 48458,
+        "sells": 44917,
+        "buyers": 15210,
+        "sellers": 13551
+      },
+      "sources": [
+        "volume",
+        "trending"
+      ],
+      "symbol": "STONK",
+      "ageDays": 29.64,
+      "churn": 9.9,
+      "buyerSellerRatio": 1.12,
+      "buysPerBuyer": 3.2,
+      "sellsPerSeller": 3.3,
+      "score": 49.627,
+      "flags": [],
+      "mcap": {
+        "current": 226556278,
+        "low": 141143799,
+        "high": 229063774,
+        "multiple": 1.6,
+        "peakAt": "2026-09-11T02:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "CZ1xZH35mTUbYYieeEQRbU9y5ckuczzJi6smEbkXsryo",
+      "name": "KIMCHI / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_5nFEvgSSg5HKtcHGuzGz625MqA6CWRbGEwtrDHUifTLw",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T02:36:07Z",
+      "priceUsd": 0.000014311053165093817,
+      "fdvUsd": 1431105.29580355,
+      "liquidityUsd": 343180.7056,
+      "volume24hUsd": 16881061.3394455,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 178.396
+      },
+      "txns24h": {
+        "buys": 11947,
+        "sells": 8945,
+        "buyers": 3070,
+        "sellers": 65
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "KIMCHI",
+      "ageDays": 0.98,
+      "churn": 49.19,
+      "buyerSellerRatio": 47.23,
+      "buysPerBuyer": 3.9,
+      "sellsPerSeller": 137.6,
+      "score": 44.868,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1431105,
+        "low": 457064,
+        "high": 1438093,
+        "multiple": 3.1,
+        "peakAt": "2026-09-10T03:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "5Uh1JMEqQcQj7c2LF3BGMRbxmhHBtnNJoRHzQiWoohGw",
+      "name": "RocketFrog / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_F8npjDXCQ1o3PpB7QV3WG8bEpcWSRhhezaYR1NXgmeMM",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-10T19:38:46Z",
+      "priceUsd": 0.00013359393598203392,
+      "fdvUsd": 1335939.36,
+      "liquidityUsd": 295969.3802,
+      "volume24hUsd": 10790943.4369002,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 28.023,
+        "h24": 170.542
+      },
+      "txns24h": {
+        "buys": 8301,
+        "sells": 5586,
+        "buyers": 2782,
+        "sellers": 59
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "RocketFrog",
+      "ageDays": 0.27,
+      "churn": 36.46,
+      "buyerSellerRatio": 47.15,
+      "buysPerBuyer": 3,
+      "sellsPerSeller": 94.7,
+      "score": 44.544,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1335939,
+        "low": 405857,
+        "high": 1359360,
+        "multiple": 3.3,
+        "peakAt": "2026-09-10T20:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "nBXytBBfKLhj6teXarAv8rk6WNgUFBMyybUFRkuK7ad",
+      "name": "KNOTS / SOL",
+      "dex": "meteora",
+      "baseTokenId": "solana_8RVBk8vxLiUHueLUW1f4izFVqN3nWippLhkohKg6EGkS",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-06T21:55:51Z",
+      "priceUsd": 0.041682338010424654,
+      "fdvUsd": 41640670.2094905,
+      "liquidityUsd": 391777.0613,
+      "volume24hUsd": 1538090.78741734,
+      "change": {
+        "m5": -5.328,
+        "h1": 15.489,
+        "h6": 59.749,
+        "h24": 115.99
+      },
+      "txns24h": {
+        "buys": 1886,
+        "sells": 1085,
+        "buyers": 982,
+        "sellers": 609
+      },
+      "sources": [
+        "trending"
+      ],
+      "symbol": "KNOTS",
+      "ageDays": 4.18,
+      "churn": 3.93,
+      "buyerSellerRatio": 1.61,
+      "buysPerBuyer": 1.9,
+      "sellsPerSeller": 1.8,
+      "score": 38.55,
+      "flags": [],
+      "mcap": {
+        "current": 41640670,
+        "low": 16263512,
+        "high": 48216688,
+        "multiple": 3,
+        "peakAt": "2026-09-11T01:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "3dcwhqJp6JBTJPq8ga335HWgSQVS7uQmdmeX7iGjMNpj",
+      "name": "fone / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_CTPoyCwkjMvoJwU4xvZZqoD8tiYk6yDchySiN5gGpump",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-08-27T00:03:44Z",
+      "priceUsd": 0.0059651223404233325,
+      "fdvUsd": 5906210.97820917,
+      "liquidityUsd": 494344.4833,
+      "volume24hUsd": 2912839.11112898,
+      "change": {
+        "m5": 1.101,
+        "h1": -2.222,
+        "h6": -11.065,
+        "h24": 30.749
+      },
+      "txns24h": {
+        "buys": 10070,
+        "sells": 8963,
+        "buyers": 2161,
+        "sellers": 2217
+      },
+      "sources": [
+        "trending"
+      ],
+      "symbol": "fone",
+      "ageDays": 15.09,
+      "churn": 5.89,
+      "buyerSellerRatio": 0.97,
+      "buysPerBuyer": 4.7,
+      "sellsPerSeller": 4,
+      "score": 37.2,
+      "flags": [],
+      "mcap": {
+        "current": 5906211,
+        "low": 4105583,
+        "high": 7645211,
+        "multiple": 1.9,
+        "peakAt": "2026-09-10T19:00:00.000Z"
+      },
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    }
+  ]
+}

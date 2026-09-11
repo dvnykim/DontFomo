@@ -1,0 +1,62 @@
+name: Daily recap
+
+on:
+  schedule:
+    # 09:00 UTC. Measured against 7 days of Solana volume: 06:00-11:00 UTC is the
+    # quietest window (~2.6-3.0%/hr) while 12:00-15:00 is the busiest (~5-9%/hr).
+    # Running in the trough means the snapshot lands after the US session has wound
+    # down, instead of catching a coin mid-run. Publish around 13:00 UTC.
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Overwrite today's snapshot if it already exists"
+        type: boolean
+        default: false
+
+# Prevent a manual run and the nightly cron from racing on the same commit.
+concurrency:
+  group: daily-recap
+  cancel-in-progress: false
+
+jobs:
+  recap:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Must match the local major. Type-stripping support differs across
+          # versions, so a mismatch surfaces as a CI-only parse failure at 09:00 UTC.
+          node-version: "26"
+
+      - name: Build snapshot
+        env:
+          # Optional. Absent key => runners keep `traders: null` and the site
+          # renders empty states rather than failing the run.
+          BIRDEYE_API_KEY: ${{ secrets.BIRDEYE_API_KEY }}
+        run: node --experimental-strip-types src/run.ts ${{ inputs.force && '--force' || '' }}
+
+      - name: Generate narrative
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        # Non-fatal: a generation failure should still leave the snapshot committed
+        # and the site rendered with empty catalyst sections, not lose the day.
+        continue-on-error: true
+        run: node --experimental-strip-types src/narrate.ts
+
+      - name: Commit snapshot and narrative
+        run: |
+          git config user.name "dontfomo-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/ notes/
+          # No diff means the snapshot already existed; that's a no-op, not a failure.
+          if git diff --staged --quiet; then
+            echo "No new snapshot to commit."
+            exit 0
+          fi
+          git commit -m "recap: $(date -u +%Y-%m-%d)"
+          git push

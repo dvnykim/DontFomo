@@ -1,0 +1,71 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-10T16:53:17.173Z",
+    "evidenceSha256": "723c31124b432b95"
+  },
+  "mood": "bot conveyor belt of a day. every runner had 8/8 top wallets tagged automated and near-zero real sellers",
+  "coins": {
+    "CATE": {
+      "label": "Slow Grind",
+      "timeline": [
+        {
+          "time": "10:00",
+          "text": "topped at $70m (2x off $35m), now back to $61m. only 1 real winner in the set, top PnL wallet was a bot with 6152 trades"
+        }
+      ]
+    },
+    "baton": {
+      "label": "Runner Of The Day",
+      "timeline": [
+        {
+          "time": "06:35",
+          "text": "launched at $317k"
+        },
+        {
+          "time": "15:00",
+          "text": "topped at $3.2m (10.2x). $61m volume, 3048 buyers vs 46 sellers — 8/8 top wallets were bots"
+        }
+      ]
+    },
+    "DeepSeek": {
+      "label": "Afternoon Bot Print",
+      "timeline": [
+        {
+          "time": "14:05",
+          "text": "launched at $578k"
+        },
+        {
+          "time": "16:00",
+          "text": "peaked $2.4m (4.1x). every one of the 8 top wallets a bot, all $0 realised, 2031 buyers vs 46 sellers"
+        }
+      ]
+    },
+    "KIMCHI": {
+      "label": "Ran At Dawn",
+      "timeline": [
+        {
+          "time": "02:36",
+          "text": "launched at $457k"
+        },
+        {
+          "time": "03:00",
+          "text": "topped $1.4m (3.1x) inside 25 min. 3070 buyers vs 65 sellers, 8/8 top wallets bots"
+        }
+      ]
+    },
+    "HOOD": {
+      "label": "Same Playbook",
+      "timeline": [
+        {
+          "time": "13:45",
+          "text": "launched at $668k"
+        },
+        {
+          "time": "16:00",
+          "text": "peaked $2.3m (3.5x). $25m volume, 2017 buyers vs 40 sellers, all 8 top wallets bots at $0 realised"
+        }
+      ]
+    }
+  }
+}
