@@ -9,7 +9,11 @@ dist/
 
 # Generated from data/ by `npm run site`. The snapshots are the source of truth;
 # rendered HTML is rebuilt on deploy. data/ is deliberately NOT ignored.
-site/
+#
+# LEADING SLASH IS LOAD-BEARING: an unanchored "site/" matches any directory of
+# that name at any depth, which silently excluded src/site/ -- the entire
+# renderer -- from the repo. CI would have failed on the first deploy.
+/site/
 
 # Manual fomo exports. Platform content is read, used and dropped — storage was
 # never granted. This is a compliance boundary, not a convenience.
