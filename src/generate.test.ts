@@ -88,14 +88,24 @@ function narrative(text: string, symbol = "CATE"): GeneratedNarrative {
   };
 }
 
-test("keeps a line naming a handle present in the evidence", () => {
+test("drops a line naming a platform handle, even one in the evidence", () => {
+  // notes/ is committed. A generated line naming @someone would archive a
+  // platform handle, and permission covers reading that content, not storing
+  // it. Attribution is a real loss, accepted deliberately.
   const snap = snapshot([{ symbol: "CATE", traders: [trader()] }]);
   const n = narrative("@realtrader bought early and banked $4k");
   const report = validateOutput(n, snap);
 
-  assert.equal(report.kept, 1);
-  assert.equal(report.dropped.length, 0);
-  assert.equal(n.coins[0]!.timeline.length, 1);
+  assert.equal(report.dropped.length, 1);
+  assert.equal(n.coins[0]!.timeline.length, 0);
+});
+
+test("describes a trader by what they did instead", () => {
+  const snap = snapshot([{ symbol: "CATE", traders: [trader()] }]);
+  const n = narrative("the top realised wallet banked $4k in 33 trades");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.kept, 1, JSON.stringify(report.dropped));
 });
 
 test("drops a line naming a handle absent from the evidence", () => {
@@ -150,7 +160,7 @@ test("drops a line reproducing thesis text verbatim", () => {
 test("allows paraphrase of a thesis", () => {
   const thesis = "runescape hats are the meta right now and nobody has noticed yet";
   const snap = snapshot([{ symbol: "CATE", traders: [trader({ thesis })] }]);
-  const n = narrative("@realtrader posted a thesis on the runescape hat meta");
+  const n = narrative("one holder posted a thesis on the runescape hat meta");
   const report = validateOutput(n, snap);
 
   assert.equal(report.kept, 1);
@@ -487,7 +497,7 @@ test("still rejects a figure the thesis never mentioned", () => {
   assert.equal(report.dropped.length, 1, "a thesis does not license inventing new figures");
 });
 
-test("a thesis author is nameable", () => {
+test("a thesis author is NOT nameable", () => {
   const snap = snapshot([{ symbol: "PONS" }]);
   const theses = new Map([
     [
@@ -504,5 +514,5 @@ test("a thesis author is nameable", () => {
   const n = narrative("@ctfarmer made the revenue case", "PONS");
   const report = validateOutput(n, snap, theses as any);
 
-  assert.equal(report.dropped.length, 0, "we showed the model their post; it must be able to attribute it");
+  assert.equal(report.dropped.length, 1, "handles must not reach the committed archive");
 });

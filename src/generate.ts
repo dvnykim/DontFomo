@@ -224,7 +224,9 @@ is deleted, so writing it wastes the slot:
    never "nobody made money".
 4. Never claim anything about another day. You are given one snapshot; "same as
    yesterday" is unsupported by construction.
-5. Never state that a named person or @handle did something unless it is in the evidence.
+5. Never write an @handle at all. Describe a trader by what they did — "the top
+   realised wallet banked $186k in 83 trades" — not by who they are. The archive is
+   public and we may read platform content, not store it.
 6. Never assert motive, intent, or wrongdoing. Not "he dumped on followers", not "this
    was a rug". Report what the data shows and let the reader conclude.
 7. Every figure must appear in the evidence for that coin, including figures quoted
@@ -378,17 +380,22 @@ function allowedEntities(
     // as evidence. Leaving it out meant the validator deleted "paired with $MET"
     // as an invented entity — rejecting a true fact the pipeline had supplied.
     if (r.pairing) tickers.add(r.pairing.symbol.toLowerCase());
-    for (const t of r.traders ?? []) {
-      if (t.handle) handles.add(t.handle.toLowerCase());
-    }
+    // Deliberately NOT adding t.handle: see the note below. Platform handles
+    // must not reach notes/, which is committed.
+    void r.traders;
   }
-  // Thesis authors are nameable: we showed the model their posts, so it must be
-  // able to attribute them.
+  // Tickers from theses are fine — they are on-chain tokens.
+  //
+  // Authors are NOT. notes/ is committed to a public repo, so a generated line
+  // naming @someone would archive a platform handle, and permission covers
+  // reading that content rather than storing it. Attribution is a real loss:
+  // crediting the trader who called it is part of what makes a recap worth
+  // reading. But "the largest holder in the set is up $1.17m" carries nearly
+  // the same weight and stores nothing, and the agreement is not ambiguous.
+  //
+  // The rendered page is gitignored and may show handles; the archive may not.
   for (const list of theses.values()) {
-    for (const t of list) {
-      if (t.author) handles.add(t.author.toLowerCase());
-      tickers.add(t.symbol.toLowerCase());
-    }
+    for (const t of list) tickers.add(t.symbol.toLowerCase());
   }
   return { handles, tickers };
 }

@@ -452,12 +452,18 @@ Three enforcement points, all tested:
 | Boundary | Mechanism |
 |---|---|
 | Snapshot archive | `stripEphemeral` nulls platform fields before anything touches `data/` |
-| Generated narrative | `validateOutput` drops lines reproducing ≥8 consecutive thesis words |
+| Generated narrative | `validateOutput` drops lines reproducing ≥8 consecutive thesis words, **and any line naming an @handle at all** |
 | Rendered page | `site/` is gitignored — deployed, not committed |
 
 The second one is the non-obvious leak: a model quoting a thesis verbatim into
 `notes/<date>.json` would re-create the archive we agreed not to build, laundered through
 the LLM. Paraphrase and reference are fine; copying is blocked.
+
+Handles are blocked for the same reason and it costs something real. Crediting the trader
+who called it is part of what makes a recap worth reading, and we cannot do it in the
+archive — `notes/` is committed, and a handle is platform content. Traders are described
+by what they did: *"the top realised wallet banked $186k in 83 trades"*. The rendered
+page is gitignored and may show more.
 
 **Accepted consequence:** the longitudinal archive stays on-chain-only. We can never
 backfill "what did traders say on day N" — that exists solely in that day's rendered page.
