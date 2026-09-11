@@ -71,3 +71,48 @@ test("matches tickers case-insensitively", () => {
   assert.equal(out.length, 1);
   assert.equal(out[0]!.tickerCopies, 1);
 });
+
+// ---------------------------------------------------- liquidity is unreliable
+
+import { selectRunners } from "./discover.ts";
+import { DEFAULT_FILTERS, type RawPool } from "./types.ts";
+
+function pool(over: Partial<RawPool> = {}): RawPool {
+  return {
+    poolAddress: "p", name: "TOK / SOL", dex: "pumpswap",
+    baseTokenId: "t", quoteTokenId: "sol", createdAt: null,
+    priceUsd: 1, fdvUsd: 5_000_000, liquidityUsd: 200_000, volume24hUsd: 5_000_000,
+    change: { m5: 0, h1: 0, h6: 0, h24: 200 },
+    txns24h: { buys: 100, sells: 50, buyers: 2000, sellers: 40 },
+    sources: ["volume"], ...over,
+  };
+}
+
+test("admits a pool with no reported depth but real trading", () => {
+  // The day's biggest mover reported $0 liquidity against $158m of volume.
+  // GeckoTerminal does not report reserve_in_usd for most pools on this
+  // network, so a flat depth floor rejected the market rather than the rugs.
+  const { runners } = selectRunners([pool({ liquidityUsd: 0, volume24hUsd: 158_000_000 })], DEFAULT_FILTERS);
+
+  assert.equal(runners.length, 1);
+});
+
+test("still rejects a thin pool with thin flow", () => {
+  const { runners, stats } = selectRunners(
+    [pool({ liquidityUsd: 3_000, volume24hUsd: 80_000, txns24h: { buys: 20, sells: 10, buyers: 25, sellers: 5 } })],
+    DEFAULT_FILTERS,
+  );
+
+  assert.equal(runners.length, 0, "a rug has neither depth nor flow");
+  assert.ok(stats.rejections["liquidity"]! > 0 || stats.rejections["volume"]! > 0);
+});
+
+test("reports which filter did the rejecting", () => {
+  const { stats } = selectRunners(
+    [pool({ fdvUsd: 1_000 }), pool({ change: { m5: 0, h1: 0, h6: 0, h24: 1 } })],
+    DEFAULT_FILTERS,
+  );
+
+  assert.equal(stats.rejections["market cap"], 1);
+  assert.equal(stats.rejections["24h gain"], 1);
+});

@@ -143,7 +143,12 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
     // recovered later — see enrichWithPairings.
     if (!cfg.allowedQuoteSymbols.includes(quote) && !reject("quote token")) continue;
 
-    if (p.liquidityUsd < cfg.minLiquidityUsd && !reject("liquidity")) continue;
+    // Liquidity OR demonstrated trading. See illiquidVolumeFloorUsd: depth is
+    // simply not reported for most pools here, so requiring it threw away the
+    // market rather than the rugs.
+    const hasDepth = p.liquidityUsd >= cfg.minLiquidityUsd;
+    const provenByFlow = p.volume24hUsd >= cfg.illiquidVolumeFloorUsd;
+    if (!hasDepth && !provenByFlow && !reject("liquidity")) continue;
     if (p.volume24hUsd < cfg.minVolume24hUsd && !reject("volume")) continue;
     if (p.fdvUsd < cfg.minFdvUsd && !reject("market cap")) continue;
     if (p.change.h24 < cfg.minChange24hPct && !reject("24h gain")) continue;

@@ -304,6 +304,21 @@ export interface FilterConfig {
   /** Quote tokens whose price we trust as a USD proxy. Cross-pairs distort the % change. */
   allowedQuoteSymbols: string[];
   minLiquidityUsd: number;
+  /**
+   * Volume that substitutes for a liquidity floor when liquidity is not
+   * reported.
+   *
+   * GeckoTerminal returns near-zero `reserve_in_usd` for most pools on this
+   * network — 128 of 177 on one scan reported under $1k while doing $2.56bn of
+   * combined volume, and the day's biggest mover showed $0 liquidity against
+   * $158m of volume. The field is absent, not small.
+   *
+   * A flat liquidity floor therefore rejected most of the real market. Volume
+   * plus unique buyers is the fallback proof that a market exists: a rug with
+   * $3k of depth and $80k of volume still fails, while a genuinely traded coin
+   * whose depth is unreported gets in.
+   */
+  illiquidVolumeFloorUsd: number;
   minVolume24hUsd: number;
   /**
    * Market-cap floor. Without it the list fills with sub-$500k coins doing 2x,
@@ -347,6 +362,7 @@ export interface FilterConfig {
 export const DEFAULT_FILTERS: FilterConfig = {
   allowedQuoteSymbols: ["SOL", "USDC", "USDT"],
   minLiquidityUsd: 50_000,
+  illiquidVolumeFloorUsd: 1_000_000,
   minVolume24hUsd: 250_000,
   minFdvUsd: 1_000_000,
   minChange24hPct: 30,
