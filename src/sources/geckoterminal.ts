@@ -122,28 +122,62 @@ function toRawPool(p: any, source: "volume" | "trending"): RawPool | null {
  * trending list. Trending is included because it captures heat that pure volume
  * ranking misses — a token can run hard without cracking the volume top 200.
  */
+/**
+ * The candidate universe.
+ *
+ * Partial results beat no results. A snapshot is a point-in-time record that
+ * cannot be reconstructed later, so losing a whole day because page 7 of 10
+ * rate-limited would be a permanent hole in the archive for a recoverable
+ * problem. Failed pages are warned about and skipped.
+ *
+ * The exception is an empty universe: an empty snapshot is not a thin day, it
+ * is a false record of one. That still throws.
+ */
 export async function fetchCandidatePools(network = "solana"): Promise<RawPool[]> {
   const out: RawPool[] = [];
+  const failures: number[] = [];
 
   for (let page = 1; page <= MAX_PAGE; page++) {
-    const json = await getJson(
-      `/networks/${network}/pools?sort=h24_volume_usd_desc&page=${page}`,
-    );
-    const pools = (json?.data ?? [])
-      .map((p: any) => toRawPool(p, "volume"))
-      .filter(Boolean) as RawPool[];
-    out.push(...pools);
-    console.log(`  volume page ${page}: +${pools.length} (total ${out.length})`);
-    if (pools.length === 0) break;
+    try {
+      const json = await getJson(
+        `/networks/${network}/pools?sort=h24_volume_usd_desc&page=${page}`,
+      );
+      const pools = (json?.data ?? [])
+        .map((p: any) => toRawPool(p, "volume"))
+        .filter(Boolean) as RawPool[];
+      out.push(...pools);
+      console.log(`  volume page ${page}: +${pools.length} (total ${out.length})`);
+      if (pools.length === 0) break;
+    } catch (err) {
+      failures.push(page);
+      console.warn(`  volume page ${page} failed: ${(err as Error).message}`);
+    }
     await sleep(REQUEST_DELAY_MS);
   }
 
-  const trending = await getJson(`/networks/${network}/trending_pools?duration=24h`);
-  const trendingPools = (trending?.data ?? [])
-    .map((p: any) => toRawPool(p, "trending"))
-    .filter(Boolean) as RawPool[];
-  out.push(...trendingPools);
-  console.log(`  trending: +${trendingPools.length} (total ${out.length})`);
+  try {
+    const trending = await getJson(`/networks/${network}/trending_pools?duration=24h`);
+    const trendingPools = (trending?.data ?? [])
+      .map((p: any) => toRawPool(p, "trending"))
+      .filter(Boolean) as RawPool[];
+    out.push(...trendingPools);
+    console.log(`  trending: +${trendingPools.length} (total ${out.length})`);
+  } catch (err) {
+    console.warn(`  trending failed: ${(err as Error).message}`);
+  }
+
+  if (failures.length > 0) {
+    console.warn(
+      `  NOTE: ${failures.length} page(s) failed (${failures.join(", ")}) — ` +
+        `the universe is incomplete and today's coverage may be thinner than usual.`,
+    );
+  }
+  if (out.length === 0) {
+    throw new Error(
+      "No pools fetched at all. Refusing to write an empty snapshot — " +
+        "an empty day and a failed fetch must not look the same in the archive.",
+    );
+  }
 
   return out;
 }
