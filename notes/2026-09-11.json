@@ -1,0 +1,120 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-11T13:27:12.836Z",
+    "evidenceSha256": "14134e828bbe803a"
+  },
+  "mood": "stock-ticker meta in full swing and the top wallets were bots basically everywhere. two coins had real winners all day.",
+  "coins": {
+    "STONK": {
+      "label": "The Only Liquid One",
+      "timeline": [
+        {
+          "time": "02:00",
+          "text": "$142m to $236m (1.7x) on $4.5m liq and $46m volume — 16161 buyers vs 14067 sellers, actual two-sided book"
+        },
+        {
+          "time": "02:00",
+          "text": "two real winners cleared here, only real green on the board besides fone"
+        }
+      ]
+    },
+    "fone": {
+      "label": "Small But Real",
+      "timeline": [
+        {
+          "time": "19:00",
+          "text": "$4.1m to $7.6m (1.9x), round-tripped back to $6.0m — one real winner at $14k, rest bots"
+        }
+      ]
+    },
+    "NVIDIA": {
+      "label": "Runner Of The Day",
+      "timeline": [
+        {
+          "time": "21:51",
+          "text": "launched at $471k"
+        },
+        {
+          "time": "02:00",
+          "text": "12.7x to $6.0m on $73m volume, 2000 buyers vs 48 sellers — 8 of 8 top wallets bots, 0 real winners"
+        }
+      ]
+    },
+    "SPCX": {
+      "label": "Bot Ladder",
+      "timeline": [
+        {
+          "time": "20:27",
+          "text": "launched at $579k"
+        },
+        {
+          "time": "00:00",
+          "text": "9.2x to $5.3m, $55m volume, 8 of 8 top wallets bots, 0 real winners"
+        }
+      ]
+    },
+    "Claude": {
+      "label": "Loudest Volume, Zero Humans",
+      "timeline": [
+        {
+          "time": "23:31",
+          "text": "launched at $887k"
+        },
+        {
+          "time": "02:00",
+          "text": "7.6x to $6.7m on $95m volume — 8 of 8 top wallets bots, not one real winner"
+        }
+      ]
+    },
+    "+": {
+      "label": "Quick Pop",
+      "timeline": [
+        {
+          "time": "00:56",
+          "text": "launched at $404k"
+        },
+        {
+          "time": "01:00",
+          "text": "5.5x to $2.2m in minutes, now $1.9m — 8 of 8 bots, 0 real winners"
+        }
+      ]
+    },
+    "KIMCHI": {
+      "label": "Same As Yesterday",
+      "timeline": [
+        {
+          "time": "03:00",
+          "text": "peaked 24 min after launch, 3.1x to $1.4m — 8 of 8 bots, nothing real"
+        }
+      ]
+    },
+    "RocketFrog": {
+      "label": "Another Bot Print",
+      "timeline": [
+        {
+          "time": "20:00",
+          "text": "3.3x to $1.4m 22 min after launch, 8 of 8 bots, 0 real winners"
+        }
+      ]
+    },
+    "Nasduck": {
+      "label": "Round-Tripped",
+      "timeline": [
+        {
+          "time": "23:00",
+          "text": "$476k to $2.0m (4.2x) then bled to $1.2m — sellers outnumbered buyers, all winners were bots"
+        }
+      ]
+    },
+    "KNOTS": {
+      "label": "Bot-Carried 3x",
+      "timeline": [
+        {
+          "time": "01:00",
+          "text": "$16m to $48m (3x), now $40m on thin $1.6m volume — 8 of 8 top wallets bots"
+        }
+      ]
+    }
+  }
+}
