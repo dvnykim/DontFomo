@@ -127,19 +127,33 @@ function parseTrades(lines: string[], exportedAt: string): FomoTrade[] {
   return out;
 }
 
+/** "154 older" / "3 newer" are pagination controls, not content. */
+const PAGINATION = /^\d+\s+(older|newer)$/i;
+const BARE_INT = /^\d[\d,]*$/;
+
 /**
- * Theses appear in the feed as:
- *   <handle> / Thesis / [Closed] / <age> / [?] / <symbol> / <$pnl> / ( / ▲ / <pct%> / ) / <text>
- * The middle is variable, so we skip decoration and take the first prose line.
+ * Theses, in both shapes fomo renders.
+ *
+ *   profile page:  <author> / Thesis / [Closed] / <age> / [?] / <symbol> / <$pnl> / … / <text…> / <likes>
+ *   token page:    <author> / Thesis / [Closed] / <age> / <$pnl> / … / <text…> / <likes>
+ *
+ * On a token page every thesis is about that token, so no symbol is rendered —
+ * hence `defaultSymbol`. Distinguished by whether the line after the age parses
+ * as a dollar amount.
+ *
+ * Text is accumulated across lines: the best theses are multi-paragraph, and
+ * taking only the first line threw away most of what made them worth reading.
  */
-function parseTheses(lines: string[], exportedAt: string): FomoThesis[] {
+function parseTheses(lines: string[], exportedAt: string, defaultSymbol: string | null): FomoThesis[] {
   const out: FomoThesis[] = [];
   const seen = new Set<string>();
 
   for (let i = 0; i < lines.length; i++) {
     if (lines[i]!.trim().toLowerCase() !== "thesis") continue;
 
+    const author = i > 0 ? lines[i - 1]!.trim() : "";
     let j = i + 1;
+
     const closed = lines[j]?.trim().toLowerCase() === "closed";
     if (closed) j++;
 
@@ -147,39 +161,60 @@ function parseTheses(lines: string[], exportedAt: string): FomoThesis[] {
     if (agoMinutes !== null) j++;
 
     while (j < lines.length && (isDecor(lines[j]!) || !lines[j]!.trim())) j++;
-    const symbol = lines[j]?.trim();
-    if (!symbol || isNoise(symbol)) continue;
-    j++;
+
+    // A dollar amount here means the token page, where the symbol is implicit.
+    let symbol = defaultSymbol;
+    if (parseUsd(lines[j] ?? "") === null) {
+      const candidate = lines[j]?.trim();
+      if (candidate && !isNoise(candidate)) {
+        symbol = candidate;
+        j++;
+      }
+    }
+    if (!symbol) continue;
 
     let pnlUsd: number | null = null;
     let changePct: number | null = null;
-    let text: string | null = null;
+    let likes: number | null = null;
+    const body: string[] = [];
 
-    // Walk the numeric/decoration block, then the first prose line is the thesis.
-    for (let k = j; k < Math.min(j + 10, lines.length); k++) {
+    for (let k = j; k < Math.min(j + 40, lines.length); k++) {
       const line = lines[k]!.trim();
       if (!line || isDecor(line)) continue;
-      const usd = parseUsd(line);
-      if (usd !== null && pnlUsd === null) { pnlUsd = usd; continue; }
-      const pct = line.match(/^([\d,.]+)\s*%$/);
-      if (pct && changePct === null) { changePct = Number(pct[1]!.replace(/,/g, "")); continue; }
-      if (/^[\d,.]+$/.test(line)) continue; // like-count and similar bare numbers
-      text = line;
-      break;
+      if (PAGINATION.test(line)) break;
+
+      if (body.length === 0) {
+        // Header block: P&L and percentage come before any prose.
+        const usd = parseUsd(line);
+        if (usd !== null && pnlUsd === null) { pnlUsd = usd; continue; }
+        const pct = line.match(/^([\d,.]+)\s*%$/);
+        if (pct && changePct === null) { changePct = Number(pct[1]!.replace(/,/g, "")); continue; }
+      }
+
+      // A bare integer after prose has started is the like count, and ends it.
+      if (BARE_INT.test(line)) {
+        if (body.length > 0) { likes = Number(line.replace(/,/g, "")); break; }
+        continue;
+      }
+      body.push(line);
     }
 
+    const text = body.join(" ").trim();
     if (!text) continue;
-    const key = `${symbol}|${text}`;
+
+    const key = `${symbol}|${author}|${text.slice(0, 60)}`;
     if (seen.has(key)) continue;
     seen.add(key);
 
     out.push({
       symbol,
+      author: author && !isNoise(author) ? author : null,
       text,
       agoMinutes,
       at: isoFrom(exportedAt, agoMinutes),
       pnlUsd,
       changePct,
+      likes,
       closed,
     });
   }
@@ -257,7 +292,11 @@ function parseHeader(lines: string[]) {
  *                   because every age on the page is relative to it — without
  *                   it no trade can be placed on a timeline.
  */
-export function parseProfile(raw: string, exportedAt: string): TraderDay {
+export function parseProfile(
+  raw: string,
+  exportedAt: string,
+  defaultSymbol: string | null = null,
+): TraderDay {
   const lines = raw.split("\n").map((l) => l.replace(/ /g, " ").trimEnd());
   const warnings: string[] = [];
 
@@ -270,7 +309,7 @@ export function parseProfile(raw: string, exportedAt: string): TraderDay {
   if (followers === null) warnings.push("follower count not found");
 
   const trades = parseTrades(lines, exportedAt);
-  const theses = parseTheses(lines, exportedAt);
+  const theses = parseTheses(lines, exportedAt, defaultSymbol);
   const positions = parsePositions(lines);
 
   if (trades.length === 0) warnings.push("parsed 0 trades — page layout may have changed");

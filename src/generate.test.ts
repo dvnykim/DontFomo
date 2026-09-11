@@ -281,3 +281,48 @@ test("keeps a legitimate label untouched", () => {
   assert.equal(n.coins[0]!.label, "Runner Of The Day");
   assert.equal(report.dropped.length, 0);
 });
+
+// ------------------------------------------------- population claims from a sample
+
+test("drops a count of winners stated as a population fact", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("two real winners cleared here");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 1);
+  assert.match(report.dropped[0]!.reason, /population claim/);
+});
+
+test("a disclosure in another clause does not launder an undisclosed claim", () => {
+  // The failure this was written for: "of 8" in the first clause made the
+  // second clause's bare "0 real winners" look disclosed.
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("8 of 8 top wallets bots, 0 real winners");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 1, "claims must not cross clause boundaries");
+});
+
+test("keeps a winner count that discloses the sample", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("2 of 8 sampled traders cleared the bar");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("keeps statements about wallets, which are not people claims", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("8 of 8 top wallets were bots");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("drops vague absolutes about nobody making money", () => {
+  const snap = snapshot([{ symbol: "CATE" }]);
+  const n = narrative("big print but nothing real underneath");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 1);
+});

@@ -27,11 +27,13 @@ function trade(over: Partial<FomoTrade> = {}): FomoTrade {
 function thesis(over: Partial<FomoThesis> = {}): FomoThesis {
   return {
     symbol: "alpha",
+    author: "someone",
     text: "invented reasoning",
     agoMinutes: 30,
     at: "2026-09-11T11:30:00.000Z",
     pnlUsd: 100,
     changePct: 10,
+    likes: 5,
     closed: false,
     ...over,
   };

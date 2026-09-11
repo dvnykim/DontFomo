@@ -21,6 +21,41 @@ Say nothing. An empty timeline is a valid, correct output. The most common failu
 is padding a thin day with filler that sounds like analysis. Readers notice, and it costs
 more credibility than a short page does.
 
+## A catalyst explains WHY. Never restate price.
+
+This is the rule that matters most, and the one most often broken.
+
+A reader can see the chart. `$142m to $236m (1.7x)` tells them nothing they did not
+already know, and printing it as a "catalyst" makes the page look like a worse
+dexscreener. The catalyst is the **reason** — and price data cannot contain it.
+
+The reason lives in the theses. Read them, find the mechanism, and say it in one line.
+
+| Don't | Do |
+|---|---|
+| `$142m to $236m (1.7x) on $46m volume` | `launchpad war with pump.fun — the platform reported ~$1.5m daily revenue and burnt $900k of buybacks` |
+| `12.7x to $6.0m on $73m volume` | `traders framed it as day 4 of the first leg; fees over $1m a day` |
+| `peaked at $2.4m` | no line at all, if the theses say nothing |
+
+Numbers belong in a catalyst only when they are the *mechanism* — revenue, burns, supply
+destroyed, fees. Not when they are the price.
+
+**Summarise, never quote.** Theses are read under a licence that does not permit storing
+them. Paraphrase the mechanism; copying the wording is blocked by the validator anyway.
+
+**Attribute conviction, not opinion.** "the biggest holder in the set is up $1.17m and
+still posting" is a fact about positioning. "@someone says it goes to 500m" is repeating
+a price target, which is worth nothing.
+
+## Never claim how many people made money
+
+Trader data is a **sample** — roughly the eight highest-volume wallets out of thousands of
+buyers. "only two real winners" is not a cautious phrasing of a true fact, it is a false
+statement: on a token where that line was written, one trader alone was up $1.17m.
+
+Say `2 of 8 sampled wallets cleared $10k`, or say nothing. The validator drops any count
+that does not disclose the sample.
+
 ## Quality signals are the differentiator
 
 Other recaps say what ran. This one can say whether the move was real — liquidity depth,

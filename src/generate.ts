@@ -85,7 +85,15 @@ function buildEvidence(snapshot: Snapshot): string {
     } else if (r.traders.length === 0) {
       lines.push("traders: none found");
     } else {
-      lines.push(`traders (${r.bigWinners ?? 0} real winners, ${r.botTraders ?? 0} bots):`);
+      // Framed as a sample on purpose. These wallets are the highest-VOLUME
+      // ones, capped around 8, out of thousands of buyers. Presenting the count
+      // as a population fact produced the false line "only two real winners
+      // cleared here" on a token where one trader alone made $1.17m.
+      lines.push(
+        `traders — SAMPLE of the ${r.traders.length} highest-volume wallets only, ` +
+          `NOT all holders (${r.txns24h.buyers} wallets bought today). ` +
+          `${r.bigWinners ?? 0}/${r.traders.length} sampled cleared the bar, ${r.botTraders ?? 0} were bots:`,
+      );
       for (const t of r.traders) {
         const who = t.handle ? `@${t.handle}` : t.wallet.slice(0, 8);
         const tag = t.isBot ? " [BOT]" : "";
@@ -268,6 +276,40 @@ export function crossDayClaim(text: string): string | null {
   return text.match(CROSS_DAY)?.[0] ?? null;
 }
 
+/**
+ * Claims about how many people made money.
+ *
+ * Trader data is a SAMPLE: the ~8 highest-volume wallets, out of thousands of
+ * buyers. Any count stated as a population fact is unsupported, and on STONK the
+ * model wrote "only two real winners cleared here" for a token where a single
+ * fomo trader banked $1.17m. That is not a style slip, it is a false statement
+ * about the world, and it is the fastest way to lose a reader who was there.
+ *
+ * Rather than blocklisting phrasings, this requires a positive disclosure: any
+ * counting claim about winners or traders must say "sampled" or "of N". That is
+ * robust to rewording in a way a blocklist never is.
+ */
+// The span may not cross a clause boundary. Allowing it to meant
+// "8 of 8 top wallets bots, 0 real winners" matched as ONE claim, and the "of 8"
+// from the first clause laundered the undisclosed count in the second.
+const WINNER_CLAIM =
+  /\b(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|no|zero|none|only|all|not\s+one|nobody|no\s+one)\b[^.;,\u2014\u2013]{0,40}?\b(?:real\s+)?(?:winners?|traders?|humans?|people)\b/i;
+const VAGUE_ABSOLUTE = /\b(?:nothing real|no one made|nobody made|only real green|not a single)\b/i;
+const DISCLOSED = /\bsampl|\bof \d+\b|\b\d+\s*\/\s*\d+\b/i;
+
+export function populationClaim(text: string): string | null {
+  if (VAGUE_ABSOLUTE.test(text)) return text.match(VAGUE_ABSOLUTE)![0];
+  const m = text.match(WINNER_CLAIM);
+  if (!m || m.index === undefined) return null;
+
+  // Disclosure must sit NEXT TO the claim, not anywhere in the line. Checking
+  // the whole string let "8 of 8 top wallets bots, 0 real winners" through:
+  // the unrelated "of 8" laundered the false half of the sentence.
+  // Only the claim itself and what immediately follows it count as disclosure.
+  const near = text.slice(m.index, m.index + m[0].length + 20);
+  return DISCLOSED.test(near) ? null : m[0];
+}
+
 export function validateOutput(
   narrative: GeneratedNarrative,
   snapshot: Snapshot,
@@ -289,6 +331,16 @@ export function validateOutput(
           symbol: coin.symbol,
           text: entry.text,
           reason: `unsupported figure ${badNumber}`,
+        });
+        return false;
+      }
+
+      const population = populationClaim(entry.text);
+      if (population) {
+        report.dropped.push({
+          symbol: coin.symbol,
+          text: entry.text,
+          reason: `population claim from an 8-wallet sample ("${population}")`,
         });
         return false;
       }

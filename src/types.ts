@@ -156,14 +156,27 @@ export interface FomoTrade {
   at: string | null;
 }
 
-/** A trader's written call on a token. The reason this product exists. */
+/**
+ * A trader's written call on a token. The reason this product exists.
+ *
+ * `author` and `likes` are what make a thesis rankable. A token's feed is
+ * mostly noise ("$STONK to the moon", "breh") with a few posts that actually
+ * say something; without the author's stake and the crowd's reaction there is
+ * no way to tell them apart, and the recap ends up quoting the loudest rather
+ * than the most informative.
+ */
 export interface FomoThesis {
   symbol: string;
+  /** Who wrote it. Null on a single-trader export where the author is implicit. */
+  author: string | null;
   text: string;
   agoMinutes: number | null;
   at: string | null;
+  /** The author's P&L on this position — their stake in being right. */
   pnlUsd: number | null;
   changePct: number | null;
+  /** Crowd reaction. Null when the export didn't include a count. */
+  likes: number | null;
   /** Whether the position was closed when the thesis was shown. */
   closed: boolean;
 }

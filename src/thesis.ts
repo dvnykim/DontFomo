@@ -1,0 +1,152 @@
+/**
+ * Thesis ranking — deciding which of a token's posts is worth a catalyst line.
+ *
+ * A token's feed is overwhelmingly noise. On STONK's page, out of ~30 posts the
+ * substantive ones were a handful: revenue figures, buyback and burn mechanics,
+ * supply burnt, the launchpad war. The rest were "breh", "no sweat", "$STONK to
+ * the moon", "valhalla awaits".
+ *
+ * Ranking by likes alone fails — the funniest post wins, not the most
+ * informative. Ranking by author P&L alone fails — the biggest bag holder is
+ * not necessarily saying anything. So this combines three independent signals:
+ *
+ *   1. SUBSTANCE  does the post name a mechanism (revenue, burns, listings)
+ *                 rather than assert a direction?
+ *   2. STAKE      is the author actually positioned, and by how much?
+ *   3. REACTION   did the crowd respond?
+ *
+ * Every score carries `reasons`, because an editorial filter you cannot inspect
+ * is one you cannot trust or tune.
+ */
+
+import type { FomoThesis } from "./types.ts";
+
+/**
+ * Mechanisms, not directions. "revenue is printing" is checkable and causal;
+ * "this is going up" is not. These are the words that separate the two.
+ */
+const SUBSTANCE =
+  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|volume|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|holders?|liquidity|market ?cap|treasury|emission|leaderboard|ship(?:ping|s|ped)?|update|acquired|communit\w+|protocol|deploy|migrat\w*|ATH|narrative|rotation|competitor)\b/gi;
+
+/** Pure sentiment. Present in most posts; on its own it is not information. */
+const HYPE =
+  /\b(moon|lfg|wagmi|gm|ez|send it|ape[ds]?|valhalla|aura|pump it|to the moon|easy|rich|100x|1000x)\b|🚀|🌙/gi;
+
+/** A concrete figure — the thing that makes a claim checkable. */
+const FIGURE = /(\$[\d,.]+\s*[kmb]?\b|\b\d[\d,.]*\s*(?:%|x)\b|\b\d[\d,.]{2,}\b)/gi;
+
+export interface ThesisScore {
+  score: number;
+  reasons: string[];
+}
+
+const countMatches = (re: RegExp, text: string): number => {
+  const m = text.match(re);
+  return m ? new Set(m.map((x) => x.toLowerCase())).size : 0;
+};
+
+/**
+ * @param peakAt When the token topped. A thesis posted BEFORE the move is a
+ *               call; one posted after is a victory lap. Same words, different
+ *               value, and only the timestamp can tell them apart.
+ */
+export function scoreThesis(t: FomoThesis, opts: { peakAt?: string | null } = {}): ThesisScore {
+  const reasons: string[] = [];
+  let score = 0;
+
+  const text = t.text.trim();
+  const words = text.split(/\s+/).filter(Boolean).length;
+
+  if (words < 4) {
+    reasons.push("too short to say anything");
+    score -= 6;
+  }
+
+  const substance = countMatches(SUBSTANCE, text);
+  if (substance > 0) {
+    const pts = Math.min(substance, 4) * 3;
+    score += pts;
+    reasons.push(`names ${substance} mechanism${substance === 1 ? "" : "s"} (+${pts})`);
+  }
+
+  const figures = countMatches(FIGURE, text);
+  if (figures > 0) {
+    const pts = Math.min(figures, 3) * 2;
+    score += pts;
+    reasons.push(`${figures} concrete figure${figures === 1 ? "" : "s"} (+${pts})`);
+  }
+
+  const hype = countMatches(HYPE, text);
+  if (hype > 0 && substance === 0) {
+    const pts = Math.min(hype, 3) * 2;
+    score -= pts;
+    reasons.push(`sentiment only, no mechanism (-${pts})`);
+  }
+
+  if (t.likes !== null && t.likes > 0) {
+    const pts = Math.round(Math.log2(t.likes + 1) * 1.5 * 10) / 10;
+    score += pts;
+    reasons.push(`${t.likes} likes (+${pts})`);
+  }
+
+  if (t.pnlUsd !== null && t.pnlUsd > 0) {
+    const pts = Math.round(Math.log10(t.pnlUsd) * 1.2 * 10) / 10;
+    score += pts;
+    reasons.push(`$${Math.round(t.pnlUsd).toLocaleString()} at stake (+${pts})`);
+  }
+
+  // Length helps up to a point: a paragraph explaining a mechanism beats a
+  // sentence, but an essay is not four times better than a paragraph.
+  if (words >= 25) {
+    score += 3;
+    reasons.push("developed argument (+3)");
+  }
+
+  if (opts.peakAt && t.at) {
+    const before = Date.parse(t.at) < Date.parse(opts.peakAt);
+    score += before ? 4 : -2;
+    reasons.push(before ? "posted before the peak (+4)" : "posted after the peak (-2)");
+  }
+
+  if (t.closed) {
+    score -= 2;
+    reasons.push("position already closed (-2)");
+  }
+
+  return { score: Math.round(score * 10) / 10, reasons };
+}
+
+export interface RankedThesis extends FomoThesis {
+  scored: ThesisScore;
+}
+
+/**
+ * Best theses first. Near-duplicates are collapsed — the same trader posting
+ * five variations of one idea should occupy one slot, not five.
+ */
+export function rankTheses(
+  theses: FomoThesis[],
+  opts: { peakAt?: string | null; limit?: number; minScore?: number } = {},
+): RankedThesis[] {
+  const { limit = 5, minScore = 0 } = opts;
+
+  const ranked = theses
+    .map((t) => ({ ...t, scored: scoreThesis(t, opts) }))
+    .filter((t) => t.scored.score >= minScore)
+    .sort((a, b) => b.scored.score - a.scored.score);
+
+  const kept: RankedThesis[] = [];
+  const seenAuthors = new Map<string, number>();
+
+  for (const t of ranked) {
+    if (kept.length >= limit) break;
+    const author = t.author ?? "?";
+    const used = seenAuthors.get(author) ?? 0;
+    // At most two slots per author, so one prolific poster cannot own the recap.
+    if (used >= 2) continue;
+    seenAuthors.set(author, used + 1);
+    kept.push(t);
+  }
+
+  return kept;
+}
