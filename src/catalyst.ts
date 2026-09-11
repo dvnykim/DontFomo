@@ -28,7 +28,7 @@ import { rankTheses } from "./thesis.ts";
  * complaint. Aggregate participation is context for a claim, not a claim.
  */
 const MECHANISM =
-  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|treasury|emission|leaderboard|ship(?:ping|s|ped)?|acquired|communit\w+|protocol|deploy|migrat\w*|narrative|competitor|dev|team|roadmap|exchange|pair(?:ed|ing)?)\b/i;
+  /\b(revenue|fees?|burn(?:ed|s|ing|t)?|buy ?back|supply|listing|listed|integrat\w*|partner\w*|airdrop|unlock|launchpad|treasury|emission|leaderboard|ship(?:ping|s|ped)?|acquired|communit\w+|protocol|deploy|migrat\w*|narrative|competitor|dev|team|roadmap|exchange|pair(?:ed|ing|s)?|pools?|routed?|routing|venue|against)\b/i;
 
 /** What a named wallet actually did — not derivable from a chart. */
 const WALLET_FACT =

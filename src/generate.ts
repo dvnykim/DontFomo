@@ -288,6 +288,10 @@ function allowedEntities(snapshot: Snapshot): { handles: Set<string>; tickers: S
 
   for (const r of snapshot.runners) {
     tickers.add(r.symbol.toLowerCase());
+    // A pairing symbol is a ticker we derived ourselves and handed to the model
+    // as evidence. Leaving it out meant the validator deleted "paired with $MET"
+    // as an invented entity — rejecting a true fact the pipeline had supplied.
+    if (r.pairing) tickers.add(r.pairing.symbol.toLowerCase());
     for (const t of r.traders ?? []) {
       if (t.handle) handles.add(t.handle.toLowerCase());
     }

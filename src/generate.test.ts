@@ -397,3 +397,18 @@ test("keeps price when a mechanism is attached to it", () => {
 
   assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
 });
+
+test("a pairing symbol counts as a known ticker", () => {
+  // We derive the pairing and hand it to the model as evidence; the validator
+  // must not then delete it as an invented entity.
+  const snap = snapshot([
+    {
+      symbol: "EMBER",
+      pairing: { symbol: "MET", volumeUsd: 15_900_000, share: 0.23, dominant: false },
+    },
+  ]);
+  const n = narrative("supply routed through the $MET pool all afternoon", "EMBER");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});

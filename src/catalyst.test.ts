@@ -131,3 +131,10 @@ test("a specific wallet fact is a reason", () => {
   assert.ok(!isPriceRestatement("@someone bought early and banked $4k"));
   assert.ok(!isPriceRestatement("8 of 8 top wallets were bundlers, all underwater on $2.5m"));
 });
+
+test("a pairing stated as routing is a mechanism", () => {
+  // Real dropped line: the pairing IS the catalyst, but the filter only knew
+  // the word "paired" and not the way the model actually phrased it.
+  assert.ok(!isPriceRestatement("hit $52m (2.8x), 60% of volume routed through the $STONK pool"));
+  assert.ok(!isPriceRestatement("$2.1m to $49m (23.6x), paired with $MET at 23% of volume"));
+});
