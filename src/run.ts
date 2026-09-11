@@ -101,6 +101,13 @@ async function main() {
       `-> passed filters ${snapshot.stats.afterFilters} -> kept ${snapshot.stats.runnersKept}`,
   );
 
+  // Which threshold actually did the cutting. Coverage is the difference
+  // between a recap and a top-10, and tuning it blind is guesswork.
+  const rejected = Object.entries(stats.rejections).sort((a, b) => b[1] - a[1]);
+  if (rejected.length > 0) {
+    console.log("  rejected by: " + rejected.map(([why, n]) => `${why} ${n}`).join(", "));
+  }
+
   if (runners.length === 0) {
     console.log("\nNo runners cleared the filters today. Thresholds may need loosening.");
   } else {

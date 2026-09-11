@@ -114,24 +114,40 @@ function computeFlags(p: RawPool, churn: number, age: number | null, cfg: Filter
 
 export interface DiscoveryResult {
   runners: Runner[];
-  stats: { afterFilters: number };
+  stats: {
+    afterFilters: number;
+    /**
+     * How many pools each filter rejected, in the order they were applied.
+     *
+     * Without this, tuning coverage is guesswork: a run reporting "178 pools ->
+     * 12 runners" says nothing about WHICH threshold did the cutting, and the
+     * obvious guess is usually wrong.
+     */
+    rejections: Record<string, number>;
+  };
 }
 
 export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryResult {
   const survivors: Runner[] = [];
+  const rejections: Record<string, number> = {};
+  const reject = (why: string) => {
+    rejections[why] = (rejections[why] ?? 0) + 1;
+    return false;
+  };
 
   for (const p of pools) {
     const { base, quote } = splitPoolName(p.name);
 
-    // Cross-pairs (e.g. EMBER/MET) are excluded: the percentage change is
-    // denominated in another volatile token, so it doesn't mean what it looks like.
-    if (!cfg.allowedQuoteSymbols.includes(quote)) continue;
+    // Cross-pairs (e.g. EMBER/MET) are excluded from PRICING: the percentage
+    // change is denominated in another volatile token. The pairing itself is
+    // recovered later — see enrichWithPairings.
+    if (!cfg.allowedQuoteSymbols.includes(quote) && !reject("quote token")) continue;
 
-    if (p.liquidityUsd < cfg.minLiquidityUsd) continue;
-    if (p.volume24hUsd < cfg.minVolume24hUsd) continue;
-    if (p.fdvUsd < cfg.minFdvUsd) continue;
-    if (p.change.h24 < cfg.minChange24hPct) continue;
-    if (p.txns24h.buyers < cfg.minBuyers24h) continue;
+    if (p.liquidityUsd < cfg.minLiquidityUsd && !reject("liquidity")) continue;
+    if (p.volume24hUsd < cfg.minVolume24hUsd && !reject("volume")) continue;
+    if (p.fdvUsd < cfg.minFdvUsd && !reject("market cap")) continue;
+    if (p.change.h24 < cfg.minChange24hPct && !reject("24h gain")) continue;
+    if (p.txns24h.buyers < cfg.minBuyers24h && !reject("unique buyers")) continue;
 
     const churn = p.liquidityUsd > 0 ? p.volume24hUsd / p.liquidityUsd : Infinity;
     const age = ageInDays(p.createdAt);
@@ -162,7 +178,7 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
 
   return {
     runners: dedupeBySymbol(survivors).slice(0, cfg.maxRunners),
-    stats: { afterFilters: survivors.length },
+    stats: { afterFilters: survivors.length, rejections },
   };
 }
 
