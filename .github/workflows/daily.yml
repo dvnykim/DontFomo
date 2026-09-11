@@ -32,6 +32,13 @@ jobs:
           # Must match the local major. Type-stripping support differs across
           # versions, so a mismatch surfaces as a CI-only parse failure at 09:00 UTC.
           node-version: "26"
+          cache: npm
+
+      # Collection uses built-in fetch only, but narration needs @anthropic-ai/sdk.
+      # Without this the snapshot builds fine and generation dies with
+      # ERR_MODULE_NOT_FOUND — which continue-on-error then hides behind a green tick.
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build snapshot
         env:
@@ -41,12 +48,22 @@ jobs:
         run: node --experimental-strip-types src/run.ts ${{ inputs.force && '--force' || '' }}
 
       - name: Generate narrative
+        id: narrate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         # Non-fatal: a generation failure should still leave the snapshot committed
         # and the site rendered with empty catalyst sections, not lose the day.
         continue-on-error: true
         run: node --experimental-strip-types src/narrate.ts
+
+      # continue-on-error leaves the job green, so a broken generator can go unnoticed
+      # for weeks while snapshots keep committing. Surface it in the run summary.
+      - name: Report narration failure
+        if: steps.narrate.outcome == 'failure'
+        run: |
+          echo "::warning title=Narrative generation failed::Snapshot committed, but notes/ was not written."
+          echo "### ⚠️ Narrative generation failed" >> "$GITHUB_STEP_SUMMARY"
+          echo "The snapshot was still committed. The site will render without catalysts." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit snapshot and narrative
         run: |
