@@ -20,8 +20,9 @@
  */
 
 import type { Runner } from "./types.ts";
+import { namesakeGroupTitle, type NamesakeKind } from "./namesake.ts";
 
-export type GroupKind = "pairing" | "venue" | "fresh" | "established" | "other";
+export type GroupKind = "pairing" | "namesake" | "venue" | "fresh" | "established" | "other";
 
 /**
  * AMM identifiers map to the launchpad a trader would name. `pumpswap` is
@@ -122,7 +123,30 @@ export function groupRunners(
     });
   }
 
-  // 3. Shared launch venue. Weaker than a pairing but still a real theme —
+  // 3. Named after the same kind of real-world thing. Weaker than a pairing —
+  //    a pairing is where volume actually flows, this is only what someone typed
+  //    — but far stronger than a shared venue, and it is a large share of what
+  //    launches on any given day.
+  const unpaired = runners.filter((r) => !claimed.has(r));
+  const byNamesake = new Map<NamesakeKind, Runner[]>();
+  for (const r of unpaired) {
+    if (!r.namesake) continue;
+    const k = r.namesake.kind;
+    byNamesake.set(k, [...(byNamesake.get(k) ?? []), r]);
+  }
+  for (const [kind, members] of byNamesake) {
+    if (members.length < cfg.minGroupSize) continue;
+    for (const m of members) claimed.add(m);
+    groups.push({
+      key: `namesake:${kind}`,
+      title: namesakeGroupTitle(kind, members.length),
+      kind: "namesake",
+      pairedWith: null,
+      runners: members.sort((a, b) => (b.mcap?.high ?? b.fdvUsd) - (a.mcap?.high ?? a.fdvUsd)),
+    });
+  }
+
+  // 4. Shared launch venue. Weaker than a pairing but still a real theme —
   //    "eleven coins came off pump.fun today" is a sentence about the market.
   const rest0 = runners.filter((r) => !claimed.has(r));
   const byVenue = new Map<string, Runner[]>();
@@ -142,7 +166,7 @@ export function groupRunners(
     });
   }
 
-  // 4. Everything else splits on age. This is a weak grouping and is meant to
+  // 5. Everything else splits on age. This is a weak grouping and is meant to
   //    be: it says "we know these ran and not why", which is honest.
   const rest = runners.filter((r) => !claimed.has(r));
   const fresh = rest.filter((r) => r.ageDays !== null && r.ageDays < cfg.freshDays);
@@ -173,7 +197,15 @@ export function groupRunners(
   // size: "eight coins ran on one thing" is the more interesting sentence.
   return groups.sort((a, b) => {
     const rankOf = (g: NarrativeGroup) =>
-      g.kind === "pairing" && g.runners.length > 1 ? 3 : g.kind === "pairing" ? 2 : g.kind === "venue" ? 1 : 0;
+      g.kind === "pairing" && g.runners.length > 1
+        ? 4
+        : g.kind === "pairing"
+          ? 3
+          : g.kind === "namesake"
+            ? 2
+            : g.kind === "venue"
+              ? 1
+              : 0;
     return rankOf(b) - rankOf(a) || groupWeight(b) - groupWeight(a);
   });
 }

@@ -21,7 +21,7 @@ function runner(symbol: string, capM: number, pair?: string, ageDays = 0.5, dex 
     change: { m5: 0, h1: 0, h6: 0, h24: 0 },
     txns24h: { buys: 0, sells: 0, buyers: 0, sellers: 0 },
     sources: ["volume"], churn: 1, buyerSellerRatio: 1, buysPerBuyer: 1,
-    sellsPerSeller: 1, score: capM, flags: [], traders: null, tickerCopies: 0,
+    sellsPerSeller: 1, score: capM, flags: [], traders: null, tickerCopies: 0, namesake: null,
     bigWinners: null, botTraders: null,
   };
 }
@@ -147,4 +147,31 @@ test("a pairing outranks a venue", () => {
   ]);
 
   assert.equal(groups[0]!.pairedWith, "STONK", "a shared reason beats a shared venue");
+});
+
+test("groups coins named after the same kind of thing", () => {
+  const stock = (sym: string, cap: number) => {
+    const r = runner(sym, cap, undefined, 0.3, "pumpswap");
+    r.namesake = { kind: "stock", name: sym };
+    return r;
+  };
+  const groups = groupRunners([stock("TSLA", 80), stock("AAPL", 4), runner("plain", 2, undefined, 0.3, "meteora")]);
+
+  const ns = groups.find((g) => g.kind === "namesake")!;
+  assert.deepEqual(ns.runners.map((r) => r.symbol), ["TSLA", "AAPL"]);
+  assert.match(ns.title, /Stock Ticker/);
+});
+
+test("a pairing still outranks a namesake", () => {
+  const named = (sym: string) => {
+    const r = runner(sym, 50, undefined, 0.3, "pumpswap");
+    r.namesake = { kind: "stock", name: sym };
+    return r;
+  };
+  const groups = groupRunners([
+    runner("p1", 2, "STONK"), runner("p2", 2, "STONK"),
+    named("TSLA"), named("AAPL"),
+  ]);
+
+  assert.equal(groups[0]!.pairedWith, "STONK", "where volume flows beats what someone typed");
 });

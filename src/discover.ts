@@ -11,6 +11,7 @@
  */
 
 import type { FilterConfig, RawPool, Runner } from "./types.ts";
+import { detectNamesake } from "./namesake.ts";
 import { splitPoolName } from "./sources/geckoterminal.ts";
 
 function ageInDays(createdAt: string | null): number | null {
@@ -174,6 +175,7 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
       flags: computeFlags(p, churn, age, cfg),
       mcap: null,
     pairing: null,
+    namesake: detectNamesake(base),
     tickerCopies: 0, // filled by the enrichment pass, which costs one call per runner
       traders: null, // null = not fetched (no Birdeye key); [] = fetched, none found
       bigWinners: null,

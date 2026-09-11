@@ -339,6 +339,12 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
         `${r.tickerCopies + 1} tokens named $${esc(r.symbol)}</span>`
       : "";
 
+  // What it is named after. For a large share of launches this is the whole
+  // reason it exists, and it costs nothing to say.
+  const named = r.namesake
+    ? `<div class="pairing">named after <strong>${esc(r.namesake.name)}</strong></div>`
+    : "";
+
   return `
   <article class="card${isHero ? " hero" : ""}">
     <header class="card-head">
@@ -351,7 +357,7 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
       <div class="head-right">
         <div class="headline">${headline}</div>
         ${r.mcap ? `<div class="multiple">${r.mcap.multiple}x</div>` : ""}
-        ${pairing}
+        ${pairing || named}
       </div>
     </header>
 
@@ -363,7 +369,11 @@ function renderCard(r: Runner, rank: number, notes: DayNotes, bar: number): stri
     <footer class="card-foot">
       <span>${esc(r.dex)}</span>
       <span>now ${esc(usd(r.mcap?.current ?? r.fdvUsd))}</span>
-      <span>liq ${esc(usd(r.liquidityUsd))}</span>
+      <span>${
+        r.liquidityUsd > 0
+          ? `liq ${esc(usd(r.liquidityUsd))}`
+          : `<span title="GeckoTerminal does not report reserves for this pool type. It is unknown, not zero.">depth not reported</span>`
+      }</span>
       <a href="https://dexscreener.com/solana/${esc(r.poolAddress)}" target="_blank" rel="noopener">chart &#8599;</a>
     </footer>
   </article>`;

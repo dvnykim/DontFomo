@@ -116,6 +116,18 @@ function buildEvidence(snapshot: Snapshot): string {
     );
     if (r.flags.length) lines.push(`quality flags: ${r.flags.join(", ")}`);
 
+    if (r.namesake) {
+      lines.push(
+        `  NAMED AFTER ${r.namesake.name} (${r.namesake.kind}). The naming is often the ` +
+          `whole reason it exists — worth a line when there is nothing better.`,
+      );
+    }
+    if (r.tickerCopies > 0) {
+      lines.push(
+        `  ${r.tickerCopies + 1} separate tokens used this exact ticker today; this is the deepest.`,
+      );
+    }
+
     // The pairing is usually the catalyst on a launchpad coin, and unlike price
     // it explains something. Put it in front of the model explicitly.
     if (r.pairing) {

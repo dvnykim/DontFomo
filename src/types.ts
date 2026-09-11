@@ -139,6 +139,12 @@ export interface Runner extends RawPool {
    * than a pricing venue. Null means SOL/stables only — an ordinary launch.
    */
   pairing: Pairing | null;
+  /**
+   * The real-world thing this token is named after, if any. See namesake.ts —
+   * the naming IS the catalyst for a large share of launches, and it costs
+   * nothing to detect.
+   */
+  namesake: { kind: "stock" | "ai" | "brand"; name: string } | null;
 
   // ---- trader layer: null until a Birdeye key is configured ----
   /** Ranked by PnL descending. Null means "not fetched", [] means "none found". */
