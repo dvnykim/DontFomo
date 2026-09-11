@@ -28,8 +28,14 @@ The `why` in priority order, and stop at the first one you actually have:
 1. **The pairing** — `paired with $stonk`. Mechanical, already in the evidence, and the
    single most common reason a launchpad coin moves.
 2. **A mechanism from the theses** — `revenue over $1m a day, 30% of supply burnt`.
-3. **Nothing.** Write the cap and stop. A bare `$TICKER -> hit $2m` is a complete,
+3. **The namesake** — `named after Tesla`. Weak on its own, but when a dozen coins are
+   all wearing real company names that IS the day's story, and it belongs in the section
+   title rather than repeated on every line.
+4. **Nothing.** Write the cap and stop. A bare `$TICKER -> hit $2m` is a complete,
    honest line. Inventing a reason to fill the slot is the failure mode that kills trust.
+
+A coin with nothing under 1–3 is rendered as a single row automatically. You do not need
+to pad it, and you should not try.
 
 ## What to say when there's nothing to say
 
