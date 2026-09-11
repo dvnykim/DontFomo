@@ -69,7 +69,9 @@ highest-volume hour.
    ├─ dedupe by base token, keep the deepest pool
    ├─ filter: quote token, liquidity, volume, market cap, gain, buyers
    ├─ OHLCV per survivor  → intraday low/high + peak time
+   ├─ pools per survivor   → what it's PAIRED WITH        (the catalyst)
    ├─ Birdeye per survivor → per-wallet P&L        (optional, needs key)
+   ├─ group by shared pairing → the recap's sections
    │
    ├─ data/YYYY-MM-DD.json  → committed to the repo
    │
@@ -137,6 +139,31 @@ session can trade, withdraw and export the wallet.
 Putting such a credential in CI would be indefensible regardless of what the terms
 permit, so the export stays manual until read-only API access is granted. `TraderDay` is
 the contract; swapping the source replaces one file.
+
+## The recap is sections, not a ranking
+
+A daily recap is read for *what the market was doing*, not for a leaderboard. The
+reference format clusters coins by shared catalyst and titles each cluster:
+
+```
+Rotate Back To Stonk
+  $KNOTS   -> hit $45m, paired with $stonk
+  $btc     -> hit $18.3m, bitcoin rewards
+  $NEARKAT -> hit $9.7m, paired with $near
+```
+
+Eight coins running for one reason is the story. Ten unrelated facts in rank order is
+not, and it is what every terminal already gives you.
+
+**The clustering is mechanical, the naming is editorial.** Tokens sharing a pairing are
+grouped by `src/group.ts`; the model is then handed those groups *as keys to name*. It
+never decides who belongs with whom — a model asked to both cluster and label will
+cheerfully cluster to fit a label it likes.
+
+Each section prints its own basis underneath the title — *"3 coins trading against
+$STONK · 61% of their volume"* — so a reader can check the grouping instead of trusting
+the header. Coins with no shared pairing fall back to a split on age, which is a
+deliberately weak grouping: it says "we know these ran and not why", which is honest.
 
 ## The schema is the contract
 
