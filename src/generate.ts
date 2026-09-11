@@ -20,7 +20,7 @@ import { createHash } from "node:crypto";
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
-import type { Runner, Snapshot } from "./types.ts";
+import type { FilterConfig, Runner, Snapshot } from "./types.ts";
 import { usd } from "./format.ts";
 import { groupRunners } from "./group.ts";
 import { isPriceRestatement } from "./catalyst.ts";
@@ -311,8 +311,16 @@ function copiesThesis(text: string, shingles: Set<string>): boolean {
  * handle/ticker filter doesn't catch it — a plausible-but-wrong market cap reads as
  * authoritative and is invisible without checking the source.
  */
-function allowedNumbers(r: Runner, theses: FomoThesis[] = []): Set<string> {
+function allowedNumbers(r: Runner, theses: FomoThesis[] = [], cfg?: FilterConfig): Set<string> {
   const ok = new Set<string>();
+
+  // Thresholds we print in the evidence ourselves. "3 of 8 sampled cleared $10k"
+  // was being deleted because $10k is a config value rather than a measurement —
+  // the validator rejecting a number the pipeline had handed the model.
+  if (cfg) {
+    ok.add(usd(cfg.bigWinnerPnlUsd).toLowerCase());
+    ok.add(String(cfg.maxTradersPerRunner));
+  }
 
   // Figures quoted inside a thesis are evidence too. The guard's rule is "no
   // number that is not in the evidence", and thesis text IS evidence — without
@@ -363,17 +371,26 @@ function allowedNumbers(r: Runner, theses: FomoThesis[] = []): Set<string> {
  * validate without dropping correct lines.
  */
 function unsupportedNumber(text: string, allowed: Set<string>): string | null {
-  const lower = text.toLowerCase();
+  let rest = text.toLowerCase();
 
-  for (const [, amount] of lower.matchAll(/(\$\d[\d.,]*\s?[kmb]?)/g)) {
+  // Each pass CONSUMES what it validated. Without that, the bare-integer scan
+  // re-reads the digits of figures already approved: "296.5x" was allowed as a
+  // multiple and then rejected again as the integer 296, deleting a correct
+  // line. Clock times are consumed for the same reason ("15:00" -> "15").
+  rest = rest.replace(/\b\d{1,2}:\d{2}\b/g, " ");
+
+  for (const [, amount] of [...rest.matchAll(/(\$\d[\d.,]*\s?[kmb]?)/g)]) {
     const norm = amount!.replace(/[\s,]/g, "");
     if (!allowed.has(norm)) return norm;
   }
-  for (const [, mult] of lower.matchAll(/\b(\d+(?:\.\d+)?x)\b/g)) {
+  rest = rest.replace(/\$\d[\d.,]*\s?[kmb]?/g, " ");
+
+  for (const [, mult] of [...rest.matchAll(/\b(\d+(?:\.\d+)?x)\b/g)]) {
     if (!allowed.has(mult!)) return mult!;
   }
-  // Strip clock times before scanning bare integers, or "15:00" yields "15"/"00".
-  for (const [, int] of lower.replace(/\b\d{1,2}:\d{2}\b/g, " ").matchAll(/\b(\d{3,})\b/g)) {
+  rest = rest.replace(/\b\d+(?:\.\d+)?x\b/g, " ");
+
+  for (const [, int] of [...rest.matchAll(/\b(\d{3,})\b/g)]) {
     if (!allowed.has(int!)) return int!;
   }
   return null;
@@ -488,7 +505,9 @@ export function validateOutput(
 
   for (const coin of narrative.coins) {
     const runner = bySymbol.get(coin.symbol.toLowerCase());
-    const numbers = runner ? allowedNumbers(runner, theses.get(coin.symbol.toLowerCase()) ?? []) : null;
+    const numbers = runner
+      ? allowedNumbers(runner, theses.get(coin.symbol.toLowerCase()) ?? [], snapshot.config)
+      : null;
 
     coin.timeline = coin.timeline.filter((entry) => {
       const badNumber = numbers ? unsupportedNumber(entry.text, numbers) : null;

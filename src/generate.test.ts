@@ -516,3 +516,45 @@ test("a thesis author is NOT nameable", () => {
 
   assert.equal(report.dropped.length, 1, "handles must not reach the committed archive");
 });
+
+// ----------------------------------------------- numeric guard false positives
+
+test("a decimal multiple is not re-read as a bare integer", () => {
+  // "296.5x" was allowed as a multiple, then the bare-integer scan re-extracted
+  // 296 from the same text and rejected it — deleting a correct line.
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 30_000, high: 8_800_000, current: 8_800_000, multiple: 296.5, peakAt: null },
+    },
+  ]);
+  const n = narrative("peaked $8.8m (296.5x from $30k)");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("licenses thresholds the evidence itself prints", () => {
+  // $10k is bigWinnerPnlUsd. The evidence states it, so a line repeating it is
+  // not inventing anything.
+  const snap = snapshot([{ symbol: "CATE", traders: [trader()], bigWinners: 3 }]);
+  const n = narrative("3 of 8 sampled cleared $10k");
+  const report = validateOutput(n, snap);
+
+  assert.equal(report.dropped.length, 0, JSON.stringify(report.dropped));
+});
+
+test("still catches a fabricated figure after the fix", () => {
+  const snap = snapshot([
+    {
+      symbol: "CATE",
+      mcap: { low: 30_000, high: 8_800_000, current: 8_800_000, multiple: 296.5, peakAt: null },
+    },
+  ]);
+
+  for (const bad of ["ripped to $250m on the day", "a clean 9x off the base", "4821 buyers showed up"]) {
+    const n = narrative(bad);
+    const report = validateOutput(n, snap);
+    assert.equal(report.dropped.length, 1, `should have dropped: ${bad}`);
+  }
+});

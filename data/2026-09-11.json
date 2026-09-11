@@ -263,7 +263,7 @@
         "current": 81057197,
         "low": 92680,
         "high": 292703932,
-        "multiple": 3158.2,
+        "multiple": null,
         "peakAt": "2026-09-11T02:00:00.000Z"
       },
       "pairing": null,
@@ -842,7 +842,7 @@
         "current": 20195643,
         "low": 248822,
         "high": 20309650,
-        "multiple": 81.6,
+        "multiple": null,
         "peakAt": "2026-09-11T09:00:00.000Z"
       },
       "pairing": null,
@@ -1217,7 +1217,7 @@
         "current": 8427988,
         "low": 256894,
         "high": 8589015,
-        "multiple": 33.4,
+        "multiple": null,
         "peakAt": "2026-09-11T15:00:00.000Z"
       },
       "pairing": null,
@@ -1406,7 +1406,7 @@
         "current": 5943424,
         "low": 242835,
         "high": 5997126,
-        "multiple": 24.7,
+        "multiple": null,
         "peakAt": "2026-09-11T11:00:00.000Z"
       },
       "pairing": null,
@@ -1597,7 +1597,7 @@
         "current": 6015045,
         "low": 600466,
         "high": 6177226,
-        "multiple": 10.3,
+        "multiple": null,
         "peakAt": "2026-09-10T21:00:00.000Z"
       },
       "pairing": null,
@@ -1785,7 +1785,7 @@
         "current": 2202539,
         "low": 148385,
         "high": 2270748,
-        "multiple": 15.3,
+        "multiple": null,
         "peakAt": "2026-09-11T10:00:00.000Z"
       },
       "pairing": null,
@@ -1973,7 +1973,7 @@
         "current": 5335847,
         "low": 579182,
         "high": 5339179,
-        "multiple": 9.2,
+        "multiple": null,
         "peakAt": "2026-09-11T00:00:00.000Z"
       },
       "pairing": null,
@@ -2164,7 +2164,7 @@
         "current": 1696880,
         "low": 352989,
         "high": 1806779,
-        "multiple": 5.1,
+        "multiple": null,
         "peakAt": "2026-09-10T19:00:00.000Z"
       },
       "pairing": null,
@@ -2352,7 +2352,7 @@
         "current": 4025829,
         "low": 616491,
         "high": 4048889,
-        "multiple": 6.6,
+        "multiple": null,
         "peakAt": "2026-09-10T21:00:00.000Z"
       },
       "pairing": null,
@@ -2543,7 +2543,7 @@
         "current": 1943241,
         "low": 404390,
         "high": 2221287,
-        "multiple": 5.5,
+        "multiple": null,
         "peakAt": "2026-09-11T01:00:00.000Z"
       },
       "pairing": null,
@@ -2735,7 +2735,7 @@
         "current": 3842849,
         "low": 686792,
         "high": 3979332,
-        "multiple": 5.8,
+        "multiple": null,
         "peakAt": "2026-09-11T16:00:00.000Z"
       },
       "pairing": null,
@@ -2927,7 +2927,7 @@
         "current": 3395886,
         "low": 664211,
         "high": 3411180,
-        "multiple": 5.1,
+        "multiple": null,
         "peakAt": "2026-09-11T14:00:00.000Z"
       },
       "pairing": null,
@@ -3118,7 +3118,7 @@
         "current": 3015917,
         "low": 601391,
         "high": 3146312,
-        "multiple": 5.2,
+        "multiple": null,
         "peakAt": "2026-09-11T13:00:00.000Z"
       },
       "pairing": null,
@@ -3494,7 +3494,7 @@
         "current": 1335939,
         "low": 405857,
         "high": 1359360,
-        "multiple": 3.3,
+        "multiple": null,
         "peakAt": "2026-09-10T20:00:00.000Z"
       },
       "pairing": null,
@@ -3685,7 +3685,7 @@
         "current": 2321981,
         "low": 326854,
         "high": 2357076,
-        "multiple": 7.2,
+        "multiple": null,
         "peakAt": "2026-09-11T09:00:00.000Z"
       },
       "pairing": null,
@@ -3873,7 +3873,7 @@
         "current": 1552588,
         "low": 466082,
         "high": 1553275,
-        "multiple": 3.3,
+        "multiple": null,
         "peakAt": "2026-09-11T04:00:00.000Z"
       },
       "pairing": null,
@@ -4259,7 +4259,7 @@
         "current": 1154086,
         "low": 347686,
         "high": 1173990,
-        "multiple": 3.4,
+        "multiple": null,
         "peakAt": "2026-09-10T22:00:00.000Z"
       },
       "pairing": null,
@@ -4447,7 +4447,7 @@
         "current": 1499616,
         "low": 518477,
         "high": 1519257,
-        "multiple": 2.9,
+        "multiple": null,
         "peakAt": "2026-09-11T16:00:00.000Z"
       },
       "pairing": null,
