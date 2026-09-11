@@ -22,6 +22,10 @@ concurrency:
 jobs:
   recap:
     runs-on: ubuntu-latest
+    # Coverage of 24 runners costs ~2 keyless requests each at 7s apiece, plus
+    # 429 backoffs, so a normal run is 20-30 minutes. This is a ceiling on a
+    # hung run, not a target — the default is 6 hours.
+    timeout-minutes: 60
     permissions:
       contents: write
     steps:
@@ -84,6 +88,7 @@ jobs:
   deploy:
     needs: recap
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       pages: write
       id-token: write
