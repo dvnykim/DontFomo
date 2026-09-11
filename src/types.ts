@@ -88,7 +88,16 @@ export interface McapRange {
   current: number;
   low: number;
   high: number;
-  multiple: number;
+  /**
+   * high / low, or NULL for a token that launched inside the window.
+   *
+   * The intraday low of a fresh launch is its first-ever print, so the ratio
+   * measures the mint rather than a move — $TSLA came out at 37,282x, then
+   * 3,158x after a first attempt to clean it up. The reference recaps never
+   * quote a multiple for a launch either: they write "hit $10m" and quote
+   * multiples only for coins that already existed ("3x off the bottom").
+   */
+  multiple: number | null;
   /** When the intraday high printed — drives the day timeline. */
   peakAt: string | null;
 }

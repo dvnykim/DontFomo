@@ -96,7 +96,7 @@ export function buildThesisEvidence(token: TraderLedToken, limit = 5): string {
   if (chain) {
     lines.push(
       `  on-chain: ${chain.name}, now $${Math.round(chain.fdvUsd).toLocaleString()} fdv` +
-        (chain.mcap ? `, intraday ${chain.mcap.multiple.toFixed(1)}x` : "") +
+        (chain.mcap?.multiple != null ? `, intraday ${chain.mcap.multiple.toFixed(1)}x` : "") +
         (chain.mcapRatio !== null && chain.mcapRatio > 3
           ? `  [LOW CONFIDENCE MATCH — ${chain.mcapRatio.toFixed(1)}x off the reported cap]`
           : ""),

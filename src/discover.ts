@@ -87,7 +87,8 @@ export function rankByBigWinners(runners: Runner[]): void {
 
 export function rescoreByMarketCap(runners: Runner[], cfg: FilterConfig): void {
   for (const r of runners) {
-    if (!r.mcap || r.mcap.multiple <= 0) continue;
+    // A launch has no multiple, so it keeps its discovery score (24h change).
+    if (!r.mcap || r.mcap.multiple === null || r.mcap.multiple <= 0) continue;
     const gainPct = (r.mcap.multiple - 1) * 100;
     r.score = scoreRunner(r, r.churn, r.ageDays, cfg, gainPct);
   }

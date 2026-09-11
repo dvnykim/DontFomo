@@ -70,7 +70,7 @@ export async function enrichTraderLedTokens(
             current: match.fdvUsd,
             low: range.low * supply,
             high: range.high * supply,
-            multiple: range.low > 0 ? range.high / range.low : 1,
+            multiple: range.low > 0 ? range.high / range.low : null,
             peakAt: range.peakAt,
           };
         }
@@ -81,7 +81,8 @@ export async function enrichTraderLedTokens(
 
     if (log) {
       const conf = match.mcapRatio === null ? "" : ` (${match.mcapRatio.toFixed(1)}x off reported)`;
-      const mult = token.onchain.mcap ? `  ${token.onchain.mcap.multiple.toFixed(1)}x intraday` : "";
+      const mult =
+        token.onchain.mcap?.multiple != null ? `  ${token.onchain.mcap.multiple.toFixed(1)}x intraday` : "";
       console.log(`  $${token.symbol.padEnd(14)} ${match.name}${conf}${mult}`);
     }
   }

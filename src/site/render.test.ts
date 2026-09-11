@@ -154,3 +154,36 @@ test("a flag on a minority stays on its card", () => {
 
   assert.match(html, /class="flag/, "a discriminating flag is still worth showing");
 });
+
+test("never prints a multiple for a launch", () => {
+  // The intraday low of a fresh launch is its first print, so a ratio off it
+  // measures the mint. One live run produced 37,282x, then 3,158x after a first
+  // attempt to clean it up — which is why the number is null rather than fixed.
+  const html = renderPage(
+    snapshot([
+      runner({
+        ageDays: 0.3,
+        namesake: { kind: "stock", name: "Tesla" },
+        mcap: { low: 8_000, high: 293_000_000, current: 81_000_000, multiple: null, peakAt: null },
+      }),
+    ]),
+  );
+
+  assert.ok(!/nullx/.test(html), "an unguarded template would print this");
+  assert.ok(!/\d+x<\/div>/.test(html), "and no multiple at all");
+  assert.match(html, /hit \$293m|293m/, "the peak is still the headline");
+});
+
+test("still prints a multiple for an established coin", () => {
+  const html = renderPage(
+    snapshot([
+      runner({
+        ageDays: 40,
+        namesake: { kind: "ai", name: "Claude" },
+        mcap: { low: 35_000_000, high: 70_000_000, current: 60_000_000, multiple: 2, peakAt: null },
+      }),
+    ]),
+  );
+
+  assert.match(html, /2x/);
+});

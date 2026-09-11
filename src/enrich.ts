@@ -6,6 +6,9 @@
  */
 
 import type { FilterConfig, Runner } from "./types.ts";
+
+/** A token first traded inside the snapshot window has no meaningful "low". */
+const launchedInWindow = (r: Runner): boolean => r.ageDays !== null && r.ageDays < 1;
 import { fetchDayRange, fetchTokenPairing } from "./sources/geckoterminal.ts";
 import { fetchTopTraders, hasApiKey, RATE_LIMIT_MS } from "./sources/birdeye.ts";
 
@@ -32,14 +35,17 @@ export async function enrichWithMarketCap(runners: Runner[], network = "solana")
         current: Math.round(r.fdvUsd),
         low: Math.round(low),
         high: Math.round(high),
-        multiple: low > 0 ? Number((high / low).toFixed(1)) : 0,
+        // Null for a launch: its intraday low is its first print, so the
+        // ratio measures the mint, not a move. See McapRange.multiple.
+        multiple:
+          low > 0 && !launchedInWindow(r) ? Number((high / low).toFixed(1)) : null,
         peakAt: range.peakAt,
       };
     } else {
       r.mcap = null;
     }
 
-    const shown = r.mcap ? `${r.mcap.multiple}x` : "unavailable";
+    const shown = r.mcap?.multiple != null ? `${r.mcap.multiple}x` : r.mcap ? "launch" : "unavailable";
     console.log(`  mcap ${i + 1}/${runners.length} ${r.symbol}: ${shown}`);
 
     if (i < runners.length - 1) await sleep(REQUEST_DELAY_MS);

@@ -119,7 +119,17 @@ function buildEvidence(snapshot: Snapshot, theses: ThesesBySymbol = new Map()): 
     const m = r.mcap;
     lines.push(`## $${r.symbol}`);
     lines.push(
-      `market cap: ${m ? `${usd(m.low)} -> ${usd(m.high)} (${m.multiple}x), now ${usd(m.current)}` : "unknown"}`,
+      // A launch is reported as "hit $X" with no multiple: its intraday low is
+      // the first print, so a ratio off it measures the mint. Established coins
+      // get the full range. This is also exactly how the reference recaps write
+      // the two cases, so it shapes the output as well as constraining it.
+      `market cap: ${
+        !m
+          ? "unknown"
+          : m.multiple === null
+            ? `hit ${usd(m.high)}, now ${usd(m.current)} (launched today — NO multiple exists for this coin, do not compute one)`
+            : `${usd(m.low)} -> ${usd(m.high)} (${m.multiple}x), now ${usd(m.current)}`
+      }`,
     );
     lines.push(`launched: ${r.createdAt ?? "unknown"}   peaked: ${m?.peakAt ?? "unknown"}`);
     lines.push(
@@ -326,7 +336,10 @@ function allowedNumbers(r: Runner, theses: FomoThesis[] = []): Set<string> {
   ].filter((n): n is number => typeof n === "number");
 
   for (const m of money) ok.add(usd(m).toLowerCase());
-  if (r.mcap) ok.add(`${r.mcap.multiple}x`);
+  // Guarded: an unguarded template would add the literal string "nullx" for a
+  // launch, which is harmless but also means no multiple is ever licensed — and
+  // silently so.
+  if (r.mcap?.multiple != null) ok.add(`${r.mcap.multiple}x`);
 
   const counts = [
     r.txns24h.buyers,

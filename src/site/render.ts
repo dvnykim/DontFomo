@@ -372,7 +372,7 @@ function renderCard(
       </div>
       <div class="head-right">
         <div class="headline">${headline}</div>
-        ${r.mcap ? `<div class="multiple">${r.mcap.multiple}x</div>` : ""}
+        ${r.mcap?.multiple != null ? `<div class="multiple">${r.mcap.multiple}x</div>` : ""}
         ${pairing || named}
       </div>
     </header>
@@ -427,7 +427,10 @@ function renderArchiveNav(dates: string[], current: string): string {
  */
 function renderCompactRow(r: Runner): string {
   const cap = r.mcap ? usd(r.mcap.high) : usd(r.fdvUsd);
-  const mult = r.mcap && r.mcap.multiple > 1 ? ` <span class="cx">${r.mcap.multiple}x</span>` : "";
+  const mult =
+    r.mcap?.multiple != null && r.mcap.multiple > 1
+      ? ` <span class="cx">${r.mcap.multiple}x</span>`
+      : "";
   const copies = r.tickerCopies > 0 ? ` <span class="cwarn">${r.tickerCopies + 1} same ticker</span>` : "";
   return `
     <div class="crow">

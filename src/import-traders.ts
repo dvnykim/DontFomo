@@ -106,7 +106,8 @@ async function main() {
       t.onchain === null
         ? ""
         : t.onchain.mcap
-          ? `  -> ${usd(t.onchain.mcap.high)} peak (${t.onchain.mcap.multiple.toFixed(1)}x)`
+          ? `  -> ${usd(t.onchain.mcap.high)} peak` +
+            (t.onchain.mcap.multiple != null ? ` (${t.onchain.mcap.multiple.toFixed(1)}x)` : "")
           : `  -> ${usd(t.onchain.fdvUsd)} now`;
     console.log(
       `${String(i + 1).padStart(2)}. $${t.symbol.padEnd(14)} ` +
