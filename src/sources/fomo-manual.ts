@@ -163,13 +163,16 @@ function parseTheses(lines: string[], exportedAt: string, defaultSymbol: string 
     while (j < lines.length && (isDecor(lines[j]!) || !lines[j]!.trim())) j++;
 
     // A dollar amount here means the token page, where the symbol is implicit.
+    //
+    // A figure of any shape means the same thing. Checking only for a dollar
+    // amount let "3.58%" through as a ticker, which then became its own entry
+    // in the recap — a percentage rendered as a coin.
     let symbol = defaultSymbol;
-    if (parseUsd(lines[j] ?? "") === null) {
-      const candidate = lines[j]?.trim();
-      if (candidate && !isNoise(candidate)) {
-        symbol = candidate;
-        j++;
-      }
+    const candidate = lines[j]?.trim();
+    const looksNumeric = !candidate || /^[$−+-]?[\d,.]+\s*[%xkmb]?$/i.test(candidate);
+    if (!looksNumeric && !isNoise(candidate)) {
+      symbol = candidate;
+      j++;
     }
     if (!symbol) continue;
 
@@ -310,18 +313,30 @@ export function parseProfile(
   }
 
   const { handle, followers, following, tradeCount, avgHold } = parseHeader(lines);
-  if (!handle) warnings.push("no @handle found — is this a profile page?");
-  if (followers === null) warnings.push("follower count not found");
 
   const trades = parseTrades(lines, exportedAt);
   const theses = parseTheses(lines, exportedAt, defaultSymbol);
   const positions = parsePositions(lines);
 
-  if (trades.length === 0) warnings.push("parsed 0 trades — page layout may have changed");
-  if (theses.length === 0) warnings.push("parsed 0 theses — nothing to build catalysts from");
+  // A token page and a trader profile fail in different ways, and warning about
+  // the wrong one sends you hunting a problem that isn't there. A token page has
+  // many authors and no swaps table; a profile has one handle and both.
+  const isTokenPage = defaultSymbol !== null && !handle;
+
+  if (isTokenPage) {
+    if (theses.length === 0) {
+      warnings.push("parsed 0 theses — open the Thesis tab before capturing");
+    }
+  } else {
+    if (!handle) warnings.push("no @handle found — is this a profile page?");
+    if (followers === null) warnings.push("follower count not found");
+    if (trades.length === 0) warnings.push("parsed 0 trades — scroll until the swaps table renders");
+    if (theses.length === 0) warnings.push("parsed 0 theses — nothing to build catalysts from");
+  }
 
   return {
-    handle: handle ?? "unknown",
+    // A token page has no single author, so naming one would be a fiction.
+    handle: handle ?? (defaultSymbol ? `token:${defaultSymbol}` : "unknown"),
     displayName: null,
     followers,
     following,

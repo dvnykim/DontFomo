@@ -18,6 +18,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { parseProfile } from "./sources/fomo-manual.ts";
 import { buildTraderLedTokens, isDistribution } from "./traders.ts";
+import { rankTheses } from "./thesis.ts";
 import { enrichTraderLedTokens } from "./enrich-traders.ts";
 import type { TraderDay } from "./types.ts";
 
@@ -42,7 +43,13 @@ export async function loadTraderDays(dir = INPUT_DIR): Promise<TraderDay[]> {
     const full = path.join(dir, file);
     const [raw, info] = await Promise.all([readFile(full, "utf8"), stat(full)]);
     if (!raw.trim()) continue;
-    days.push(parseProfile(raw, info.mtime.toISOString()));
+
+    // The filename carries the symbol for a token-page capture, where no
+    // per-row symbol is rendered. Without it the theses parse to nothing:
+    // a real capture of 31 dropped to 3, silently, because only the handful
+    // that happened to name a symbol survived.
+    const fromName = file.replace(/\.txt$/, "");
+    days.push(parseProfile(raw, info.mtime.toISOString(), fromName));
   }
   return days;
 }
@@ -70,14 +77,16 @@ async function main() {
         `${String(d.theses.length).padStart(2)} theses  ${reach.padStart(8)} followers`,
     );
     for (const w of d.parseWarnings) console.log(`      ! ${w}`);
-    if (d.trades.length === 0) unusable++;
+    // A token-page capture legitimately has theses and no trades — the swaps
+    // table is a different tab. Only a capture with NEITHER is unusable.
+    if (d.trades.length === 0 && d.theses.length === 0) unusable++;
   }
 
   if (unusable === days.length) {
     console.log(
-      `\nEvery export parsed zero trades. That usually means the page layout\n` +
-        `changed, or the paste captured only part of the page. Check that the\n` +
-        `"All swaps" table is included in what you copied.`,
+      `\nEvery export parsed nothing at all. That usually means the page layout\n` +
+        `changed, or the capture missed the feed. Open the Thesis tab on a token\n` +
+        `page, or scroll a profile until the swaps table renders, then capture again.`,
     );
     process.exitCode = 1;
     return;
@@ -114,10 +123,17 @@ async function main() {
         `${t.buyers.length} buyer${t.buyers.length === 1 ? " " : "s"}  ` +
         `${usd(t.totalBuyUsd).padStart(8)} in${entry}${chain}${tag}`,
     );
-    console.log(`     ${t.buyers.map((b) => "@" + b).join(", ")}`);
-    for (const th of t.theses) {
-      const when = th.agoMinutes === null ? "" : `${th.agoMinutes}m ago: `;
-      console.log(`     "${when}${th.text.slice(0, 90)}${th.text.length > 90 ? "…" : ""}"`);
+    if (t.buyers.length > 0) console.log(`     ${t.buyers.map((b) => "@" + b).join(", ")}`);
+
+    // Ranked, not dumped. A token feed is mostly noise; printing all of it
+    // hides the handful of posts that actually say why anyone bought.
+    const top = rankTheses(t.theses, { limit: 5, minScore: 1 });
+    for (const th of top) {
+      const who = th.author ? `@${th.author}` : "?";
+      console.log(`     [${String(th.scored.score).padStart(5)}] ${who}: ${th.text.slice(0, 88)}${th.text.length > 88 ? "…" : ""}`);
+    }
+    if (t.theses.length > top.length) {
+      console.log(`     (${t.theses.length - top.length} more below the bar)`);
     }
     console.log("");
   }

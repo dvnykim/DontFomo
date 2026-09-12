@@ -192,3 +192,23 @@ test("unit helpers handle the formats fomo actually renders", () => {
   assert.equal(parseAgo("30s"), 1);
   assert.equal(parseAgo("tomorrow"), null);
 });
+
+test("never reads a figure as a ticker", () => {
+  // "3.58%" became its own coin in the recap — a percentage rendered as a
+  // token, with theses attached to it.
+  const page = [
+    "someone", "Thesis", "12m", "3.58%", "$1,200.00", "a thesis about the real token", "4",
+  ].join("\n");
+
+  const d = parseProfile(page, EXPORTED_AT, "REAL");
+
+  assert.equal(d.theses.length, 1);
+  assert.equal(d.theses[0]!.symbol, "REAL", "falls back to the page's token");
+});
+
+test("still reads a genuine per-row symbol on a profile page", () => {
+  const page = ["someone", "Thesis", "12m", "faketoken", "$1,200.00", "why faketoken", "4"].join("\n");
+  const d = parseProfile(page, EXPORTED_AT, null);
+
+  assert.equal(d.theses[0]!.symbol, "faketoken");
+});
