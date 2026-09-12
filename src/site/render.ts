@@ -465,6 +465,14 @@ function renderSection(g: NarrativeGroup, cards: string, notes: DayNotes): strin
     basis =
       `${n} coin${n === 1 ? "" : "s"} trading against $${esc(g.pairedWith)}` +
       (avg > 0 ? ` &middot; ${avg}% of their volume` : "");
+  } else if (g.kind === "namesake") {
+    const names = [...new Set(g.runners.map((r) => r.namesake?.name).filter(Boolean))];
+    const shown = names.slice(0, 3).join(", ");
+    basis =
+      `${g.runners.length} named after real things` +
+      (shown ? ` &mdash; ${esc(shown)}${names.length > 3 ? ` +${names.length - 3} more` : ""}` : "");
+  } else if (g.kind === "venue") {
+    basis = `${g.runners.length} off the same launchpad, no shared pairing`;
   } else if (g.kind === "fresh") {
     basis = `${g.runners.length} launched in the last 24h, no shared pairing`;
   } else if (g.kind === "established") {

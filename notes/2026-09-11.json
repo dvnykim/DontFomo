@@ -1,181 +1,167 @@
 {
   "_generated": {
     "model": "claude-opus-4-8",
-    "generatedAt": "2026-09-11T22:20:33.972Z",
-    "evidenceSha256": "a1256c8cc7dfa6f5"
+    "generatedAt": "2026-09-11T22:21:59.258Z",
+    "evidenceSha256": "2901df28931852b6"
   },
-  "mood": "stock and ai namesakes on the conveyor all day, bots churning both sides — the stonk complex is where the real money sat",
+  "mood": "stonk ran the show, everything else was bot-on-bot ticker cosplay — real names, fake volume",
   "groups": {
     "pair:stonk:knots": {
       "title": "Riding Stonk's Coattails"
     },
     "pair:met:ember": {
-      "title": "Ember Runs With Met"
+      "title": "Ember Off The Met Pool"
     },
     "namesake:stock": {
-      "title": "Blue Chip Tickers"
+      "title": "Ticker Cosplay: Blue Chips"
     },
     "namesake:ai": {
-      "title": "AI Names Printed"
+      "title": "AI Names On A Conveyor"
     },
     "namesake:brand": {
-      "title": "Brand Name Grabs"
+      "title": "Borrowed Brand Names"
     },
     "venue:pumpswap": {
-      "title": "Pumpswap Conveyor"
+      "title": "Pumpswap Launch Conveyor"
     },
     "established": {
-      "title": "Stonk Holds Bid"
+      "title": "Stonk Still Driving"
     }
   },
   "coins": {
     "STONK": {
-      "label": "Anchor Of The Day",
+      "label": "Runner Of The Day",
       "timeline": [
         {
           "time": "05:00",
-          "text": "peaked at $453m before fading back to $252m"
-        },
-        {
-          "time": "05:00",
-          "text": "top realised wallet banked $186k in 83 trades; 3 of 8 sampled wallets cleared $10k, none bots"
+          "text": "top realised wallet banked $186k in 83 trades; 3 of 8 sampled cleared the bar, none were bots"
         }
       ]
     },
     "KNOTS": {
-      "label": "Stonk Proxy",
+      "label": "Stonk Satellite",
       "timeline": [
         {
           "time": "10:00",
-          "text": "peaked $52m — 60% of volume ran against $STONK, more than its SOL and stable pools combined"
+          "text": "peaked at $52m; $STONK pool was 60% of its volume, bigger than SOL and stables combined"
         }
       ]
     },
     "EMBER": {
-      "label": "Met Pairing Rip",
+      "label": "Met Pool Runner",
       "timeline": [
         {
           "time": "11:00",
-          "text": "peaked $49m (23.6x) on the $MET pairing, ~23% of its volume"
+          "text": "peaked at $49m, 23.6x off the $MET pairing — $16m, 23% of its volume"
+        },
+        {
+          "time": "11:00",
+          "text": "every sampled top wallet was a bot; largest showed $432k on paper, only $640 realised"
         }
       ]
     },
     "TSLA": {
-      "label": "Tesla Ticker",
+      "label": "Tesla Cosplay",
       "timeline": [
         {
           "time": "02:00",
-          "text": "peaked $293m then round-tripped to $81m; all 8 sampled wallets were bots running ~14k trades each"
+          "text": "peaked at $293m then round-tripped to $81m; all 8 sampled wallets were bots turning ~14k trades each"
         }
       ]
     },
     "GOOGL": {
-      "label": "Google Ticker",
+      "label": "",
       "timeline": []
     },
     "AAPL": {
-      "label": "Apple Ticker",
+      "label": "",
       "timeline": []
     },
     "AMZN": {
-      "label": "Amazon Ticker",
+      "label": "",
       "timeline": []
     },
     "DeepSeek": {
-      "label": "296x Namesake",
+      "label": "296x Off A Name",
       "timeline": [
         {
           "time": "20:00",
-          "text": "peaked $8.8m off a $30k base named after DeepSeek; 8 of 8 sampled were bots"
+          "text": "peaked at $8.8m, 296x on the DeepSeek name; $54m volume against no reported liquidity, bot-driven selling"
         }
       ]
     },
     "NVIDIA": {
-      "label": "Nvidia Ticker",
+      "label": "",
       "timeline": []
     },
     "DeepSeekAI": {
-      "label": "Second DeepSeek",
+      "label": "",
       "timeline": []
     },
     "SPCX": {
-      "label": "SpaceX Ticker",
+      "label": "",
       "timeline": []
     },
     "NIKE": {
-      "label": "Nike Ticker",
+      "label": "",
       "timeline": []
     },
     "FLYBRAIN": {
-      "label": "Biggest Fresh Launch",
-      "timeline": [
-        {
-          "time": "04:27",
-          "text": "launched"
-        },
-        {
-          "time": "09:00",
-          "text": "peaked $20m; every sampled wallet a bot"
-        }
-      ]
+      "label": "",
+      "timeline": []
     },
     "PAYAI": {
-      "label": "Midday Launch",
+      "label": "",
       "timeline": []
     },
     "IOPN": {
-      "label": "Volume Churn",
-      "timeline": [
-        {
-          "time": "21:00",
-          "text": "peaked $6.2m on $67m volume against a $0 liquidity book — all 8 sampled bots"
-        }
-      ]
+      "label": "",
+      "timeline": []
     },
     "CNPY": {
-      "label": "120x Off The Floor",
+      "label": "Bot Churn Runner",
       "timeline": [
         {
           "time": "17:00",
-          "text": "peaked $5.7m from a $47k base"
+          "text": "peaked at $5.7m, 120x on $15m volume — all 8 sampled wallets bots, none in profit"
         }
       ]
     },
     "$1": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "MCAT": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "+": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "Nasduck": {
-      "label": "Slow Grind",
+      "label": "",
       "timeline": [
         {
           "time": "14:00",
-          "text": "peaked $2.1m (3.8x)"
+          "text": "peaked at $2.1m (3.8x); top bot wallet up $14k unrealised, thin $2.2m volume"
         }
       ]
     },
     "MARIO": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "BREW": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "RocketFrog": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     },
     "CHILLGUY": {
-      "label": "Launch",
+      "label": "",
       "timeline": []
     }
   }

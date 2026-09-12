@@ -187,3 +187,22 @@ test("still prints a multiple for an established coin", () => {
 
   assert.match(html, /2x/);
 });
+
+test("every section states why its coins are together", () => {
+  // The basis line is the point: a reader can check the grouping instead of
+  // taking an editorial header on trust. Two group kinds shipped without one.
+  const named = (sym: string, name: string) =>
+    runner({ symbol: sym, baseTokenId: sym, namesake: { kind: "stock", name }, dex: "pumpswap" });
+
+  const html = renderPage(
+    snapshot([named("TSLA", "Tesla"), named("AAPL", "Apple"), named("AMZN", "Amazon")]),
+  );
+
+  const titles = [...html.matchAll(/group-title">([^<]+)</g)].length;
+  const bases = [...html.matchAll(/group-basis">/g)].length;
+
+  assert.ok(titles > 0);
+  assert.equal(bases, titles, "a title without a basis is an assertion the reader cannot check");
+  assert.match(html, /named after real things/);
+  assert.match(html, /Tesla/);
+});
