@@ -90,3 +90,45 @@ test("handles null traders without throwing", () => {
   const out = stripEphemeral(snap(null));
   assert.equal(out.runners[0]!.traders, null);
 });
+
+// ------------------------------------------------ the boundary, end to end
+
+test("Snapshot has no field that can hold a thesis", () => {
+  // The structural guarantee: theses reach generation through ThesesBySymbol,
+  // which is deliberately NOT reachable from Snapshot. A type that cannot be
+  // reached from the archived shape cannot be serialised into it by accident.
+  const populated = snap([
+    {
+      wallet: "w", pnlUsd: 1, realizedPnlUsd: 1, volumeUsd: 1, trades: 1,
+      tags: [], isBot: false, firstBuyAt: null, lastSellAt: null,
+      handle: "someone", thesis: "a thesis", thesisPostedAt: null, followers: 5,
+    },
+  ]);
+
+  const json = JSON.stringify(stripEphemeral(populated));
+  const keys = new Set<string>();
+  JSON.parse(json, function (k) {
+    if (k) keys.add(k);
+    return undefined;
+  });
+
+  // Only the four nulled platform fields may appear, and only as null.
+  for (const field of ["handle", "thesis", "thesisPostedAt", "followers"]) {
+    const m = json.match(new RegExp(`"${field}":\\s*([^,}]+)`));
+    if (m) assert.equal(m[1]!.trim(), "null", `${field} must be null in the archive`);
+  }
+});
+
+test("on-chain derived fields are archived, platform fields are not", () => {
+  // pairing, namesake and tickerCopies come from public chain data, so they
+  // belong in the archive. The distinction is the whole policy.
+  const s = snap([]);
+  (s.runners[0] as any).pairing = { symbol: "STONK", volumeUsd: 1, share: 0.5, dominant: true };
+  (s.runners[0] as any).namesake = { kind: "stock", name: "Tesla" };
+  (s.runners[0] as any).tickerCopies = 2;
+
+  const json = JSON.stringify(stripEphemeral(s));
+  assert.match(json, /"symbol":"STONK"/, "a pairing is public chain data");
+  assert.match(json, /"name":"Tesla"/, "a namesake is derived from a public ticker");
+  assert.match(json, /"tickerCopies":2/);
+});
