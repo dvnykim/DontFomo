@@ -39,6 +39,21 @@ export interface DayNotes {
 const esc = (s: string): string =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+/**
+ * A ticker as a reader writes it.
+ *
+ * Some tokens are literally named "$1", so a blind "$" prefix renders "$$1",
+ * which reads as a bug rather than as a name.
+ */
+/** URL-safe anchor for a ticker. Symbols include "+", "$1" and emoji. */
+const anchorId = (symbol: string): string =>
+  "coin-" + symbol.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+const ticker = (symbol: string): string => {
+  const t = symbol.trim();
+  return t.startsWith("$") ? esc(t) : "$" + esc(t);
+};
+
 const num = (n: number): string => Math.round(n).toLocaleString("en-US");
 
 /** HH:MM in UTC. The whole product runs on a UTC day. */
@@ -115,6 +130,12 @@ function renderFlags(flags: string[], universal: Set<string> = new Set()): strin
  * This is the part that makes it a recap rather than a table — you can see that
  * three coins peaked within the same hour, or that one ran all day.
  */
+/**
+ * Wallet rows shown before the rest collapse. Winners are always shown on top
+ * of this — the cap governs the tail, never the signal.
+ */
+const TRADERS_SHOWN = 3;
+
 /** Rows the day timeline will draw before it stops being glanceable. */
 const TIMELINE_MAX_ROWS = 12;
 
@@ -166,7 +187,7 @@ function renderDayTimeline(snapshot: Snapshot): string {
 
       return `
       <div class="tl-row">
-        <span class="tl-name">$${esc(r.symbol)}</span>
+        <a class="tl-name" href="#${anchorId(r.symbol)}">${ticker(r.symbol)}</a>
         <span class="tl-track">${bar}</span>
         <span class="tl-meta">${esc(r.mcap ? usd(r.mcap.high) : "—")}${winners}</span>
       </div>`;
@@ -250,6 +271,22 @@ function renderTraders(r: Runner, bar: number): string {
 
   const real = r.traders.filter((t) => !t.isBot).length;
 
+  // Show who made money, collapse the rest.
+  //
+  // Eight wallet rows per coin was the single biggest thing on the page — 935
+  // rows across 14 cards — and on most coins all eight are bots with nothing
+  // banked. That is one sentence of information printed as eight rows, and it
+  // buries the coins where a person actually did make money.
+  //
+  // Anyone who cleared the bar is always shown. Beyond that, the top few by
+  // P&L, and the tail folds away with a summary that still states what it is.
+  const ranked = [...r.traders].sort((a, b) => Number(a.isBot) - Number(b.isBot) || b.pnlUsd - a.pnlUsd);
+  const winners = ranked.filter((t) => !t.isBot && t.pnlUsd >= bar);
+  const rest = ranked.filter((t) => !winners.includes(t));
+  const shown = [...winners, ...rest.slice(0, Math.max(0, TRADERS_SHOWN - winners.length))];
+  const hidden = ranked.filter((t) => !shown.includes(t));
+  const hiddenBots = hidden.filter((t) => t.isBot).length;
+
   // When infrastructure is the only thing in the top wallets, say it outright —
   // it's the most useful sentence on the page for that coin.
   const caveat =
@@ -264,7 +301,17 @@ function renderTraders(r: Runner, bar: number): string {
     <div class="traders">
       <h3>Traders <span class="count">${real} real / ${r.traders.length}</span></h3>
       ${caveat}
-      <ul class="trader-list">${r.traders.map((t) => renderTrader(t, bar)).join("")}</ul>
+      <ul class="trader-list">${shown.map((t) => renderTrader(t, bar)).join("")}</ul>
+      ${
+        hidden.length === 0
+          ? ""
+          : `<details class="more-traders">
+               <summary>${hidden.length} more sampled wallet${hidden.length === 1 ? "" : "s"}${
+                 hiddenBots === hidden.length ? ", all automated" : ""
+               }</summary>
+               <ul class="trader-list">${hidden.map((t) => renderTrader(t, bar)).join("")}</ul>
+             </details>`
+      }
     </div>`;
 }
 
@@ -343,7 +390,7 @@ function renderCard(
   const pairing = r.pairing
     ? `<div class="pairing${r.pairing.dominant ? " pairing-dominant" : ""}"` +
       ` title="${Math.round(r.pairing.share * 100)}% of 24h volume trades against this pair">` +
-      `paired with <strong>$${esc(r.pairing.symbol)}</strong></div>`
+      `paired with <strong>${ticker(r.pairing.symbol)}</strong></div>`
     : "";
 
   // Copycat warning. Buying the wrong contract is one of the easiest ways to
@@ -352,7 +399,7 @@ function renderCard(
   const copies =
     r.tickerCopies > 0
       ? `<span class="flag flag-warn" title="Other tokens using this exact ticker also ran today. Check the contract.">` +
-        `${r.tickerCopies + 1} tokens named $${esc(r.symbol)}</span>`
+        `${r.tickerCopies + 1} tokens named ${ticker(r.symbol)}</span>`
       : "";
 
   // What it is named after. For a large share of launches this is the whole
@@ -362,12 +409,12 @@ function renderCard(
     : "";
 
   return `
-  <article class="card${isHero ? " hero" : ""}">
+  <article class="card${isHero ? " hero" : ""}" id="${anchorId(r.symbol)}">
     <header class="card-head">
       <span class="rank">${rank}</span>
       <div class="titles">
         ${label ? `<div class="label">${esc(label)}</div>` : ""}
-        <h2 class="ticker">$${esc(r.symbol)}</h2>
+        <h2 class="ticker">${ticker(r.symbol)}</h2>
         <div class="timing">${timing || "&nbsp;"}</div>
       </div>
       <div class="head-right">
@@ -433,17 +480,24 @@ function renderCompactRow(r: Runner): string {
       : "";
   const copies = r.tickerCopies > 0 ? ` <span class="cwarn">${r.tickerCopies + 1} same ticker</span>` : "";
   return `
-    <div class="crow">
-      <span class="cname">$${esc(r.symbol)}</span>
+    <div class="crow" id="${anchorId(r.symbol)}">
+      <span class="cname">${ticker(r.symbol)}</span>
       <span class="ccap">hit ${esc(cap)}${mult}</span>
       ${copies}
     </div>`;
 }
 
-/** Nothing beyond the price is known about this coin. */
+/**
+ * Nothing beyond the price is known about this coin.
+ *
+ * A real winner counts as something to say. "Someone cleared $12k here" is the
+ * most interesting fact this product can report, and an earlier version buried
+ * it in a one-line row because the coin had no catalyst, no pairing and no
+ * namesake — demoting the signal the whole pipeline exists to find.
+ */
 function hasNothingToSay(r: Runner, notes: DayNotes): boolean {
   const timeline = notes.coins?.[r.symbol]?.timeline ?? [];
-  return timeline.length === 0 && !r.pairing && !r.namesake;
+  return timeline.length === 0 && !r.pairing && !r.namesake && !(r.bigWinners && r.bigWinners > 0);
 }
 
 /**
@@ -545,8 +599,9 @@ export function renderPage(
       const bare = g.runners.filter((r) => hasNothingToSay(r, notes));
 
       const cards = detailed.map((r) => renderCard(r, ++rank, notes, bar, universal)).join("\n");
+      const body = cards ? `<div class="cards">${cards}</div>` : "";
       const rows = bare.length > 0 ? `<div class="crows">${bare.map(renderCompactRow).join("")}</div>` : "";
-      return renderSection(g, cards + rows, notes);
+      return renderSection(g, body + rows, notes);
     })
     .join("\n");
 
@@ -578,6 +633,22 @@ export function renderPage(
   .ccap { color:var(--muted); }
   .cx { color:var(--up); font-weight:600; }
   .cwarn { color:var(--warn); font-size:11px; }
+  /* The timeline is the page's one glanceable view; letting it act as an index
+     is most of the value of having it on a screen this tall. */
+  a.tl-name { text-decoration:none; color:var(--text); }
+  a.tl-name:hover { color:var(--accent); }
+  .card, .crow { scroll-margin-top:16px; }
+  .card:target { outline:1px solid var(--accent); outline-offset:3px; }
+  .crow:target { outline:1px solid var(--accent); outline-offset:2px; }
+  html { scroll-behavior:smooth; }
+  @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  .more-traders { margin-top:8px; }
+  .more-traders summary { cursor:pointer; font-size:11px; color:var(--dim);
+                          list-style:none; padding:4px 0; }
+  .more-traders summary::-webkit-details-marker { display:none; }
+  .more-traders summary::before { content:"▸ "; }
+  .more-traders[open] summary::before { content:"▾ "; }
+  .more-traders summary:hover { color:var(--muted); }
   .group { margin:0 0 34px; }
   .group-head { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
                 margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
@@ -598,10 +669,34 @@ export function renderPage(
     font:15px/1.5 ui-sans-serif,-apple-system,"Segoe UI",system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap { max-width:800px; margin:0 auto; padding:40px 20px 80px; }
+  /* A recap is scanned, not read linearly, so on a laptop the constraint is how
+     much of the day fits in one look — not line length. An 800px column used
+     44% of a 1440px screen and made 24 coins a very long scroll. Text inside a
+     card still sits at a comfortable measure because the cards are what widen,
+     not the paragraphs. */
+  .wrap { max-width:1180px; margin:0 auto; padding:40px 24px 80px; }
+
+  /* Two cards abreast once there is room for both to stay readable. Below that
+     it degrades to the single column the phone already used. */
+  .cards { display:grid; gap:14px; grid-template-columns:1fr; }
+  @media (min-width:1040px) {
+    .cards { grid-template-columns:repeat(2, minmax(0, 1fr)); align-items:start; }
+    .cards > .card.hero { grid-column:1 / -1; }
+  }
+
+  /* The tail is one line each, so it packs tighter than the cards do. */
+  @media (min-width:1040px) {
+    .crows { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr));
+             column-gap:0; padding:0; background:transparent; border:none; }
+    .crow { border:1px solid var(--border); border-radius:8px; margin:0 0 8px;
+            background:var(--surface); }
+    .crow + .crow { border-top:1px solid var(--border); }
+    .crows > .crow:nth-child(odd) { margin-right:4px; }
+    .crows > .crow:nth-child(even) { margin-left:4px; }
+  }
   h2,h3 { margin:0; }
 
-  header.page { margin-bottom:28px; }
+  header.page { margin-bottom:28px; max-width:760px; }
   .brand { font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
            color:var(--accent); margin-bottom:10px; }
   h1 { font-size:30px; margin:0 0 6px; letter-spacing:-.02em; }

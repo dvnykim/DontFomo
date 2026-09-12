@@ -206,3 +206,95 @@ test("every section states why its coins are together", () => {
   assert.match(html, /named after real things/);
   assert.match(html, /Tesla/);
 });
+
+test("does not double the $ on a ticker that already has one", () => {
+  // Some tokens are literally named "$1", which rendered as "$$1".
+  const html = renderPage(
+    snapshot([runner({ symbol: "$1", baseTokenId: "d1", namesake: { kind: "ai", name: "Claude" } })]),
+  );
+
+  assert.ok(!html.includes("$$1"), "reads as a bug rather than a name");
+  assert.match(html, /\$1/);
+});
+
+// ------------------------------------------------------------ trader density
+
+function wallet(over: Partial<import("../types.ts").Trader> = {}) {
+  return {
+    wallet: "So11111111111111111111111111111111111111" + Math.random().toString(36).slice(2, 4),
+    pnlUsd: 100, realizedPnlUsd: 100, volumeUsd: 1000, trades: 10,
+    tags: [], isBot: false, firstBuyAt: null, lastSellAt: null,
+    handle: null, thesis: null, thesisPostedAt: null, followers: null,
+    ...over,
+  };
+}
+
+test("always shows a wallet that cleared the bar, whatever the cap", () => {
+  // The cap governs the tail, never the signal. A winner buried behind a
+  // disclosure triangle defeats the point of the page.
+  const traders = [
+    ...Array.from({ length: 7 }, () => wallet({ isBot: true, pnlUsd: 50_000 })),
+    wallet({ pnlUsd: 12_000, realizedPnlUsd: 12_000 }),
+  ];
+  const html = renderPage(snapshot([runner({ traders, bigWinners: 1, botTraders: 7 })]));
+
+  // Anchor on the trader block, not on "<details" — renderCatalysts uses one too.
+  const block = html.slice(html.indexOf('<ul class="trader-list">'));
+  const beforeCollapse = block.slice(0, block.indexOf("more-traders"));
+  assert.match(beforeCollapse, /\+\$12k/, "the winner is above the fold");
+});
+
+test("collapses the tail and says what it is", () => {
+  const traders = Array.from({ length: 8 }, () => wallet({ isBot: true, tags: ["bundler"] }));
+  // Needs a reason to render as a card at all; a coin with nothing to say is
+  // deliberately one line and shows no traders.
+  const html = renderPage(
+    snapshot([runner({ traders, bigWinners: 0, botTraders: 8, namesake: { kind: "ai", name: "Claude" } })]),
+  );
+
+  assert.match(html, /<details class="more-traders">/);
+  assert.match(html, /more sampled wallets, all automated/, "a hidden row still has to say what it is");
+});
+
+test("does not collapse anything when there is little to hide", () => {
+  const traders = [wallet(), wallet({ isBot: true })];
+  const html = renderPage(
+    snapshot([runner({ traders, bigWinners: 0, botTraders: 1, namesake: { kind: "ai", name: "Claude" } })]),
+  );
+
+  // Anchor on the element, not the class name — the stylesheet mentions it too.
+  assert.ok(!html.includes('<details class="more-traders">'), "two wallets need no disclosure");
+});
+
+test("a coin where someone made money earns a card, not a row", () => {
+  // The most interesting fact this product can report was being demoted to a
+  // one-line row when the coin had no catalyst, pairing or namesake.
+  const html = renderPage(
+    snapshot([
+      runner({
+        symbol: "QUIET",
+        traders: [wallet({ pnlUsd: 40_000, realizedPnlUsd: 40_000 })],
+        bigWinners: 1,
+        botTraders: 0,
+      }),
+    ]),
+  );
+
+  assert.match(html, /<article class="card/);
+  assert.ok(!/class="crow"/.test(html));
+});
+
+test("every timeline link has a target, even for odd tickers", () => {
+  // Symbols include "+", "$1" and emoji, so the anchor has to be derived
+  // rather than assumed. A broken link is worse than no link.
+  const odd = ["+", "$1", "🧲", "Ember", "EMBER"];
+  const html = renderPage(
+    snapshot(odd.map((sym, i) => runner({ symbol: sym, baseTokenId: `t${i}`, namesake: { kind: "ai", name: "X" } }))),
+  );
+
+  const hrefs = [...html.matchAll(/class="tl-name" href="#([^"]+)"/g)].map((m) => m[1]!);
+  const ids = [...html.matchAll(/id="(coin-[^"]*)"/g)].map((m) => m[1]!);
+
+  assert.ok(hrefs.length > 0, "the timeline should link");
+  for (const h of hrefs) assert.ok(ids.includes(h), `no target for #${h}`);
+});
