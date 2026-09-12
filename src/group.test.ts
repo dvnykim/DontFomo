@@ -175,3 +175,33 @@ test("a pairing still outranks a namesake", () => {
 
   assert.equal(groups[0]!.pairedWith, "STONK", "where volume flows beats what someone typed");
 });
+
+test("no coin is lost or duplicated across every group kind at once", () => {
+  // Each tier filters on `claimed`, so a mistake in one tier silently drops or
+  // duplicates coins in another. This exercises all five at the same time.
+  const named = (sym: string, kind: "stock" | "ai") => {
+    const r = runner(sym, 5, undefined, 0.3, "pumpswap");
+    r.namesake = { kind, name: sym };
+    return r;
+  };
+
+  const runners = [
+    runner("pair1", 9, "STONK"), runner("pair2", 8, "STONK"),
+    runner("solo", 7, "MET"),
+    named("TSLA", "stock"), named("AAPL", "stock"),
+    named("Claude", "ai"), named("Grok", "ai"),
+    runner("v1", 4, undefined, 0.3, "meteora"),
+    runner("v2", 3, undefined, 0.3, "meteora"),
+    runner("v3", 2, undefined, 0.3, "meteora"),
+    runner("oldie", 30, undefined, 90, "raydium"),
+  ];
+
+  const groups = groupRunners(runners);
+  const flat = flatten(groups);
+
+  assert.equal(flat.length, runners.length, "none dropped or duplicated");
+  assert.equal(new Set(flat.map((r) => r.symbol)).size, runners.length);
+
+  const kinds = new Set(groups.map((g) => g.kind));
+  assert.ok(kinds.has("pairing") && kinds.has("namesake") && kinds.has("venue"));
+});
