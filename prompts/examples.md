@@ -16,6 +16,21 @@ Do not paste anyone else's recap in here as an example. The voice has to be your
 model learns to imitate someone imitating them, and the result reads like a knock-off of a
 thing people already follow.
 
+## Start from a real day, not a blank page
+
+```bash
+npm run scaffold-example -- 2026-09-11 >> prompts/examples.md
+```
+
+That prints the day's real structure with every FIGURE already filled in from the
+snapshot and every JUDGEMENT left blank. The facts are the tedious half and are already
+known; the voice is the half that has to be yours.
+
+Then: write the section titles, write the `why` clauses, and **delete any coin you would
+not have written about**. The deleting matters as much as the writing — a shorter example
+teaches restraint, which is the hardest behaviour to get and the one that keeps the page
+worth reading.
+
 ## How to write one
 
 Pick a day you remember. Write the sections as they should have read, using only what the

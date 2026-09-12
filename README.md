@@ -238,7 +238,7 @@ Two files drive output quality, in descending order of leverage:
 
 | File | What it does |
 |---|---|
-| `prompts/examples.md` | Few-shot examples. **Highest leverage** — the model imitates these far more reliably than it follows abstract rules. Also the eval set. |
+| `prompts/examples.md` | Few-shot examples. **Highest leverage** — the model imitates these far more reliably than it follows abstract rules. Also the eval set. Start with `npm run scaffold-example -- <date>`, which fills in every figure from that day's snapshot and leaves the judgement blank. |
 | `prompts/style.md` | Voice and format conventions. |
 
 Both are injected into the cached system prefix. Note Opus needs a ~4096-token prefix
