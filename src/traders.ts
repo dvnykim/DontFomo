@@ -23,7 +23,7 @@
  * happened rather than what people actually did.
  */
 
-import type { TraderDay, TraderLedToken, FomoThesis } from "./types.ts";
+import type { TraderDay, TraderLedToken } from "./types.ts";
 
 export interface TraderLedConfig {
   /** Ignore dust. Traders place $10 probe buys constantly; they aren't calls. */
@@ -135,11 +135,4 @@ export function buildTraderLedTokens(
  */
 export function isDistribution(t: TraderLedToken): boolean {
   return t.sellCount > 0 && t.totalSellUsd > t.totalBuyUsd;
-}
-
-/** Theses across all tokens, newest first — the raw material for catalysts. */
-export function allTheses(tokens: TraderLedToken[]): FomoThesis[] {
-  return tokens
-    .flatMap((t) => t.theses)
-    .sort((a, b) => (a.agoMinutes ?? 1e9) - (b.agoMinutes ?? 1e9));
 }
