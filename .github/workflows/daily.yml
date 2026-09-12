@@ -80,7 +80,22 @@ jobs:
             exit 0
           fi
           git commit -m "recap: $(date -u +%Y-%m-%d)"
-          git push
+
+          # Rebase and retry. A run takes ~15 minutes, so an ordinary push to
+          # main while it works is routine rather than exceptional — and a bare
+          # `git push` turns that into a permanent archive gap, because the
+          # snapshot is a point-in-time record that cannot be rebuilt later.
+          # This failed exactly that way on its first real run: both the
+          # snapshot and the narrative succeeded and were then thrown away.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt) — rebasing onto origin/main"
+            git pull --rebase --autostash origin main
+          done
+          echo "::error::Could not push the snapshot after 3 attempts."
+          exit 1
 
   # Publish the rendered page. Separate job because site/ is gitignored by
   # design — the rendered HTML carries platform content that must not be
