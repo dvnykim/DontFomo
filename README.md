@@ -16,14 +16,17 @@ is mechanical. This automates that half and leaves the editorial half to a human
 
 ## Status
 
-**v1, shipping daily.** Runner discovery, market-cap ranges, peak timing, the day
-timeline, per-wallet trader P&L and generated narrative all run unattended at 09:00 UTC
-and publish to GitHub Pages.
+**Shipping daily, unattended.** At 09:00 UTC the Action collects the snapshot, derives
+what each token is **paired with** and **named after**, groups the day into narrative
+sections, generates the recap under mechanical guardrails, and publishes to GitHub Pages.
+Nothing is required of a human for a correct page to appear.
 
-**v2 in progress: the pipeline is being inverted.** Measured against real fomo activity,
-market cap turned out to be the wrong filter — see [Why the pipeline
-inverted](#why-the-pipeline-inverted). Trader-led discovery is built and tested; it is
-gated on read-only API access, with a manual export path in the meantime.
+Live at **https://dvnykim.github.io/DontFomo/**
+
+**What still needs a person.** Theses — the only source that says *why* in a trader's own
+words — have no automated path: the platform has no REST API and its data sits behind a
+session that can trade and withdraw. Capture is a bookmarklet and two commands, and a
+missed day costs that day's *why*, never the archive. Read-only API access is the fix.
 
 ## Quick start
 
