@@ -72,7 +72,10 @@ async function main() {
   console.log(`\nBuilt ${targets.length} page${targets.length === 1 ? "" : "s"} in ${OUT_DIR}`);
 }
 
-main().catch((err) => {
-  console.error("site build failed:", err.message);
-  process.exit(1);
-});
+// Guarded so importing this module does not run it. See run.ts.
+if (import.meta.filename === process.argv[1]) {
+  main().catch((err) => {
+    console.error("site build failed:", err.message);
+    process.exit(1);
+  });
+}

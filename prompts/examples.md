@@ -100,3 +100,125 @@ $<C> -> hit $Xm, <->
 $<D> -> hit $Xm
 <No reason. Do NOT invent one — this example exists specifically to teach that.>
 ```
+
+> dontfomo@0.1.0 scaffold-example
+> node --experimental-strip-types src/scaffold-example.ts 2026-09-12
+
+# 2026-09-12
+
+> **mood:** `<one line. what the whole day felt like.>`
+
+## <title for this section>
+key: `pair:met:ember`   <!-- all trading against $MET -->
+
+```
+$EMBER -> hit $49m (7.9x), <paired with $MET>
+```
+
+## <title for this section>
+key: `namesake:stock`   <!-- named after: Apple, Google, Tesla, Amazon, Netflix -->
+
+```
+$AAPL -> hit $20m, <named after Apple>
+$GOOGL -> hit $6.0m, <named after Google>
+$TSLA -> hit $5.6m, <named after Tesla>
+$AMZN -> hit $3.1m, <named after Amazon>
+$NFLX -> hit $2.8m, <named after Netflix>
+```
+
+## <title for this section>
+key: `namesake:ai`   <!-- named after: Anthropic, Nvidia, DeepSeek, OpenAI -->
+
+```
+$Anthropic -> hit $7.6m, <named after Anthropic>
+$NVIDIA -> hit $4.3m, <named after Nvidia>
+$DeepSeekAI -> hit $3.4m, <named after DeepSeek>
+$OPENAI -> hit $2.9m, <named after OpenAI>
+```
+
+## <title for this section>
+key: `venue:pumpswap`   <!-- same launchpad -->
+
+```
+$曙宝 -> hit $26m, <why — or delete this clause>
+$FLYBRAIN -> hit $26m, <2 tokens shared this ticker>
+$CATAI -> hit $24m, <why — or delete this clause>
+$PAYAI -> hit $8.6m, <why — or delete this clause>
+$armani -> hit $6.5m, <2 tokens shared this ticker>
+$MONA -> hit $6.4m, <2 tokens shared this ticker>
+$ALL -> hit $5.6m, <2 tokens shared this ticker>
+$GRND -> hit $4.1m, <2 tokens shared this ticker>
+$NIKE -> hit $3.7m, <named after Nike>
+$ALLINU -> hit $3.6m, <why — or delete this clause>
+$Stunk -> hit $3.2m, <why — or delete this clause>
+$FLYFOX -> hit $2.7m, <why — or delete this clause>
+$DKNG -> hit $2.2m, <2 tokens shared this ticker>
+$Rockstar -> hit $1.5m, <why — or delete this clause>
+```
+
+<!--
+  Every figure above is from the snapshot, so it is safe to keep.
+  Delete any coin you would not have written about. A shorter example
+  teaches restraint, which is the hardest thing to get from the model.
+-->
+
+> dontfomo@0.1.0 scaffold-example
+> node --experimental-strip-types src/scaffold-example.ts 2026-09-12
+
+# 2026-09-12
+
+> **mood:** `<one line. what the whole day felt like.>`
+
+## <title for this section>
+key: `pair:met:ember`   <!-- all trading against $MET -->
+
+```
+$EMBER -> hit $49m (7.9x), <paired with $MET>
+```
+
+## <title for this section>
+key: `namesake:stock`   <!-- named after: Apple, Google, Tesla, Amazon, Netflix -->
+
+```
+$AAPL -> hit $20m, <named after Apple>
+$GOOGL -> hit $6.0m, <named after Google>
+$TSLA -> hit $5.6m, <named after Tesla>
+$AMZN -> hit $3.1m, <named after Amazon>
+$NFLX -> hit $2.8m, <named after Netflix>
+```
+
+## <title for this section>
+key: `namesake:ai`   <!-- named after: Anthropic, Nvidia, DeepSeek, OpenAI -->
+
+```
+$Anthropic -> hit $7.6m, <named after Anthropic>
+$NVIDIA -> hit $4.3m, <named after Nvidia>
+$DeepSeekAI -> hit $3.4m, <named after DeepSeek>
+$OPENAI -> hit $2.9m, <named after OpenAI>
+```
+
+## <title for this section>
+key: `venue:pumpswap`   <!-- same launchpad -->
+
+```
+$曙宝 -> hit $26m, <why — or delete this clause>
+$FLYBRAIN -> hit $26m, <2 tokens shared this ticker>
+$CATAI -> hit $24m, <why — or delete this clause>
+$PAYAI -> hit $8.6m, <why — or delete this clause>
+$armani -> hit $6.5m, <2 tokens shared this ticker>
+$MONA -> hit $6.4m, <2 tokens shared this ticker>
+$ALL -> hit $5.6m, <2 tokens shared this ticker>
+$GRND -> hit $4.1m, <2 tokens shared this ticker>
+$NIKE -> hit $3.7m, <named after Nike>
+$ALLINU -> hit $3.6m, <why — or delete this clause>
+$Stunk -> hit $3.2m, <why — or delete this clause>
+$FLYFOX -> hit $2.7m, <why — or delete this clause>
+$DKNG -> hit $2.2m, <2 tokens shared this ticker>
+$Rockstar -> hit $1.5m, <why — or delete this clause>
+```
+
+<!--
+  Every figure above is from the snapshot, so it is safe to keep.
+  Delete any coin you would not have written about. A shorter example
+  teaches restraint, which is the hardest thing to get from the model.
+-->

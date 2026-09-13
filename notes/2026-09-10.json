@@ -1,71 +1,168 @@
 {
   "_generated": {
     "model": "claude-opus-4-8",
-    "generatedAt": "2026-09-10T16:53:17.173Z",
-    "evidenceSha256": "723c31124b432b95"
+    "generatedAt": "2026-09-11T22:21:59.258Z",
+    "evidenceSha256": "2901df28931852b6"
   },
-  "mood": "bot conveyor belt of a day. every runner had 8/8 top wallets tagged automated and near-zero real sellers",
-  "coins": {
-    "CATE": {
-      "label": "Slow Grind",
-      "timeline": [
-        {
-          "time": "10:00",
-          "text": "topped at $70m (2x off $35m), now back to $61m. only 1 real winner in the set, top PnL wallet was a bot with 6152 trades"
-        }
-      ]
+  "mood": "stonk ran the show, everything else was bot-on-bot ticker cosplay — real names, fake volume",
+  "groups": {
+    "pair:stonk:knots": {
+      "title": "Riding Stonk's Coattails"
     },
-    "baton": {
+    "pair:met:ember": {
+      "title": "Ember Off The Met Pool"
+    },
+    "namesake:stock": {
+      "title": "Ticker Cosplay: Blue Chips"
+    },
+    "namesake:ai": {
+      "title": "AI Names On A Conveyor"
+    },
+    "namesake:brand": {
+      "title": "Borrowed Brand Names"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Launch Conveyor"
+    },
+    "established": {
+      "title": "Stonk Still Driving"
+    }
+  },
+  "coins": {
+    "STONK": {
       "label": "Runner Of The Day",
       "timeline": [
         {
-          "time": "06:35",
-          "text": "launched at $317k"
-        },
-        {
-          "time": "15:00",
-          "text": "topped at $3.2m (10.2x). $61m volume, 3048 buyers vs 46 sellers — 8/8 top wallets were bots"
+          "time": "05:00",
+          "text": "top realised wallet banked $186k in 83 trades; 3 of 8 sampled cleared the bar, none were bots"
         }
       ]
+    },
+    "KNOTS": {
+      "label": "Stonk Satellite",
+      "timeline": [
+        {
+          "time": "10:00",
+          "text": "peaked at $52m; $STONK pool was 60% of its volume, bigger than SOL and stables combined"
+        }
+      ]
+    },
+    "EMBER": {
+      "label": "Met Pool Runner",
+      "timeline": [
+        {
+          "time": "11:00",
+          "text": "peaked at $49m, 23.6x off the $MET pairing — $16m, 23% of its volume"
+        },
+        {
+          "time": "11:00",
+          "text": "every sampled top wallet was a bot; largest showed $432k on paper, only $640 realised"
+        }
+      ]
+    },
+    "TSLA": {
+      "label": "Tesla Cosplay",
+      "timeline": [
+        {
+          "time": "02:00",
+          "text": "peaked at $293m then round-tripped to $81m; all 8 sampled wallets were bots turning ~14k trades each"
+        }
+      ]
+    },
+    "GOOGL": {
+      "label": "",
+      "timeline": []
+    },
+    "AAPL": {
+      "label": "",
+      "timeline": []
+    },
+    "AMZN": {
+      "label": "",
+      "timeline": []
     },
     "DeepSeek": {
-      "label": "Afternoon Bot Print",
+      "label": "296x Off A Name",
       "timeline": [
         {
-          "time": "14:05",
-          "text": "launched at $578k"
-        },
-        {
-          "time": "16:00",
-          "text": "peaked $2.4m (4.1x). every one of the 8 top wallets a bot, all $0 realised, 2031 buyers vs 46 sellers"
+          "time": "20:00",
+          "text": "peaked at $8.8m, 296x on the DeepSeek name; $54m volume against no reported liquidity, bot-driven selling"
         }
       ]
     },
-    "KIMCHI": {
-      "label": "Ran At Dawn",
+    "NVIDIA": {
+      "label": "",
+      "timeline": []
+    },
+    "DeepSeekAI": {
+      "label": "",
+      "timeline": []
+    },
+    "SPCX": {
+      "label": "",
+      "timeline": []
+    },
+    "NIKE": {
+      "label": "",
+      "timeline": []
+    },
+    "FLYBRAIN": {
+      "label": "",
+      "timeline": []
+    },
+    "PAYAI": {
+      "label": "",
+      "timeline": []
+    },
+    "IOPN": {
+      "label": "",
+      "timeline": []
+    },
+    "CNPY": {
+      "label": "Bot Churn Runner",
       "timeline": [
         {
-          "time": "02:36",
-          "text": "launched at $457k"
-        },
-        {
-          "time": "03:00",
-          "text": "topped $1.4m (3.1x) inside 25 min. 3070 buyers vs 65 sellers, 8/8 top wallets bots"
+          "time": "17:00",
+          "text": "peaked at $5.7m, 120x on $15m volume — all 8 sampled wallets bots, none in profit"
         }
       ]
     },
-    "HOOD": {
-      "label": "Same Playbook",
+    "$1": {
+      "label": "",
+      "timeline": []
+    },
+    "MCAT": {
+      "label": "",
+      "timeline": []
+    },
+    "+": {
+      "label": "",
+      "timeline": []
+    },
+    "Nasduck": {
+      "label": "",
       "timeline": [
         {
-          "time": "13:45",
-          "text": "launched at $668k"
-        },
-        {
-          "time": "16:00",
-          "text": "peaked $2.3m (3.5x). $25m volume, 2017 buyers vs 40 sellers, all 8 top wallets bots at $0 realised"
+          "time": "14:00",
+          "text": "peaked at $2.1m (3.8x); top bot wallet up $14k unrealised, thin $2.2m volume"
         }
       ]
+    },
+    "MARIO": {
+      "label": "",
+      "timeline": []
+    },
+    "BREW": {
+      "label": "",
+      "timeline": []
+    },
+    "RocketFrog": {
+      "label": "",
+      "timeline": []
+    },
+    "CHILLGUY": {
+      "label": "",
+      "timeline": []
     }
   }
 }

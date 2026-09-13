@@ -125,7 +125,10 @@ async function main() {
   console.log(`\nwrote ${outPath}`);
 }
 
-main().catch((err) => {
-  console.error("\nnarration failed:", err.message);
-  process.exit(1);
-});
+// Guarded so importing this module does not run it. See run.ts.
+if (import.meta.filename === process.argv[1]) {
+  main().catch((err) => {
+    console.error("\nnarration failed:", err.message);
+    process.exit(1);
+  });
+}

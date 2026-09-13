@@ -85,6 +85,23 @@ times. There's no need to poll all day.
 Suggested rhythm: snapshot 09:00 UTC → write takes → publish ~13:00 UTC, into the
 highest-volume hour.
 
+### A snapshot is labelled by the day it describes, not the day it ran
+
+The window is the 24 hours *before* the run, so the run date is not the date of the day
+being reported. Labelling by run date put every snapshot **one day ahead of its own
+contents** — caught by comparing our output against a published recap for the same dates:
+our file dated `2026-09-11` shared **six** coins with that author's **September 10**
+edition and exactly one with September 12.
+
+It is not a UTC-midnight question either. Memecoin activity is US-centric, so a day runs
+roughly 13:00 UTC to 08:00 UTC the following morning. A window `[D 08:00, D+1 08:00]`
+contains day D's session — so the label is the date the window **starts**, which is what
+the 09:00 UTC cron produces.
+
+The three existing snapshots were renamed. Correcting a systematic off-by-one at three
+days old is cheap; at three hundred nobody renames an archive they have been publishing
+from, and the error becomes permanent.
+
 ## How it works
 
 ```

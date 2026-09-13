@@ -24,6 +24,25 @@ function utcDate(d = new Date()): string {
   return d.toISOString().slice(0, 10);
 }
 
+/**
+ * Which day a snapshot describes.
+ *
+ * The window is the 24 hours BEFORE the run, so the run date is not the date of
+ * the day being reported. Labelling by run date put every snapshot one day
+ * ahead of its own contents — verified against a published recap: our file
+ * dated 2026-09-11 shared six coins with that author's September 10 edition and
+ * exactly one with September 12.
+ *
+ * It is not a UTC-midnight question either. Memecoin activity is US-centric, so
+ * the day runs roughly 13:00 UTC to 08:00 UTC the following morning. A window
+ * [D 08:00, D+1 08:00] contains day D's session, so the label is the date the
+ * window STARTS — which is what the 09:00 UTC cron produces.
+ *
+ * Caught at three days old. At three hundred it would have been unfixable,
+ * because nobody renames an archive they have been publishing from.
+ */
+export const describedDate = (windowFrom: string): string => windowFrom.slice(0, 10);
+
 
 async function exists(path: string): Promise<boolean> {
   try {
@@ -36,7 +55,14 @@ async function exists(path: string): Promise<boolean> {
 
 async function main() {
   const force = process.argv.includes("--force");
-  const date = utcDate();
+
+  // The window has to exist before the date does — the label is derived from it.
+  const now = new Date();
+  const window = {
+    from: new Date(now.getTime() - 24 * 3_600_000).toISOString(),
+    to: now.toISOString(),
+  };
+  const date = describedDate(window.from);
   const outPath = join(DATA_DIR, `${date}.json`);
 
   if ((await exists(outPath)) && !force) {
@@ -50,14 +76,6 @@ async function main() {
   const raw = await fetchCandidatePools(NETWORK);
   const deduped = dedupeByBaseToken(raw);
   const { runners, stats } = selectRunners(deduped, DEFAULT_FILTERS);
-
-  // Fixed bounds so the day timeline has a stable axis, and so trader timestamps
-  // can be validated against the window they're meant to describe.
-  const now = new Date();
-  const window = {
-    from: new Date(now.getTime() - 24 * 3_600_000).toISOString(),
-    to: now.toISOString(),
-  };
 
   let tradersFetched: number | null = null;
 
@@ -129,7 +147,13 @@ async function main() {
   console.log(`\nwrote ${outPath}`);
 }
 
-main().catch((err) => {
-  console.error("\npipeline failed:", err.message);
-  process.exit(1);
-});
+// Only run the pipeline when invoked directly. Importing this module — a test
+// importing describedDate, say — must not execute a 15-minute network job.
+// render.ts hit this once already via a shared formatter, which is why `usd`
+// lives in format.ts; the same trap is worth closing at every entrypoint.
+if (import.meta.filename === process.argv[1]) {
+  main().catch((err) => {
+    console.error("\npipeline failed:", err.message);
+    process.exit(1);
+  });
+}
