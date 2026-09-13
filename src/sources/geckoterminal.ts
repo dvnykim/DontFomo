@@ -200,7 +200,31 @@ export async function fetchCandidatePools(network = "solana"): Promise<RawPool[]
  * pool. Necessary because a token like STONK routinely appears 2-3 times across
  * different DEXes and would otherwise occupy several recap slots.
  */
-export function dedupeByBaseToken(pools: RawPool[]): RawPool[] {
+/**
+ * One pool per token, preferring one we can price.
+ *
+ * Depth alone is the wrong tiebreak. Discovery only accepts SOL and stablecoin
+ * quotes — a cross-pair denominates its percentage change in another volatile
+ * token, so the number does not mean what it looks like — but this function runs
+ * FIRST. Picking the deepest pool regardless of quote therefore handed the
+ * filters a cross-pair and they dropped the token entirely.
+ *
+ * It cost exactly the coins whose pairing is the story. On 2026-09-10 that was
+ * RAYCAT (deepest pool RAYCAT/RAY, $15m cap, +399%) and BTC (BTC/WBTC, $14m) —
+ * both of which had perfectly good SOL pools we never looked at, and both of
+ * which the reference recap led a section with.
+ *
+ * So: prefer a priceable quote, and only fall back to depth within that class.
+ * The pairing is recovered separately by enrichWithPairings, which reads every
+ * pool the token trades in rather than just this one.
+ */
+export function dedupeByBaseToken(
+  pools: RawPool[],
+  priceableQuotes: string[] = ["SOL", "USDC", "USDT"],
+): RawPool[] {
+  const allowed = new Set(priceableQuotes.map((q) => q.toLowerCase()));
+  const priceable = (p: RawPool) => allowed.has(splitPoolName(p.name).quote.toLowerCase());
+
   const best = new Map<string, RawPool>();
 
   for (const pool of pools) {
@@ -209,9 +233,15 @@ export function dedupeByBaseToken(pools: RawPool[]): RawPool[] {
       best.set(pool.baseTokenId, { ...pool });
       continue;
     }
-    // Preserve the union of discovery sources across merged duplicates.
+
     const sources = Array.from(new Set([...existing.sources, ...pool.sources]));
-    const winner = pool.liquidityUsd > existing.liquidityUsd ? pool : existing;
+    const a = priceable(existing);
+    const b = priceable(pool);
+
+    // Priceable beats deep; depth decides only within the same class.
+    const winner =
+      a !== b ? (b ? pool : existing) : pool.liquidityUsd > existing.liquidityUsd ? pool : existing;
+
     best.set(pool.baseTokenId, { ...winner, sources });
   }
 

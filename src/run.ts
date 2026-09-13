@@ -74,7 +74,7 @@ async function main() {
   console.log("Fetching candidate pools (~70s, keyless rate limit)...");
 
   const raw = await fetchCandidatePools(NETWORK);
-  const deduped = dedupeByBaseToken(raw);
+  const deduped = dedupeByBaseToken(raw, DEFAULT_FILTERS.allowedQuoteSymbols);
   const { runners, stats } = selectRunners(deduped, DEFAULT_FILTERS);
 
   let tradersFetched: number | null = null;

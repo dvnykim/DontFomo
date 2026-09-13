@@ -175,3 +175,47 @@ test("scores a coin with unreported depth instead of zeroing it", () => {
   assert.ok(runners[0]!.score > 0, "a real market should not score zero for a missing field");
   assert.ok(runners[0]!.score > runners[1]!.score, "more flow should still outrank less");
 });
+
+// ------------------------------------------------ dedupe must keep a priceable pool
+
+import { dedupeByBaseToken } from "./sources/geckoterminal.ts";
+
+test("keeps the pool we can price, not merely the deepest", () => {
+  // Real loss: RAYCAT's deepest pool was RAYCAT/RAY, so dedupe kept that and
+  // the quote filter then dropped the token entirely — a $15m coin up 399%
+  // that the reference recap led a section with. Its SOL pool was right there.
+  const kept = dedupeByBaseToken([
+    pool({ baseTokenId: "raycat", name: "RAYCAT / RAY", liquidityUsd: 837_000 }),
+    pool({ baseTokenId: "raycat", name: "RAYCAT / SOL", liquidityUsd: 99_000 }),
+  ]);
+
+  assert.equal(kept.length, 1);
+  assert.equal(kept[0]!.name, "RAYCAT / SOL", "a priceable quote beats depth");
+});
+
+test("still prefers depth among priceable pools", () => {
+  const kept = dedupeByBaseToken([
+    pool({ baseTokenId: "t", name: "TOK / SOL", liquidityUsd: 50_000 }),
+    pool({ baseTokenId: "t", name: "TOK / USDC", liquidityUsd: 400_000 }),
+  ]);
+
+  assert.equal(kept[0]!.name, "TOK / USDC");
+});
+
+test("falls back to the deepest when nothing is priceable", () => {
+  const kept = dedupeByBaseToken([
+    pool({ baseTokenId: "t", name: "TOK / RAY", liquidityUsd: 10_000 }),
+    pool({ baseTokenId: "t", name: "TOK / STONK", liquidityUsd: 90_000 }),
+  ]);
+
+  assert.equal(kept[0]!.name, "TOK / STONK", "the filters still get to reject it");
+});
+
+test("merges discovery sources across duplicates", () => {
+  const kept = dedupeByBaseToken([
+    pool({ baseTokenId: "t", name: "TOK / RAY", liquidityUsd: 90_000, sources: ["trending"] }),
+    pool({ baseTokenId: "t", name: "TOK / SOL", liquidityUsd: 10_000, sources: ["volume"] }),
+  ]);
+
+  assert.deepEqual(kept[0]!.sources.sort(), ["trending", "volume"]);
+});
