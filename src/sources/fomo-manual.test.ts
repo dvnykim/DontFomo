@@ -212,3 +212,23 @@ test("still reads a genuine per-row symbol on a profile page", () => {
 
   assert.equal(d.theses[0]!.symbol, "faketoken");
 });
+
+test("records the mint address from the capture's own URL", () => {
+  // Symbols collide — six tokens used "EMBER" in one day — so the join has to
+  // be on the address, and the capture already carries it in its URL line.
+  const page = [
+    "FOMO-EXPORT",
+    "$26.0M MC | FLYBRAIN | fomo",
+    "https://fomo.family/tokens/solana/GThRMoMhW973m8ki1wxwSjKfCWbZ5z8TSPDZ52NgtrSN",
+    "",
+    "someone", "Thesis", "12m", "$1,200.00", "why this token", "4",
+  ].join("\n");
+
+  const d = parseProfile(page, EXPORTED_AT, "FLYBRAIN");
+  assert.equal(d.tokenAddress, "GThRMoMhW973m8ki1wxwSjKfCWbZ5z8TSPDZ52NgtrSN");
+});
+
+test("has no address when the capture is a trader profile", () => {
+  const d = parseProfile(PAGE, EXPORTED_AT);
+  assert.equal(d.tokenAddress, null, "a profile is about a person, not a token");
+});

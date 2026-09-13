@@ -60,17 +60,38 @@ async function main() {
   // and the rendered page, and never the committed snapshot.
   const theses: ThesesBySymbol = new Map();
   const days = await loadTraderDays();
-  for (const day of days) {
-    for (const t of day.theses) {
+
+  // Match on ADDRESS where the capture has one. Six separate tokens used the
+  // ticker "EMBER" in a single day, so a symbol match attaches one coin's
+  // commentary to another's card — the most damaging kind of wrong, because it
+  // reads perfectly.
+  const byAddress = new Map<string, (typeof days)[number]>();
+  for (const d of days) if (d.tokenAddress) byAddress.set(d.tokenAddress, d);
+
+  let matchedByAddress = 0;
+  for (const r of snapshot.runners) {
+    const addr = r.baseTokenId.replace(/^solana_/, "");
+    const day = byAddress.get(addr);
+    if (!day) continue;
+    matchedByAddress++;
+    const key = r.symbol.trim().toLowerCase();
+    theses.set(key, [...(theses.get(key) ?? []), ...day.theses]);
+  }
+
+  // Captures with no address (a trader profile rather than a token page) still
+  // fall back to the symbol, which is all they carry.
+  for (const d of days) {
+    if (d.tokenAddress) continue;
+    for (const t of d.theses) {
       const key = t.symbol.trim().toLowerCase();
       theses.set(key, [...(theses.get(key) ?? []), t]);
     }
   }
+
   if (days.length > 0) {
-    const matched = snapshot.runners.filter((r) => theses.has(r.symbol.toLowerCase())).length;
     console.log(
-      `  ${days.length} capture(s), ${theses.size} token(s) with theses, ` +
-        `${matched} matching today's runners`,
+      `  ${days.length} capture(s) — ${matchedByAddress} matched to a runner by address, ` +
+        `${theses.size} token(s) with theses`,
     );
   }
 

@@ -86,6 +86,16 @@ function isoFrom(exportedAt: string, agoMinutes: number | null): string | null {
   return new Date(t - agoMinutes * 60_000).toISOString();
 }
 
+/**
+ * The mint address, from the capture's own URL line.
+ * fomo token pages are /tokens/<venue>/<address>, and the bookmarklet records
+ * location.href, so the token is identified exactly rather than by ticker.
+ */
+export function detectTokenAddress(raw: string): string | null {
+  const m = raw.slice(0, 400).match(/fomo\.family\/tokens\/[^/\s]+\/([A-Za-z0-9]{20,64})/);
+  return m ? m[1]! : null;
+}
+
 /** Lines that are pure decoration around a number. */
 const isDecor = (s: string) => /^[▲▼()%\s]*$/.test(s) || s.trim() === "?";
 
@@ -348,6 +358,7 @@ export function parseProfile(
     trades,
     theses,
     positions,
+    tokenAddress: detectTokenAddress(raw),
     exportedAt,
     parseWarnings: warnings,
   };

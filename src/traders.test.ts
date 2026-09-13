@@ -42,6 +42,7 @@ function thesis(over: Partial<FomoThesis> = {}): FomoThesis {
 function day(handle: string, followers: number, trades: FomoTrade[], theses: FomoThesis[] = []): TraderDay {
   return {
     handle,
+    tokenAddress: null,
     displayName: null,
     followers,
     following: null,

@@ -17,7 +17,8 @@
     "daily": "npm run recap && npm run narrate && npm run site",
     "test": "node --experimental-strip-types --test 'src/**/*.test.ts'",
     "typecheck": "tsc --noEmit",
-    "scaffold-example": "node --experimental-strip-types src/scaffold-example.ts"
+    "scaffold-example": "node --experimental-strip-types src/scaffold-example.ts",
+    "capture-list": "node --experimental-strip-types src/capture-list.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

@@ -288,6 +288,15 @@ export interface FomoPosition {
  */
 export interface TraderDay {
   handle: string;
+  /**
+   * The token this capture is about, when it came from a token page.
+   *
+   * Symbols collide badly — six separate tokens used "EMBER" in one day — so
+   * matching theses to runners by ticker attaches the wrong commentary to the
+   * wrong coin. fomo token pages are addressable, and the address is in the URL
+   * the capture records, so the join can be exact.
+   */
+  tokenAddress: string | null;
   displayName: string | null;
   followers: number | null;
   following: number | null;
