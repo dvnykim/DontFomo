@@ -12,7 +12,12 @@ import { mkdir, writeFile, access } from "node:fs/promises";
 import { join } from "node:path";
 import { fetchCandidatePools, dedupeByBaseToken } from "./sources/geckoterminal.ts";
 import { selectRunners, rescoreByMarketCap, rankByBigWinners } from "./discover.ts";
-import { enrichWithMarketCap, enrichWithTraders, enrichWithPairings } from "./enrich.ts";
+import {
+  enrichWithMarketCap,
+  enrichWithTraders,
+  enrichWithPairings,
+  enrichWithDescriptions,
+} from "./enrich.ts";
 import { usd } from "./format.ts";
 import { stripEphemeral } from "./persist.ts";
 import { DEFAULT_FILTERS, SCHEMA_VERSION, type Snapshot } from "./types.ts";
@@ -88,6 +93,11 @@ async function main() {
     // common catalyst format in the recaps this is modelled on.
     console.log("\nresolving pairings...");
     await enrichWithPairings(runners, NETWORK);
+
+    // Only for coins with no pairing and no namesake — fills the catalyst gap
+    // rather than paying for a lookup we would not use.
+    console.log("\nlooking up project descriptions...");
+    await enrichWithDescriptions(runners, NETWORK);
 
     console.log(`\nFetching trader data...`);
     tradersFetched = await enrichWithTraders(runners, DEFAULT_FILTERS, window);

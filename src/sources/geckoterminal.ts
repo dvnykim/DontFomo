@@ -481,3 +481,33 @@ export async function fetchTokenPairing(
   }));
   return derivePairing(pools, symbol);
 }
+
+/**
+ * What a project says it is.
+ *
+ * Only worth calling for tokens that have no other catalyst — it is a third
+ * request per runner, and most memecoins 404 here because they have no metadata
+ * at all. Returns null rather than throwing: a missing description degrades one
+ * line, it should not cost the run.
+ */
+export async function fetchTokenDescription(
+  tokenAddress: string,
+  network = "solana",
+): Promise<string | null> {
+  const addr = tokenAddress.replace(/^solana_/, "");
+  try {
+    const json = await getJson(`/networks/${network}/tokens/${addr}/info`);
+    const raw = json?.data?.attributes?.description;
+    if (typeof raw !== "string") return null;
+
+    const text = raw.replace(/\s+/g, " ").trim();
+    if (text.length < 12) return null;
+
+    // One sentence. These are marketing copy and run long; the recap has room
+    // for a clause, not a pitch.
+    const firstSentence = text.split(/(?<=[.!?])\s/)[0] ?? text;
+    return firstSentence.length > 180 ? firstSentence.slice(0, 177) + "..." : firstSentence;
+  } catch {
+    return null;
+  }
+}

@@ -185,6 +185,7 @@ export function selectRunners(pools: RawPool[], cfg: FilterConfig): DiscoveryRes
       mcap: null,
     pairing: null,
     namesake: detectNamesake(base),
+    description: null,
     tickerCopies: 0, // filled by the enrichment pass, which costs one call per runner
       traders: null, // null = not fetched (no Birdeye key); [] = fetched, none found
       bigWinners: null,

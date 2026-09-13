@@ -21,7 +21,7 @@ function runner(over: Partial<Runner> = {}): Runner {
     sources: ["volume"], ageDays: 0.4, churn: 10, buyerSellerRatio: 50,
     buysPerBuyer: 1, sellsPerSeller: 1, score: 50, flags: [],
     mcap: { low: 500_000, high: 2_000_000, current: 1_800_000, multiple: 4, peakAt: "2026-09-11T15:00:00.000Z" },
-    pairing: null, namesake: null, tickerCopies: 0,
+    pairing: null, namesake: null, description: null, tickerCopies: 0,
     traders: null, bigWinners: null, botTraders: null, ...over,
   };
 }
@@ -297,4 +297,21 @@ test("every timeline link has a target, even for odd tickers", () => {
 
   assert.ok(hrefs.length > 0, "the timeline should link");
   for (const h of hrefs) assert.ok(ids.includes(h), `no target for #${h}`);
+});
+
+test("shows what a project says it is, and earns a card for it", () => {
+  // The largest remaining catalyst gap: the reference recaps explain a coin by
+  // what it DOES, which price cannot contain.
+  const html = renderPage(
+    snapshot([
+      runner({
+        symbol: "EMBER",
+        description: "Launch a Solana token on Meteora, paired with SOL, USDC or tokenized stocks.",
+      }),
+    ]),
+  );
+
+  assert.match(html, /class="describes"/);
+  assert.match(html, /Launch a Solana token on Meteora/);
+  assert.match(html, /<article class="card/, "a description is enough to earn a card");
 });

@@ -408,6 +408,11 @@ function renderCard(
     ? `<div class="pairing">named after <strong>${esc(r.namesake.name)}</strong></div>`
     : "";
 
+  // Project-supplied, so it is attributed as a claim rather than stated as fact.
+  const described = r.description
+    ? `<p class="describes" title="From the project's own token metadata">${esc(r.description)}</p>`
+    : "";
+
   return `
   <article class="card${isHero ? " hero" : ""}" id="${anchorId(r.symbol)}">
     <header class="card-head">
@@ -425,6 +430,7 @@ function renderCard(
     </header>
 
     <div class="badges">${copies}${winners}${renderFlags(r.flags, universal)}</div>
+    ${described}
 
     ${renderCatalysts(r.symbol, notes)}
     ${renderTraders(r, bar)}
@@ -497,7 +503,13 @@ function renderCompactRow(r: Runner): string {
  */
 function hasNothingToSay(r: Runner, notes: DayNotes): boolean {
   const timeline = notes.coins?.[r.symbol]?.timeline ?? [];
-  return timeline.length === 0 && !r.pairing && !r.namesake && !(r.bigWinners && r.bigWinners > 0);
+  return (
+    timeline.length === 0 &&
+    !r.pairing &&
+    !r.namesake &&
+    !r.description &&
+    !(r.bigWinners && r.bigWinners > 0)
+  );
 }
 
 /**
@@ -642,6 +654,8 @@ export function renderPage(
   .crow:target { outline:1px solid var(--accent); outline-offset:2px; }
   html { scroll-behavior:smooth; }
   @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  .describes { margin:10px 0 0; font-size:12.5px; line-height:1.5; color:var(--muted);
+               border-left:2px solid var(--border); padding-left:10px; }
   .more-traders { margin-top:8px; }
   .more-traders summary { cursor:pointer; font-size:11px; color:var(--dim);
                           list-style:none; padding:4px 0; }

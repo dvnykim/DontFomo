@@ -171,6 +171,21 @@ export interface Runner extends RawPool {
    * nothing to detect.
    */
   namesake: { kind: "stock" | "ai" | "brand"; name: string } | null;
+  /**
+   * What the project says it is, from GeckoTerminal's token info.
+   *
+   * The reference recaps explain a coin by what it DOES — "launchpad on
+   * solana", "AI tool", "private transactions" — which price data cannot
+   * contain and which was our largest remaining catalyst gap. EMBER's own
+   * description reads "Launch a Solana token on Meteora, paired with SOL, USDC
+   * or one of 163+ tokenized stocks", against that author's "launchpad on
+   * solana": the same fact, derived instead of known.
+   *
+   * Project-supplied, so it is marketing copy and is treated as a claim about
+   * itself rather than as a finding. Null for most memecoins, which have no
+   * metadata at all.
+   */
+  description: string | null;
 
   // ---- trader layer: null until a Birdeye key is configured ----
   /** Ranked by PnL descending. Null means "not fetched", [] means "none found". */

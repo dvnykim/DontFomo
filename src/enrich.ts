@@ -9,7 +9,7 @@ import type { FilterConfig, Runner } from "./types.ts";
 
 /** A token first traded inside the snapshot window has no meaningful "low". */
 const launchedInWindow = (r: Runner): boolean => r.ageDays !== null && r.ageDays < 1;
-import { fetchDayRange, fetchTokenPairing } from "./sources/geckoterminal.ts";
+import { fetchDayRange, fetchTokenPairing, fetchTokenDescription } from "./sources/geckoterminal.ts";
 import { fetchTopTraders, hasApiKey, RATE_LIMIT_MS } from "./sources/birdeye.ts";
 
 const REQUEST_DELAY_MS = 7_000;
@@ -138,6 +138,35 @@ export async function enrichWithPairings(runners: Runner[], network = "solana"):
       }
     } catch (err) {
       console.warn(`  $${r.symbol}: pairing lookup failed — ${(err as Error).message}`);
+    }
+  }
+  return found;
+}
+
+/**
+ * What a project says it is — but only where nothing else explains the move.
+ *
+ * A third request per runner would add ~8 minutes to a run that already takes
+ * 14, and it would be wasted on coins that already have a pairing or a namesake
+ * to lead with. So this is targeted: it fills the gap rather than padding the
+ * page, and most memecoins return nothing anyway because they have no metadata.
+ */
+export async function enrichWithDescriptions(
+  runners: Runner[],
+  network = "solana",
+): Promise<number> {
+  const targets = runners.filter((r) => !r.pairing && !r.namesake);
+  if (targets.length === 0) return 0;
+
+  console.log(`  looking up ${targets.length} of ${runners.length} with no other catalyst`);
+  let found = 0;
+
+  for (const [i, r] of targets.entries()) {
+    if (i > 0) await sleep(REQUEST_DELAY_MS);
+    r.description = await fetchTokenDescription(r.baseTokenId, network);
+    if (r.description) {
+      found++;
+      console.log(`  $${r.symbol}: ${r.description.slice(0, 88)}`);
     }
   }
   return found;

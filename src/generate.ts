@@ -152,6 +152,13 @@ function buildEvidence(snapshot: Snapshot, theses: ThesesBySymbol = new Map()): 
           `whole reason it exists — worth a line when there is nothing better.`,
       );
     }
+    if (r.description) {
+      lines.push(
+        `  THE PROJECT DESCRIBES ITSELF AS: "${r.description}"` +
+          ` — this is its own marketing copy, so attribute it ("bills itself as", ` +
+          `"a launchpad, per its own listing") rather than asserting it.`,
+      );
+    }
     if (r.tickerCopies > 0) {
       lines.push(
         `  ${r.tickerCopies + 1} separate tokens used this exact ticker today; this is the deepest.`,

@@ -16,7 +16,7 @@ function runner(symbol: string, addr: string, liq: number, score: number): Runne
     volume24hUsd: 1e6, change: { m5: 0, h1: 0, h6: 0, h24: 0 },
     txns24h: { buys: 0, sells: 0, buyers: 0, sellers: 0 }, sources: ["volume"],
     ageDays: 0.5, churn: 1, buyerSellerRatio: 1, buysPerBuyer: 1, sellsPerSeller: 1,
-    flags: [], mcap: null, pairing: null, namesake: null, tickerCopies: 0,
+    flags: [], mcap: null, pairing: null, namesake: null, description: null, tickerCopies: 0,
     traders: null, bigWinners: null, botTraders: null,
   };
 }
