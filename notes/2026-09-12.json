@@ -1,0 +1,256 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-13T10:08:38.603Z",
+    "evidenceSha256": "2e888424ca4a6314"
+  },
+  "mood": "launchpad conveyor on full auto — bots printing volume into stock and brand ticker cosplay, real edge basically only in yoyo",
+  "groups": {
+    "namesake:stock": {
+      "title": "Stock Ticker Cosplay"
+    },
+    "namesake:ai": {
+      "title": "AI Lab Namesakes"
+    },
+    "namesake:brand": {
+      "title": "Grabbing Brand Names"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Bot Conveyor"
+    }
+  },
+  "coins": {
+    "TSLA": {
+      "label": "Deepest Of Five",
+      "timeline": [
+        {
+          "time": "18:09",
+          "text": "launched, named after Tesla — one of 5 tokens on this ticker today"
+        },
+        {
+          "time": "21:00",
+          "text": "peaked $27m, round-tripped to $3.7m"
+        }
+      ]
+    },
+    "GOOGL": {
+      "label": "Named After Google",
+      "timeline": [
+        {
+          "time": "08:00",
+          "text": "peaked $2.3m"
+        }
+      ]
+    },
+    "Claude": {
+      "label": "Volume Machine",
+      "timeline": [
+        {
+          "time": "20:28",
+          "text": "launched, named after Claude — deepest of 5 tokens sharing the ticker"
+        },
+        {
+          "time": "01:00",
+          "text": "peaked $7.1m on $99m volume, top 8 wallets all bots"
+        }
+      ]
+    },
+    "Anthropic": {
+      "label": "Named After Anthropic",
+      "timeline": [
+        {
+          "time": "09:00",
+          "text": "peaked $4.4m on $94m volume, named after Anthropic — deepest of 3 sharing the ticker"
+        }
+      ]
+    },
+    "NASA": {
+      "label": "Named After NASA",
+      "timeline": [
+        {
+          "time": "23:00",
+          "text": "peaked $4.1m"
+        }
+      ]
+    },
+    "Tesla": {
+      "label": "Brand Grab",
+      "timeline": [
+        {
+          "time": "03:00",
+          "text": "peaked $2.3m, named after Tesla"
+        }
+      ]
+    },
+    "SPCX": {
+      "label": "Eight-Way Ticker",
+      "timeline": [
+        {
+          "time": "09:05",
+          "text": "launched, named after SpaceX — deepest of 8 tokens sharing this ticker today"
+        }
+      ]
+    },
+    "CATAI": {
+      "label": "Spike And Retrace",
+      "timeline": [
+        {
+          "time": "10:00",
+          "text": "peaked $722m then collapsed to $3.3m, top wallets all bots"
+        }
+      ]
+    },
+    "4Stock": {
+      "label": "Deepest Of The Pair",
+      "timeline": [
+        {
+          "time": "22:00",
+          "text": "peaked $39m, now $13m — 2 tokens shared the ticker, this the deepest"
+        }
+      ]
+    },
+    "HODL": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "18:00",
+          "text": "peaked $30m, all top wallets bots"
+        }
+      ]
+    },
+    "ALL": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "20:00",
+          "text": "peaked $26m, 5869 buyers vs 38 sellers, top 8 wallets all bots at zero P&L"
+        }
+      ]
+    },
+    "Maple": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "16:00",
+          "text": "peaked $25m, top 8 wallets all bots"
+        }
+      ]
+    },
+    "Stable": {
+      "label": "Bills Itself A Stablecoin",
+      "timeline": [
+        {
+          "time": "01:00",
+          "text": "peaked $20m, bills itself \"a Stable Coin\""
+        }
+      ]
+    },
+    "MONA": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "18:00",
+          "text": "peaked $6.5m, bills itself the first memecoin after doge"
+        }
+      ]
+    },
+    "USOIL": {
+      "label": "High Turnover",
+      "timeline": [
+        {
+          "time": "20:00",
+          "text": "peaked $4.3m on $63m volume"
+        }
+      ]
+    },
+    "YOYO": {
+      "label": "Runner Of The Day",
+      "timeline": [
+        {
+          "time": "09:00",
+          "text": "peaked $4.0m (216x off a March launch), now $3.2m"
+        },
+        {
+          "time": "09:00",
+          "text": "3 of 8 sampled wallets cleared the bar with zero bots; top realised $22k over 20 trades"
+        }
+      ]
+    },
+    "TWINE": {
+      "label": "Bot Carried It",
+      "timeline": [
+        {
+          "time": "19:36",
+          "text": "launched, bills itself \"one coin, two chains\" — deepest of 2 on the ticker"
+        },
+        {
+          "time": "20:00",
+          "text": "peaked $3.7m; one bot cleared $261k realised over 2649 trades, 7 of 8 top wallets automated"
+        }
+      ]
+    },
+    "Disney": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "23:00",
+          "text": "peaked $3.1m on $59m volume"
+        }
+      ]
+    },
+    "SM": {
+      "label": "Samsung Copy",
+      "timeline": [
+        {
+          "time": "03:00",
+          "text": "peaked $2.6m, claims to be Samsung Galaxy's official X"
+        }
+      ]
+    },
+    "GPT6": {
+      "label": "OpenAI Cosplay",
+      "timeline": [
+        {
+          "time": "21:00",
+          "text": "peaked $2.5m"
+        }
+      ]
+    },
+    "Broadcom": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "06:00",
+          "text": "peaked $2.3m"
+        }
+      ]
+    },
+    "BREW": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "21:00",
+          "text": "peaked $2.1m on $32m volume"
+        }
+      ]
+    },
+    "SHIB": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "15:00",
+          "text": "peaked $1.5m"
+        }
+      ]
+    },
+    "牛梦": {
+      "label": "Bull Run Pitch",
+      "timeline": [
+        {
+          "time": "08:00",
+          "text": "peaked $1.3m, pitches the bull run as no longer a dream"
+        }
+      ]
+    }
+  }
+}
