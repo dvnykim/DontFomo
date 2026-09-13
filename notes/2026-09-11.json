@@ -1,149 +1,163 @@
 {
   "_generated": {
     "model": "claude-opus-4-8",
-    "generatedAt": "2026-09-12T08:08:18.270Z",
-    "evidenceSha256": "2c19414027467474"
+    "generatedAt": "2026-09-13T09:49:45.745Z",
+    "evidenceSha256": "06d39bc46c08dae3"
   },
-  "mood": "bot day. six-figure buyer counts, single-digit sellers, and every sampled top wallet a bot printing zero. nothing here was real except ember's rotation.",
+  "mood": "launchpad conveyor running hot — thousands of buyers, a handful of sellers, and the top wallets were almost all bots",
   "groups": {
     "pair:met:ember": {
-      "title": "Ember Rides Met"
+      "title": "Ember Rides Meteora Fees"
     },
     "namesake:stock": {
-      "title": "Blue Chip Ticker Cosplay"
+      "title": "Stocks On Chain"
     },
     "namesake:ai": {
-      "title": "AI Lab Namesakes"
+      "title": "AI Labs Basket"
     },
     "venue:pumpswap": {
-      "title": "Pumpswap Bot Churn",
-      "note": "every one of these flagged bot-driven selling; sampled top wallets were near-universally automated."
+      "title": "Pumpswap Conveyor",
+      "note": "nearly every one flagged bot-driven-selling — buyers in the thousands, sellers in the dozens"
     }
   },
   "coins": {
     "EMBER": {
-      "label": "Runner Of The Day",
+      "label": "Meteora Ecosystem Bid",
       "timeline": [
         {
           "time": "11:00",
-          "text": "peaked $49m (7.9x from $6.2m) paired with $MET, which drove 19% of its volume; since round-tripped to $15m"
+          "text": "peaked $49m (7.9x) — paired with $MET, ~19% of its volume against it"
         },
         {
           "time": "11:00",
-          "text": "deepest of 8 tokens sharing the ticker; top sampled bot showed $126k P&L but only $640 realised"
+          "text": "thesis was the meteora fee flywheel: 3 days, ~$592k fees, ~$530k already routed back to holders/burns per the on-chain ledger"
+        },
+        {
+          "time": "11:00",
+          "text": "deepest of 8 tokens sharing the ticker; top sampled wallets all bots, one up $126k"
         }
       ]
     },
     "AAPL": {
-      "label": "Apple Cosplay",
-      "timeline": []
-    },
-    "GOOGL": {
-      "label": "Google Namesake",
-      "timeline": []
-    },
-    "TSLA": {
-      "label": "Tesla Namesake",
-      "timeline": []
-    },
-    "AMZN": {
-      "label": "Amazon Namesake",
-      "timeline": []
-    },
-    "NFLX": {
-      "label": "Netflix Namesake",
-      "timeline": []
-    },
-    "Anthropic": {
-      "label": "Lab Namesake",
-      "timeline": []
-    },
-    "NVIDIA": {
-      "label": "Chip Namesake",
-      "timeline": []
-    },
-    "DeepSeekAI": {
-      "label": "Lab Namesake",
-      "timeline": []
-    },
-    "OPENAI": {
-      "label": "Lab Namesake",
+      "label": "Named After Apple",
       "timeline": [
         {
-          "time": "01:00",
-          "text": "hit $2.9m named after OpenAI, deepest of 4 sharing the ticker"
+          "time": "00:59",
+          "text": "hit $20m on $41m volume, deepest of 4 tokens using the ticker; every sampled top wallet a bot at flat P&L"
         }
       ]
     },
-    "曙宝": {
-      "label": "Bot Churn",
+    "GOOGL": {
+      "label": "Named After Google",
       "timeline": []
+    },
+    "TSLA": {
+      "label": "Named After Tesla",
+      "timeline": []
+    },
+    "AMZN": {
+      "label": "Named After Amazon",
+      "timeline": []
+    },
+    "NFLX": {
+      "label": "Named After Netflix",
+      "timeline": []
+    },
+    "Anthropic": {
+      "label": "Named After Anthropic",
+      "timeline": []
+    },
+    "NVIDIA": {
+      "label": "Named After Nvidia",
+      "timeline": []
+    },
+    "DeepSeekAI": {
+      "label": "Named After DeepSeek",
+      "timeline": []
+    },
+    "OPENAI": {
+      "label": "Named After OpenAI",
+      "timeline": []
+    },
+    "曙宝": {
+      "label": "Bot-Fueled Launch",
+      "timeline": [
+        {
+          "time": "18:34",
+          "text": "launched, ran to $26m on 6030 buyers vs 26 sellers — all 8 sampled top wallets were bots at $0"
+        }
+      ]
     },
     "FLYBRAIN": {
-      "label": "Bot Churn",
-      "timeline": []
+      "label": "Deepest Of Two",
+      "timeline": [
+        {
+          "time": "11:35",
+          "text": "hit $26m, deepest of 2 tokens sharing the ticker; 6051 buyers vs 46 sellers, top wallets all bots"
+        }
+      ]
     },
     "CATAI": {
-      "label": "Bot Churn",
-      "timeline": []
+      "label": "Bot-Fueled Launch",
+      "timeline": [
+        {
+          "time": "20:55",
+          "text": "hit $24m on 1720 buyers vs 45 sellers, every sampled top wallet a bot"
+        }
+      ]
     },
     "PAYAI": {
-      "label": "Bot Churn",
+      "label": "Bot-Fueled Launch",
       "timeline": []
     },
     "armani": {
-      "label": "Bot Churn",
+      "label": "Deepest Of Two",
       "timeline": []
     },
     "MONA": {
-      "label": "Bot Churn",
+      "label": "Deepest Of Two",
       "timeline": []
     },
     "ALL": {
       "label": "Round-Tripped",
-      "timeline": []
+      "timeline": [
+        {
+          "time": "21:00",
+          "text": "peaked $5.6m, now $2.5m — 12657 buyers vs 10854 sellers, near-even churn"
+        }
+      ]
     },
     "GRND": {
-      "label": "Bot Churn",
+      "label": "Deepest Of Two",
       "timeline": []
     },
     "NIKE": {
-      "label": "Nike Namesake",
-      "timeline": [
-        {
-          "time": "07:00",
-          "text": "hit $3.7m named after Nike, deepest of 6 sharing the ticker"
-        }
-      ]
+      "label": "Named After Nike",
+      "timeline": []
     },
     "ALLINU": {
-      "label": "Bot Churn",
-      "timeline": [
-        {
-          "time": "01:00",
-          "text": "hit $3.6m on $86m volume — heaviest churn in the set, all 8 sampled wallets bots"
-        }
-      ]
+      "label": "Bot-Fueled Launch",
+      "timeline": []
     },
     "Stunk": {
       "label": "Bots Cashed Out",
       "timeline": [
         {
-          "time": "02:00",
-          "text": "peaked $3.2m, now $2.3m; sampled bots realised big — top two banked $115k and $73k"
+          "time": "18:12",
+          "text": "hit $3.2m, now $2.3m; top sampled bot wallet realised $115k, another $73k"
         }
       ]
     },
     "FLYFOX": {
-      "label": "Bot Churn",
+      "label": "Bot-Fueled Launch",
       "timeline": []
     },
     "DKNG": {
-      "label": "Bot Churn",
+      "label": "Deepest Of Two",
       "timeline": []
     },
     "Rockstar": {
-      "label": "Bot Churn",
+      "label": "Bot-Fueled Launch",
       "timeline": []
     }
   }

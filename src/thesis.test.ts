@@ -101,3 +101,38 @@ test("respects the minimum score", () => {
 
   assert.equal(kept.length, 1, "noise should not reach the page at all");
 });
+
+test("a price target is not a reason", () => {
+  // Hope is the most common thing in any token feed. Without a penalty it
+  // crowds out the posts that explain something: one live feed ranked
+  // "we're going to 50m by today" second, above two posts describing the
+  // actual fee mechanism.
+  const target = scoreThesis(
+    th({ text: "So yeah, I think we're going to 50m by today, it just proves it's here to dominate the launchpad eco", pnlUsd: 24_000 }),
+  );
+  const mechanism = scoreThesis(
+    th({ text: "3 days on meteora: $54.8m volume, $592k fees, $530k already paid back out to holders", pnlUsd: 24_000 }),
+  );
+
+  assert.ok(mechanism.score > target.score, `${mechanism.score} should beat ${target.score}`);
+  assert.ok(target.reasons.some((r) => /price target/.test(r)));
+});
+
+test("catches the common shapes a price call takes", () => {
+  for (const t of [
+    "next target is 100m mcap",
+    "see you at 50m",
+    "going for 2x from here",
+    "100m incoming",
+  ]) {
+    assert.ok(scoreThesis(th({ text: t })).reasons.some((r) => /price target/.test(r)), t);
+  }
+});
+
+test("does not penalise a figure that describes what happened", () => {
+  // "$592k fees paid out" is a fact about the past, not a call on the future.
+  const { reasons } = scoreThesis(
+    th({ text: "fees were $592k over 3 days and $530k of it was paid back out to holders" }),
+  );
+  assert.ok(!reasons.some((r) => /price target/.test(r)));
+});

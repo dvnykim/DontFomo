@@ -33,6 +33,19 @@ const HYPE =
   /\b(moon|lfg|wagmi|gm|ez|send it|ape[ds]?|valhalla|aura|pump it|to the moon|easy|rich|100x|1000x)\b|🚀|🌙/gi;
 
 /**
+ * A forward-looking price call: "going to 50m", "next target is 100m mcap",
+ * "50 is destined. 100 is next".
+ *
+ * These read as analysis and contain none. A recap says why a coin moved, not
+ * where someone hopes it goes — and hope is the most common thing in any token
+ * feed, so without a penalty it crowds out the posts that explain something.
+ * One live feed ranked "we're going to 50m by today" SECOND, above two posts
+ * describing the fee mechanism, purely for being long and naming a launchpad.
+ */
+const PRICE_TARGET =
+  /\b(?:going (?:to|for)|headed (?:to|for)|next target|see you (?:at|there)|wen|destined|path to|on the way to|target(?:ing)?)\b[^.!?]{0,24}?\d[\d,.]*\s*(?:m|b|k|x|mil|million|mcap)\b|\b\d[\d,.]*\s*(?:m|mcap)\b[^.!?]{0,16}?\b(?:next|soon|today|incoming|destined|imminent)\b/i;
+
+/**
  * A concrete figure — what makes a claim checkable. Written loosely because
  * traders write money every possible way: "$1.5m", "900k$", "1.5 mil", "10%".
  */
@@ -80,6 +93,11 @@ export function scoreThesis(t: FomoThesis, opts: { peakAt?: string | null } = {}
     const pts = Math.min(figures, 3) * 3;
     score += pts;
     reasons.push(`${figures} concrete figure${figures === 1 ? "" : "s"} (+${pts})`);
+  }
+
+  if (PRICE_TARGET.test(text)) {
+    score -= 8;
+    reasons.push("price target, not a reason (-8)");
   }
 
   const hype = countMatches(HYPE, text);
