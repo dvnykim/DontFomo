@@ -1,0 +1,210 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-14T16:03:42.462Z",
+    "evidenceSha256": "2a63e32e686340f6"
+  },
+  "mood": "bot conveyor day — recycled tickers, nine-figure phantom prints and volume that's almost entirely wash. hard to find a real bid anywhere.",
+  "groups": {
+    "namesake:stock": {
+      "title": "Tickers Wearing Stock Names"
+    },
+    "namesake:brand": {
+      "title": "Brand-Name Launches"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Bot Conveyor"
+    }
+  },
+  "coins": {
+    "$AAPL": {
+      "label": "Deepest Of Eight",
+      "timeline": [
+        {
+          "time": "02:11",
+          "text": "named after Apple — 8 separate tokens carried this ticker today, this the deepest, printed a phantom high before settling at $58m"
+        },
+        {
+          "time": "07:00",
+          "text": "peak; every sampled wallet was a bot, top three up $2k/$1k/$831 unrealised"
+        }
+      ]
+    },
+    "$$MSFT": {
+      "label": "Named After Microsoft",
+      "timeline": []
+    },
+    "$HOOD": {
+      "label": "One Of Seven HOODs",
+      "timeline": [
+        {
+          "time": "17:17",
+          "text": "named after Robinhood — 7 tokens used the ticker, this the deepest at $3.0m"
+        }
+      ]
+    },
+    "$TSLA": {
+      "label": "Twelve-Way Ticker Pileup",
+      "timeline": [
+        {
+          "time": "13:14",
+          "text": "named after Tesla — 12 separate tokens fought over this ticker today, this the deepest at $1.9m"
+        }
+      ]
+    },
+    "$SPCX": {
+      "label": "Named After SpaceX",
+      "timeline": [
+        {
+          "time": "03:56",
+          "text": "named after SpaceX — deepest of 5 tokens sharing the ticker, hit $32m on $95m of near-total bot volume"
+        },
+        {
+          "time": "12:00",
+          "text": "peak; all 8 sampled wallets bots, top five up ~$13k-22k unrealised"
+        }
+      ]
+    },
+    "$NIKE": {
+      "label": "Deepest Of Four NIKEs",
+      "timeline": [
+        {
+          "time": "11:14",
+          "text": "named after Nike — deepest of 4 tokens on the ticker, hit $6.1m"
+        }
+      ]
+    },
+    "$Starbucks": {
+      "label": "Named After Starbucks",
+      "timeline": []
+    },
+    "$CATE": {
+      "label": "The Only Real Move",
+      "timeline": []
+    },
+    "$biketyson": {
+      "label": "Mike Tyson Infra Meme",
+      "timeline": [
+        {
+          "time": "14:00",
+          "text": "peak; 9824 buyers vs 8013 sellers, one sampled wallet cleared $14k and two bots banked $28k/$22k"
+        }
+      ]
+    },
+    "$牛来2": {
+      "label": "Phantom Nine-Figure Print",
+      "timeline": [
+        {
+          "time": "03:32",
+          "text": "launched, printed a nonsense high and sits at $939m; all 8 sampled wallets bots, none in profit"
+        }
+      ]
+    },
+    "$NINA": {
+      "label": "Bot-Churned Launch",
+      "timeline": [
+        {
+          "time": "18:12",
+          "text": "hit $21m on $11m volume; 8 sampled wallets all bots, each running 2600+ trades"
+        }
+      ]
+    },
+    "$TESTICLES": {
+      "label": "Launched Today",
+      "timeline": [
+        {
+          "time": "22:38",
+          "text": "hit $27m, 1777 buyers vs 35 sellers, sampled wallets all bots"
+        }
+      ]
+    },
+    "$ARGUS": {
+      "label": "Launched Today",
+      "timeline": [
+        {
+          "time": "23:27",
+          "text": "hit $25m, all sampled volume bot-driven"
+        }
+      ]
+    },
+    "$ASTER": {
+      "label": "AsterDEX Listing",
+      "timeline": [
+        {
+          "time": "18:02",
+          "text": "created on asterdex per its own listing, hit $14m on $39m volume; 3062 buyers vs 60 sellers, sampled wallets all bots"
+        }
+      ]
+    },
+    "$NVIDA": {
+      "label": "Launched Today",
+      "timeline": [
+        {
+          "time": "01:48",
+          "text": "hit $16m on $153m volume — the heaviest turnover on the board, now $8.0m, all 8 sampled wallets bots"
+        }
+      ]
+    },
+    "$XL": {
+      "label": "Launched Today",
+      "timeline": [
+        {
+          "time": "00:11",
+          "text": "hit $2.9m on $55m volume, now $2.1m; sampled wallets all bots"
+        }
+      ]
+    },
+    "$CLEAR": {
+      "label": "Phantom Print",
+      "timeline": [
+        {
+          "time": "03:08",
+          "text": "printed a nonsense high, now $4.0m; all sampled wallets bots"
+        }
+      ]
+    },
+    "$GTA6": {
+      "label": "Launched Today",
+      "timeline": []
+    },
+    "$ClaudeAI": {
+      "label": "Anthropic Namesake",
+      "timeline": []
+    },
+    "$Gemini AI": {
+      "label": "Launched Today",
+      "timeline": []
+    },
+    "$슈바오": {
+      "label": "Launched Today",
+      "timeline": []
+    },
+    "$鹈鹕": {
+      "label": "Tech-Melon Launch",
+      "timeline": [
+        {
+          "time": "07:36",
+          "text": "created via a tech-melon link per its own listing, hit $2.2m"
+        }
+      ]
+    },
+    "$b-money": {
+      "label": "Wei Dai Reference",
+      "timeline": [
+        {
+          "time": "04:49",
+          "text": "references Wei Dai's 1998 b-money proposal per its listing, hit $1.8m on $44m volume"
+        }
+      ]
+    },
+    "$TIKTOK": {
+      "label": "Deepest Of Five",
+      "timeline": [
+        {
+          "time": "08:28",
+          "text": "deepest of 5 tokens on the ticker, hit $1.3m"
+        }
+      ]
+    }
+  }
+}

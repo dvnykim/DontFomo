@@ -1,0 +1,2990 @@
+{
+  "schemaVersion": 2,
+  "date": "2026-09-13",
+  "generatedAt": "2026-09-14T15:49:08.858Z",
+  "network": "solana",
+  "window": {
+    "from": "2026-09-13T15:49:08.858Z",
+    "to": "2026-09-14T15:49:08.858Z"
+  },
+  "config": {
+    "allowedQuoteSymbols": [
+      "SOL",
+      "USDC",
+      "USDT"
+    ],
+    "minLiquidityUsd": 50000,
+    "illiquidVolumeFloorUsd": 1000000,
+    "minVolume24hUsd": 250000,
+    "minFdvUsd": 1000000,
+    "minChange24hPct": 30,
+    "minBuyers24h": 150,
+    "churnWarnThresholdNew": 400,
+    "churnWarnThresholdEstablished": 50,
+    "establishedAfterDays": 2,
+    "botTradesPerWalletThreshold": 50,
+    "bigWinnerPnlUsd": 10000,
+    "botTags": [
+      "bundler",
+      "dev"
+    ],
+    "maxRunners": 24,
+    "maxTradersPerRunner": 8,
+    "maxTraderFetches": 12
+  },
+  "stats": {
+    "poolsScanned": 220,
+    "afterDedupe": 199,
+    "afterFilters": 97,
+    "runnersKept": 24,
+    "tradersFetched": 12
+  },
+  "runners": [
+    {
+      "poolAddress": "41rzTMB7JHPTyMXzrYwdqnBecJRhkb8KHYAjrQ9cYxJx",
+      "name": "biketyson / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_CbyTNf7UPzvewHh4Zp6umogM2RWahhmGRJWLJnPwpump",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-03T16:16:10Z",
+      "priceUsd": 0.0059996861076345494,
+      "fdvUsd": 5606687.266,
+      "liquidityUsd": 263190.3867,
+      "volume24hUsd": 5500862.16593813,
+      "change": {
+        "m5": -0.505,
+        "h1": 11.166,
+        "h6": 34.22,
+        "h24": 154.072
+      },
+      "txns24h": {
+        "buys": 29803,
+        "sells": 21675,
+        "buyers": 9824,
+        "sellers": 8013
+      },
+      "sources": [
+        "trending"
+      ],
+      "symbol": "biketyson",
+      "ageDays": 10.98,
+      "churn": 20.9,
+      "buyerSellerRatio": 1.23,
+      "buysPerBuyer": 3,
+      "sellsPerSeller": 2.7,
+      "score": 55.079,
+      "flags": [],
+      "mcap": {
+        "current": 5606687,
+        "low": 1596936,
+        "high": 7216239,
+        "multiple": 4.5,
+        "peakAt": "2026-09-14T14:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "they said the next big thing in crypto would be infrastructure nobody said the infrastructure would be mike tyson $BIKETYSON CA: CbyTNf7UPzvewHh4Zp6umogM2RWahhmGRJWLJnPwpump the...",
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "FX7zZiSJTtHSwxwRN3zNEGynNYPtZG2971ApxagSqNtP",
+          "isBot": false,
+          "pnlUsd": 13670.21040183995,
+          "realizedPnlUsd": 13670.21040183995,
+          "volumeUsd": 77107.53328638429,
+          "trades": 127,
+          "tags": [
+            "smart_trader"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T15:02:11.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "922M9fBTzwGfC4Gqu3WxB8S89WHaTfVAUZKwK5PNtZpk",
+          "isBot": false,
+          "pnlUsd": 1680.7635451732815,
+          "realizedPnlUsd": 1680.7635451732815,
+          "volumeUsd": 110898.55803254696,
+          "trades": 454,
+          "tags": [],
+          "firstBuyAt": null,
+          "lastSellAt": null,
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "MriyaNN8TMp6qRWjfr723PK7xgQK7yCt7Kg2v2PQu7X",
+          "isBot": false,
+          "pnlUsd": -21.462528892031937,
+          "realizedPnlUsd": -21.462528892031937,
+          "volumeUsd": 98929.98400218511,
+          "trades": 602,
+          "tags": [],
+          "firstBuyAt": null,
+          "lastSellAt": null,
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CLqk7CEdpw7TMPJt4URaKnP7V7HYyMBF79W5t1rCtNCW",
+          "isBot": false,
+          "pnlUsd": -2788.35154399846,
+          "realizedPnlUsd": -2788.35154399846,
+          "volumeUsd": 77660.37033229477,
+          "trades": 48,
+          "tags": [],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T15:45:00.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "jtrQbJXea4RgX1DekboPs6QoT7zC5MKCtKdtYv7V7Pu",
+          "isBot": false,
+          "pnlUsd": -2930.8325889388384,
+          "realizedPnlUsd": -2930.8325889388384,
+          "volumeUsd": 53758.999466983805,
+          "trades": 8,
+          "tags": [],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T18:39:08.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CbexAUNvv8Pcfzrz8JQpWT61hxanE9WCP4jvKHMzN3p7",
+          "isBot": false,
+          "pnlUsd": -4310.4495968766105,
+          "realizedPnlUsd": -4310.4495968766105,
+          "volumeUsd": 101830.98792687024,
+          "trades": 48,
+          "tags": [],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T14:56:30.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2JrTudNHthFHtgHBoJdx9xKgGRAYrir7AUw7shvdW5uR",
+          "isBot": true,
+          "pnlUsd": 28182.11857069122,
+          "realizedPnlUsd": 28082.20057030177,
+          "volumeUsd": 87092.6666682081,
+          "trades": 30,
+          "tags": [
+            "dev"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T15:46:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "GoR7XyMDFeQ7qroca7ArLpw6axMUbnTxrruiMNs5BzEA",
+          "isBot": true,
+          "pnlUsd": 22223.513543993453,
+          "realizedPnlUsd": 10960.484719694377,
+          "volumeUsd": 57378.33402803408,
+          "trades": 77,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": null,
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 1,
+      "botTraders": 2
+    },
+    {
+      "poolAddress": "Ba2mss8hNmtH2xRjU94aCmoYE1bZK34r4dLFZePqwszL",
+      "name": "牛来2 / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_ANYvusGQMZJhVeg5YjAVF9F4KuUP7pdBaNTsdkQx6fHG",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T03:32:11Z",
+      "priceUsd": 0.0023939967664598073,
+      "fdvUsd": 938885087.838885,
+      "liquidityUsd": 294.764,
+      "volume24hUsd": 6788111.81438027,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 1657771.354
+      },
+      "txns24h": {
+        "buys": 4914,
+        "sells": 3881,
+        "buyers": 1069,
+        "sellers": 44
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "牛来2",
+      "ageDays": 0.51,
+      "churn": null,
+      "buyerSellerRatio": 24.3,
+      "buysPerBuyer": 4.6,
+      "sellsPerSeller": 88.2,
+      "score": 91.037,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 938885088,
+        "low": 2364,
+        "high": 369141518569,
+        "multiple": null,
+        "peakAt": "2026-09-14T11:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "ENkuHortqiPsZ9dmxS45rJ3WqNH7PhS8Ny4qJJUQcKo9",
+          "isBot": true,
+          "pnlUsd": -578.3044303563145,
+          "realizedPnlUsd": -578.3044303563145,
+          "volumeUsd": 242362.2245026661,
+          "trades": 274,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:17:55.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "3tBGHmjFoDZzksCSGaUgER4w9SCvw6jFSP7miFFGK4Aq",
+          "isBot": true,
+          "pnlUsd": -613.2282884028772,
+          "realizedPnlUsd": -613.2282884028772,
+          "volumeUsd": 270050.18830308615,
+          "trades": 310,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:17:21.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "ENHm1wrmEgwGX9DajDSRQ8NxT5djPGxBzKA9LTMZWuJM",
+          "isBot": true,
+          "pnlUsd": -623.7011442405632,
+          "realizedPnlUsd": -623.7011442405632,
+          "volumeUsd": 238633.91641584638,
+          "trades": 272,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:17:43.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "EheyBdCcqteYejBAbaEExaZLXCPLdqvce96Upr3XLQ4m",
+          "isBot": true,
+          "pnlUsd": -633.726726561666,
+          "realizedPnlUsd": -339.6504769095433,
+          "volumeUsd": 255581.9014682417,
+          "trades": 296,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:18:26.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "6EZbQF4dvpN5sdVTuM29ik5nAa9Tj6doWaqUu85LKCAY",
+          "isBot": true,
+          "pnlUsd": -663.7301675520424,
+          "realizedPnlUsd": -663.7301675520424,
+          "volumeUsd": 257179.27855874386,
+          "trades": 290,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:18:00.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CYG9ShE1qjsNNKCBzMMdmb6iSudHhXh3zR35XewUcDhj",
+          "isBot": true,
+          "pnlUsd": -738.7196790439631,
+          "realizedPnlUsd": -738.7196790439631,
+          "volumeUsd": 262585.5943533747,
+          "trades": 300,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:18:19.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9S9fG8tstjQYKHdEMqsyc1yNHuvRD4hB5ryE1WFa5hh",
+          "isBot": true,
+          "pnlUsd": -752.5999026706204,
+          "realizedPnlUsd": -752.5999026706204,
+          "volumeUsd": 243404.5355336672,
+          "trades": 278,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:17:53.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "7iN1kZiYYfzJN3X2W2JzgVhSTiYZ52qn214752NEHgcU",
+          "isBot": true,
+          "pnlUsd": -983.439920387985,
+          "realizedPnlUsd": -662.4195735642962,
+          "volumeUsd": 243800.94928239222,
+          "trades": 278,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:18:15.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "HhUtt3wpL2xLmx3wJzPAfkcMfmn5uQkBS59m35n7t3c3",
+      "name": "NINA / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_6E4rbNrLUSYAvMxPGNBWvdEPsNparDpbfArwjhgx7j45",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T18:12:58Z",
+      "priceUsd": 0.021152693307182134,
+      "fdvUsd": 21152693.31,
+      "liquidityUsd": 0.000002798562987,
+      "volume24hUsd": 11444483.8582552,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 41637.41
+      },
+      "txns24h": {
+        "buys": 11181,
+        "sells": 5635,
+        "buyers": 1993,
+        "sellers": 41
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "NINA",
+      "ageDays": 0.9,
+      "churn": null,
+      "buyerSellerRatio": 48.61,
+      "buysPerBuyer": 5.6,
+      "sellsPerSeller": 137.4,
+      "score": 77.109,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 21152693,
+        "low": 50481,
+        "high": 21152693,
+        "multiple": null,
+        "peakAt": "2026-09-13T19:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "BiEHvFqAHu1Z7RqE6tXgpLgsZcAEABq7FqKJZuUKpy1r",
+          "isBot": true,
+          "pnlUsd": -4136.235488156547,
+          "realizedPnlUsd": -3284.9778215048186,
+          "volumeUsd": 2251324.1000366556,
+          "trades": 2686,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:31.000Z",
+          "lastSellAt": "2026-09-13T19:05:08.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "5yM7ZW7hkVcafuiKyWHZUxb3j3bnVfXoAQ26xz4NkYnU",
+          "isBot": true,
+          "pnlUsd": -4618.840088482171,
+          "realizedPnlUsd": -3834.554775592954,
+          "volumeUsd": 2228970.127319079,
+          "trades": 2662,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:36.000Z",
+          "lastSellAt": "2026-09-13T19:05:04.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2TvSq5efKYGXdtF1qUEkMtupzmiURxP6mzED5nZkDL2u",
+          "isBot": true,
+          "pnlUsd": -5395.906020877468,
+          "realizedPnlUsd": -3500.3164938264763,
+          "volumeUsd": 2172612.9187474065,
+          "trades": 2594,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:41.000Z",
+          "lastSellAt": "2026-09-13T19:04:04.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8j7HVVAK1tNzQY269Rm7UHe5yv1nQ5mGdC9m9BTzT7GV",
+          "isBot": true,
+          "pnlUsd": -7472.507403342219,
+          "realizedPnlUsd": -5864.636530588945,
+          "volumeUsd": 2234333.1014404492,
+          "trades": 2662,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:42.000Z",
+          "lastSellAt": "2026-09-13T19:05:11.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9ZYMMXvVPSfq6JdUjXBv9yCo1J1XbphPQMbWS5oDThJ",
+          "isBot": true,
+          "pnlUsd": -9439.663870159042,
+          "realizedPnlUsd": -3323.0158396683937,
+          "volumeUsd": 2230632.5281427936,
+          "trades": 2667,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:38.000Z",
+          "lastSellAt": "2026-09-13T19:05:09.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "AT354fhPwPMh8bV6ep6ghMyhwQPMBtFmHiVyj1uKwgtM",
+          "isBot": true,
+          "pnlUsd": -11223.466409233743,
+          "realizedPnlUsd": -7216.445402485465,
+          "volumeUsd": 2223524.015770377,
+          "trades": 2657,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:40.000Z",
+          "lastSellAt": "2026-09-13T19:05:11.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "H3TQiRHNr5N6hi8ZrQ3w31HkfmxxAxgJWUAvgK1bioR3",
+          "isBot": true,
+          "pnlUsd": -11564.731533874452,
+          "realizedPnlUsd": -192.33160052980688,
+          "volumeUsd": 2260034.7077001017,
+          "trades": 2693,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:44.000Z",
+          "lastSellAt": "2026-09-13T19:05:08.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "4q1uAhqPThryq8bhWNQ6ZcKeJFWTFSdsAGfArncQLy8f",
+          "isBot": true,
+          "pnlUsd": -12450.436391991727,
+          "realizedPnlUsd": -1557.605893022219,
+          "volumeUsd": 2231282.572810148,
+          "trades": 2656,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:45.000Z",
+          "lastSellAt": "2026-09-13T19:05:08.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "GPYCqdEs54MG1BGfBnCxFB5va3pUqSH4Kp8iGzfLaZmu",
+      "name": "SPCX / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_29zCfe3iTrztrkB16XdoRSG8Vt1bA7VvprqPf643rYpq",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T03:56:56Z",
+      "priceUsd": 0.000321612347603158,
+      "fdvUsd": 32161234.76,
+      "liquidityUsd": 0.00001742148322,
+      "volume24hUsd": 94517177.6282797,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 288.273,
+        "h24": 7690.382
+      },
+      "txns24h": {
+        "buys": 67619,
+        "sells": 58057,
+        "buyers": 2053,
+        "sellers": 69
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "SPCX",
+      "ageDays": 0.5,
+      "churn": null,
+      "buyerSellerRatio": 29.75,
+      "buysPerBuyer": 32.9,
+      "sellsPerSeller": 841.4,
+      "score": 76.921,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 32161235,
+        "low": 412833,
+        "high": 32366290,
+        "multiple": null,
+        "peakAt": "2026-09-14T12:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "brand",
+        "name": "SpaceX"
+      },
+      "description": null,
+      "tickerCopies": 4,
+      "traders": [
+        {
+          "wallet": "Eeyfnrnhz5RJ1qu3Z7TPe8sZeBSCfgFAaE6asxZP9X8H",
+          "isBot": true,
+          "pnlUsd": 21653.89100189747,
+          "realizedPnlUsd": -7130.397263545694,
+          "volumeUsd": 4743379.123297194,
+          "trades": 5828,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:35.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "AoxewNgKaxPyQ22NcakaxeQmYsZutUDyh6JyByiNjcUw",
+          "isBot": true,
+          "pnlUsd": 21644.293820238607,
+          "realizedPnlUsd": -7096.826568264288,
+          "volumeUsd": 4750822.047838603,
+          "trades": 5834,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:35.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "FwZnH97DC2n87rR944FF25PKJc6wjfgHfas2V1qVXiE3",
+          "isBot": true,
+          "pnlUsd": 15585.515701535469,
+          "realizedPnlUsd": -10949.215103599892,
+          "volumeUsd": 4732110.497104317,
+          "trades": 5803,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:51.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8Xza6GEZncQxzuyariQDUt2e5MHt89xgihghmDW9fZ3p",
+          "isBot": true,
+          "pnlUsd": 14680.017146777209,
+          "realizedPnlUsd": -8749.610265828844,
+          "volumeUsd": 4754280.41360587,
+          "trades": 5835,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:45.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "DQC4Apf8rPakFQYLJ6tMPqLnCXMnjDWvWf5QhZ2qBsAw",
+          "isBot": true,
+          "pnlUsd": 12703.39180625471,
+          "realizedPnlUsd": -10329.789803404992,
+          "volumeUsd": 4738907.798197828,
+          "trades": 5823,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "GzCgjetEq97bwZVULL5YPA8MpxL9Pp7yshyzEFZMFvax",
+          "isBot": true,
+          "pnlUsd": -2865.635636537583,
+          "realizedPnlUsd": -10429.279192980595,
+          "volumeUsd": 4721115.906363726,
+          "trades": 5799,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:51.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "4MFTB2fuX5V8hUFDQxd8tQU3r7DgadFJcRzj39ePQeKm",
+          "isBot": true,
+          "pnlUsd": -3831.2596615360508,
+          "realizedPnlUsd": -12373.257437571947,
+          "volumeUsd": 4751358.401106335,
+          "trades": 5833,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:48.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "FQewszHHeYSvAQMTKQjFXwDWQDgB8TXqJzsyavNmYCi9",
+          "isBot": true,
+          "pnlUsd": -4269.0022642386775,
+          "realizedPnlUsd": -14330.670758378234,
+          "volumeUsd": 4743641.489355264,
+          "trades": 5823,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T12:21:36.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "5HWpvRbPCQTf3Kk3M8XZs9uLS8UxeMiLjymU16PfSvQ7",
+      "name": "TESTICLES / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_6uHuVbMavqtK6vtwL9pG6D39dNARfirSLjAHyY4y9ikF",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T22:38:43Z",
+      "priceUsd": 0.027467472543506,
+      "fdvUsd": 27467472.54,
+      "liquidityUsd": 0.0000140958672593624,
+      "volume24hUsd": 6493000.05912398,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 54661.514
+      },
+      "txns24h": {
+        "buys": 7061,
+        "sells": 3155,
+        "buyers": 1777,
+        "sellers": 35
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "TESTICLES",
+      "ageDays": 0.72,
+      "churn": null,
+      "buyerSellerRatio": 50.77,
+      "buysPerBuyer": 4,
+      "sellsPerSeller": 90.1,
+      "score": 74.098,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 27467473,
+        "low": 49943,
+        "high": 27467473,
+        "multiple": null,
+        "peakAt": "2026-09-13T23:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "8j7HVVAK1tNzQY269Rm7UHe5yv1nQ5mGdC9m9BTzT7GV",
+          "isBot": true,
+          "pnlUsd": -2093.8320208454284,
+          "realizedPnlUsd": 1001.566161322352,
+          "volumeUsd": 658309.3837279216,
+          "trades": 857,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:42.000Z",
+          "lastSellAt": "2026-09-13T23:09:12.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2TvSq5efKYGXdtF1qUEkMtupzmiURxP6mzED5nZkDL2u",
+          "isBot": true,
+          "pnlUsd": -2209.3612881584822,
+          "realizedPnlUsd": -2209.3612881584822,
+          "volumeUsd": 637381.683627795,
+          "trades": 838,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:41.000Z",
+          "lastSellAt": "2026-09-13T23:09:09.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9ZYMMXvVPSfq6JdUjXBv9yCo1J1XbphPQMbWS5oDThJ",
+          "isBot": true,
+          "pnlUsd": -2510.728889104212,
+          "realizedPnlUsd": 316.8284681938017,
+          "volumeUsd": 646235.513837177,
+          "trades": 844,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:38.000Z",
+          "lastSellAt": "2026-09-13T23:09:12.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "AT354fhPwPMh8bV6ep6ghMyhwQPMBtFmHiVyj1uKwgtM",
+          "isBot": true,
+          "pnlUsd": -3658.1535035138895,
+          "realizedPnlUsd": -1522.4058672232027,
+          "volumeUsd": 657272.3317531953,
+          "trades": 856,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:40.000Z",
+          "lastSellAt": "2026-09-13T23:09:10.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8hjeVX2213Ep2WAihKJjhCUSKCph2oUEFLmeBzqX18X7",
+          "isBot": true,
+          "pnlUsd": -3662.400472309349,
+          "realizedPnlUsd": -199.58764752350467,
+          "volumeUsd": 646685.0042824207,
+          "trades": 842,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:32.000Z",
+          "lastSellAt": "2026-09-13T23:09:13.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2AJayhZQpWXFEkBat2LAv5gqkBEFMfXMfsV9zyExJR2J",
+          "isBot": true,
+          "pnlUsd": -4472.936327331945,
+          "realizedPnlUsd": 1336.8529895268334,
+          "volumeUsd": 642567.1096916312,
+          "trades": 839,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:37.000Z",
+          "lastSellAt": "2026-09-13T23:09:13.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "5yM7ZW7hkVcafuiKyWHZUxb3j3bnVfXoAQ26xz4NkYnU",
+          "isBot": true,
+          "pnlUsd": -4703.826410608419,
+          "realizedPnlUsd": -1049.152677809781,
+          "volumeUsd": 654874.649360952,
+          "trades": 852,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:36.000Z",
+          "lastSellAt": "2026-09-13T23:09:09.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "H3TQiRHNr5N6hi8ZrQ3w31HkfmxxAxgJWUAvgK1bioR3",
+          "isBot": true,
+          "pnlUsd": -5702.468656105136,
+          "realizedPnlUsd": 944.3579036404672,
+          "volumeUsd": 660456.9015027496,
+          "trades": 857,
+          "tags": [
+            "fresh",
+            "bundler",
+            "sniper"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:44.000Z",
+          "lastSellAt": "2026-09-13T23:09:09.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "DCgxvjbcCaGd4bKFj2WKx6BhSGewG21jWXL8nro8rpvb",
+      "name": "ARGUS / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_3YJJw2zQftPNcxhyCnZU3GrXvWPwHPaMx9kcYN1i3fEA",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T23:27:59Z",
+      "priceUsd": 0.025204224472169915,
+      "fdvUsd": 25204224.47,
+      "liquidityUsd": 0.000009339963547,
+      "volume24hUsd": 6094979.96082818,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 50333.491
+      },
+      "txns24h": {
+        "buys": 6110,
+        "sells": 3375,
+        "buyers": 1937,
+        "sellers": 34
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "ARGUS",
+      "ageDays": 0.68,
+      "churn": null,
+      "buyerSellerRatio": 56.97,
+      "buysPerBuyer": 3.2,
+      "sellsPerSeller": 99.3,
+      "score": 73.96,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 25204224,
+        "low": 49717,
+        "high": 25204224,
+        "multiple": null,
+        "peakAt": "2026-09-14T00:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "AT354fhPwPMh8bV6ep6ghMyhwQPMBtFmHiVyj1uKwgtM",
+          "isBot": true,
+          "pnlUsd": -1024.8382446747166,
+          "realizedPnlUsd": 858.6256850972961,
+          "volumeUsd": 584119.6006382044,
+          "trades": 713,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:40.000Z",
+          "lastSellAt": "2026-09-14T00:00:34.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9ZYMMXvVPSfq6JdUjXBv9yCo1J1XbphPQMbWS5oDThJ",
+          "isBot": true,
+          "pnlUsd": -1284.9439493929876,
+          "realizedPnlUsd": -1284.9439493929876,
+          "volumeUsd": 633209.4224147401,
+          "trades": 768,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:38.000Z",
+          "lastSellAt": "2026-09-14T00:00:40.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "5yM7ZW7hkVcafuiKyWHZUxb3j3bnVfXoAQ26xz4NkYnU",
+          "isBot": true,
+          "pnlUsd": -1519.3137058888371,
+          "realizedPnlUsd": -1519.3137058888371,
+          "volumeUsd": 638655.0618936799,
+          "trades": 768,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:36.000Z",
+          "lastSellAt": "2026-09-14T00:00:40.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8j7HVVAK1tNzQY269Rm7UHe5yv1nQ5mGdC9m9BTzT7GV",
+          "isBot": true,
+          "pnlUsd": -1745.8324824439592,
+          "realizedPnlUsd": 74.65358996408379,
+          "volumeUsd": 600414.2719990243,
+          "trades": 729,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:42.000Z",
+          "lastSellAt": "2026-09-14T00:00:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "BiEHvFqAHu1Z7RqE6tXgpLgsZcAEABq7FqKJZuUKpy1r",
+          "isBot": true,
+          "pnlUsd": -2337.3649379522253,
+          "realizedPnlUsd": 170.92994482990125,
+          "volumeUsd": 632038.8001573328,
+          "trades": 764,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:31.000Z",
+          "lastSellAt": "2026-09-14T00:00:36.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2TvSq5efKYGXdtF1qUEkMtupzmiURxP6mzED5nZkDL2u",
+          "isBot": true,
+          "pnlUsd": -2885.45555348511,
+          "realizedPnlUsd": -1190.164100910209,
+          "volumeUsd": 607210.5146796785,
+          "trades": 735,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:41.000Z",
+          "lastSellAt": "2026-09-14T00:00:41.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2AJayhZQpWXFEkBat2LAv5gqkBEFMfXMfsV9zyExJR2J",
+          "isBot": true,
+          "pnlUsd": -3155.537449269203,
+          "realizedPnlUsd": -1234.6583074238872,
+          "volumeUsd": 605867.8623966863,
+          "trades": 736,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:37.000Z",
+          "lastSellAt": "2026-09-14T00:00:42.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "4q1uAhqPThryq8bhWNQ6ZcKeJFWTFSdsAGfArncQLy8f",
+          "isBot": true,
+          "pnlUsd": -4083.9146521216744,
+          "realizedPnlUsd": -1216.7447037590437,
+          "volumeUsd": 636761.9990074355,
+          "trades": 766,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:45.000Z",
+          "lastSellAt": "2026-09-14T00:00:41.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "9ADWfzgSBgvY48tcii6zFFwekx8iLMk8StsxJsk6Byvp",
+      "name": "ASTER / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_Aaqvu722gEMRnEPnrwyd2z2KjGfcdbdWsS3EwEHUJspc",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T18:02:47Z",
+      "priceUsd": 0.0014224634788624231,
+      "fdvUsd": 14224634.79,
+      "liquidityUsd": 0.000001527531157,
+      "volume24hUsd": 38593430.7349719,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 5004.828
+      },
+      "txns24h": {
+        "buys": 30489,
+        "sells": 27489,
+        "buyers": 3062,
+        "sellers": 60
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "ASTER",
+      "ageDays": 0.91,
+      "churn": null,
+      "buyerSellerRatio": 51.03,
+      "buysPerBuyer": 10,
+      "sellsPerSeller": 458.1,
+      "score": 72.049,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 14224635,
+        "low": 277126,
+        "high": 14224635,
+        "multiple": null,
+        "peakAt": "2026-09-13T21:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "Created on https://www.asterdex.com/en",
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "3VR6Hsb67rxHJ84x6H7VT1hQL5oBSBSFYmmVyDX6xcay",
+          "isBot": true,
+          "pnlUsd": 3088.8755019963633,
+          "realizedPnlUsd": 3088.8755019963633,
+          "volumeUsd": 1294671.0402015066,
+          "trades": 1834,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:41.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "G45j5ayc5kZ6sJaeW8Eeo8G3UhYZabcTQWzwH2ar1v6H",
+          "isBot": true,
+          "pnlUsd": -1697.8566038399358,
+          "realizedPnlUsd": -1697.8566038399358,
+          "volumeUsd": 1304372.9236995708,
+          "trades": 1840,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:39.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "BAnUVMACr78asJfswJsLVBXmsKbqPuB6VCbguwQHMztK",
+          "isBot": true,
+          "pnlUsd": -4559.25092104949,
+          "realizedPnlUsd": -4559.25092104949,
+          "volumeUsd": 1325413.1869643386,
+          "trades": 1886,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:46.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "BodT2FAfSWSwGy9tiSUKcHQMMBtcdzGnCyVQh8ntqDQp",
+          "isBot": true,
+          "pnlUsd": -7493.980689361191,
+          "realizedPnlUsd": -1552.3475409210625,
+          "volumeUsd": 1308332.7610594411,
+          "trades": 1856,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:44.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "kXNPpXdKzuBVB3NfPfGLwr2dsc3i73S9dhwsX4ZZkKv",
+          "isBot": true,
+          "pnlUsd": -8576.588800493186,
+          "realizedPnlUsd": -8576.588800493186,
+          "volumeUsd": 1313774.2110638532,
+          "trades": 1862,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:46.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9Sbza6vrvLLMtLQCpq2qaUk7HWSeHZCm43cDt833EFCh",
+          "isBot": true,
+          "pnlUsd": -9292.171157915356,
+          "realizedPnlUsd": 1186.8561502839993,
+          "volumeUsd": 1307756.1078601975,
+          "trades": 1854,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:42.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "FZxqZ6PGsW1DUdhLp7hu84XDSM2jUAu4ebDne6qwuY1v",
+          "isBot": true,
+          "pnlUsd": -9715.648120278005,
+          "realizedPnlUsd": -5656.0803498539335,
+          "volumeUsd": 1312143.4978531378,
+          "trades": 1844,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:43.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "DJQ9XQ1Z1pRGyd9Sdgyewyfq89vpbV8BY5nhtiYBdhDy",
+          "isBot": true,
+          "pnlUsd": -14842.412940449767,
+          "realizedPnlUsd": -1633.313837792836,
+          "volumeUsd": 1302018.2701967906,
+          "trades": 1834,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-13T21:15:44.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "BowowrVVQaqoVXB12VvSC6N6zUjXd157JkG5wKxv98Lu",
+      "name": "AAPL / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_4bKvEq5QUEVsw6uvVLgkJVxtvh2LeT4Q6VktQPd4n6u2",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T02:11:53Z",
+      "priceUsd": 0.000010095040137287437,
+      "fdvUsd": 57684287.9,
+      "liquidityUsd": 0.002631770867,
+      "volume24hUsd": 50356932.5466794,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 5933.241
+      },
+      "txns24h": {
+        "buys": 28509,
+        "sells": 26199,
+        "buyers": 1905,
+        "sellers": 60
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "AAPL",
+      "ageDays": 0.57,
+      "churn": null,
+      "buyerSellerRatio": 31.75,
+      "buysPerBuyer": 15,
+      "sellsPerSeller": 436.6,
+      "score": 70.575,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 57684288,
+        "low": 570996,
+        "high": 221725165064708,
+        "multiple": null,
+        "peakAt": "2026-09-14T07:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "stock",
+        "name": "Apple"
+      },
+      "description": null,
+      "tickerCopies": 7,
+      "traders": [
+        {
+          "wallet": "29dRfMqy21w9ZsWvQgCq8DENSJ8K1x9zRTSkpjVmUfzM",
+          "isBot": true,
+          "pnlUsd": 1830.7447933426483,
+          "realizedPnlUsd": -5480.484326696519,
+          "volumeUsd": 2520469.234136697,
+          "trades": 2639,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:25.000Z",
+          "lastSellAt": "2026-09-14T05:43:16.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "3XUXnP3NriX86RRfGGnbZiriJiM5LJEokYxB7wqLk8Vd",
+          "isBot": true,
+          "pnlUsd": 1034.6336989333604,
+          "realizedPnlUsd": -4851.624054215749,
+          "volumeUsd": 2532471.411119022,
+          "trades": 2652,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:31.000Z",
+          "lastSellAt": "2026-09-14T05:43:25.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "aagkY4uVh6z9ePNjH9MGryC6AbWTeyQrpTK6KLHNWot",
+          "isBot": true,
+          "pnlUsd": 831.1478691717493,
+          "realizedPnlUsd": -4722.376784591321,
+          "volumeUsd": 2547159.196684356,
+          "trades": 2670,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:20.000Z",
+          "lastSellAt": "2026-09-14T05:43:20.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CuxWJQ9XMS4hMrykVwRyYeL5x6rdL3LggbujyT5nt41j",
+          "isBot": true,
+          "pnlUsd": -214.83274092880401,
+          "realizedPnlUsd": -5423.115857498349,
+          "volumeUsd": 2525471.074593978,
+          "trades": 2647,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:32.000Z",
+          "lastSellAt": "2026-09-14T05:43:25.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "EQNsqco2ap9FWWaXXkr7rQUiYDXRDrLSrKT2aKwkLGkH",
+          "isBot": true,
+          "pnlUsd": -417.5974114787887,
+          "realizedPnlUsd": -4932.055348469444,
+          "volumeUsd": 2526227.0017956644,
+          "trades": 2647,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:29.000Z",
+          "lastSellAt": "2026-09-14T05:43:08.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "4FiCnHyunvTQSqXYHLZ1kndrsn3sMj7HdMABcZQpMnC5",
+          "isBot": true,
+          "pnlUsd": -603.8914987103508,
+          "realizedPnlUsd": -5231.780712692404,
+          "volumeUsd": 2536801.7209958443,
+          "trades": 2657,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:26.000Z",
+          "lastSellAt": "2026-09-14T05:43:23.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "HKzqVvXuCofusfZ855o5mRSoW7tnstu4J8znVDCzqszn",
+          "isBot": true,
+          "pnlUsd": -1792.5156767418548,
+          "realizedPnlUsd": -5099.407706358922,
+          "volumeUsd": 2546509.538168822,
+          "trades": 2666,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:18.000Z",
+          "lastSellAt": "2026-09-14T05:43:21.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "E1PqnVQQHVfdid2ZbFsqwZRwJmXS3eNFCJ1zvS53aQFj",
+          "isBot": true,
+          "pnlUsd": -1957.0107510510343,
+          "realizedPnlUsd": -6628.000200116817,
+          "volumeUsd": 2508994.2316489685,
+          "trades": 2627,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:03:30.000Z",
+          "lastSellAt": "2026-09-14T05:43:21.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "FsCqY8aKCvhXwBVdMHFb6XN58VU49bJm1NmaKRLPPjuL",
+      "name": "XL / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_GcLfmyYZMWuxBoT14YCAtUVyTUuKvaE1nn82z7QPyRh7",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T00:11:08Z",
+      "priceUsd": 0.002105081358061006,
+      "fdvUsd": 2105081.358,
+      "liquidityUsd": 0.000454541994723803,
+      "volume24hUsd": 55123376.7263332,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 2868.952
+      },
+      "txns24h": {
+        "buys": 67788,
+        "sells": 49828,
+        "buyers": 2027,
+        "sellers": 47
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "XL",
+      "ageDays": 0.65,
+      "churn": null,
+      "buyerSellerRatio": 43.13,
+      "buysPerBuyer": 33.4,
+      "sellsPerSeller": 1060.2,
+      "score": 65.655,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 2105081,
+        "low": 47440,
+        "high": 2907235,
+        "multiple": null,
+        "peakAt": "2026-09-14T15:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "746DpKi4tqcSdJuh7uhrhMSNBQMjmao2Kijwj8aUasDM",
+          "isBot": true,
+          "pnlUsd": 3278.3194203380863,
+          "realizedPnlUsd": 3278.3194203380863,
+          "volumeUsd": 3648507.5544566372,
+          "trades": 6600,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:03:50.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "HFjbLvqwQWmyiHUsMuwhpyGbNTvEaZnnusmiD2p5DwKL",
+          "isBot": true,
+          "pnlUsd": -5758.449032517306,
+          "realizedPnlUsd": -5758.449032517306,
+          "volumeUsd": 2156216.2822306165,
+          "trades": 3920,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:03:51.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "HoUmZoteUrPDtx6vCUjGvtgURTJ2YnVZyJ2Z25pSVmaq",
+          "isBot": true,
+          "pnlUsd": -7507.391663070992,
+          "realizedPnlUsd": -1985.7389744099726,
+          "volumeUsd": 2289721.249772718,
+          "trades": 4103,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:13:46.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "AHnHeRPqRFgLwCLpMoWY9mGToEpjNtWHG5mVyRuXdV59",
+          "isBot": true,
+          "pnlUsd": -8088.326954389345,
+          "realizedPnlUsd": -8088.326954389345,
+          "volumeUsd": 2915361.0880219038,
+          "trades": 5216,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:09:34.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "C7qyFsrqRZMwFmpTdhvkDQ8VpRuUYWUCdsiWcnwkA29U",
+          "isBot": true,
+          "pnlUsd": -12130.532256869865,
+          "realizedPnlUsd": 3050.4972479835983,
+          "volumeUsd": 3570207.715208752,
+          "trades": 6341,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:45:14.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9ATC13kRcp8Ac64z4qmd359xTaziu89EDHSrEWmCheFi",
+          "isBot": true,
+          "pnlUsd": -14070.03970151356,
+          "realizedPnlUsd": -14070.03970151356,
+          "volumeUsd": 3274004.3606991437,
+          "trades": 5789,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T05:02:39.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "DGrMhVXhSyFy1tE5WLCzbMqxP5uHfC1wNmQf3dU3Hn2F",
+          "isBot": true,
+          "pnlUsd": -14198.177435920617,
+          "realizedPnlUsd": -9476.864579277151,
+          "volumeUsd": 3549392.9832112174,
+          "trades": 6292,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:20:49.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "APASs7n7XfLDxeW2afpiFSorw9fpV6S9WMc86YEZueWH",
+          "isBot": true,
+          "pnlUsd": -15415.365120393588,
+          "realizedPnlUsd": 5824.064040515997,
+          "volumeUsd": 4384137.727566928,
+          "trades": 7822,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T04:41:13.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "4ynjBnDoFaFqG18rzHAb4qUWHvLDYRcQu2Vcw4f4kJov",
+      "name": "NVIDA / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_4K6DVWbekNpa9DL4pwwguLPrYpoq7DuTyzC5Y42yrhFc",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T01:48:12Z",
+      "priceUsd": 0.00008026468280808125,
+      "fdvUsd": 8023934.974,
+      "liquidityUsd": 0.00000785949977978181,
+      "volume24hUsd": 153213664.825688,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 16.813,
+        "h24": 1091.074
+      },
+      "txns24h": {
+        "buys": 118371,
+        "sells": 79335,
+        "buyers": 2966,
+        "sellers": 58
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "NVIDA",
+      "ageDays": 0.59,
+      "churn": null,
+      "buyerSellerRatio": 51.14,
+      "buysPerBuyer": 39.9,
+      "sellsPerSeller": 1367.8,
+      "score": 65.254,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 8023935,
+        "low": 673459,
+        "high": 16045530,
+        "multiple": null,
+        "peakAt": "2026-09-14T12:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "5umKeGpD4ezee5bXNoDmhivdoJPjdn7ZUGfXoUKFcKjY",
+          "isBot": true,
+          "pnlUsd": -9232.411656919325,
+          "realizedPnlUsd": -9232.411656919325,
+          "volumeUsd": 7710692.381516831,
+          "trades": 7968,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:07.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "E4cREyLvBW9XFug78FWf3cukfnkEh9eaw1PkGXkVZVYA",
+          "isBot": true,
+          "pnlUsd": -19903.398047311293,
+          "realizedPnlUsd": -19824.82296642241,
+          "volumeUsd": 7687731.223243962,
+          "trades": 7955,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:05.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8w9B2arS3yTYuVqfo3hCNJG3aCw9btRfxgi2juKadLi6",
+          "isBot": true,
+          "pnlUsd": -21743.820450645562,
+          "realizedPnlUsd": -21743.820450645562,
+          "volumeUsd": 7724804.027007962,
+          "trades": 7993,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:14.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "GH628cLJ8Ms8GX9zyrktGmsdCPamMxGGPzhaybezq8e5",
+          "isBot": true,
+          "pnlUsd": -22980.89230777645,
+          "realizedPnlUsd": -16850.75883692418,
+          "volumeUsd": 7668808.310585225,
+          "trades": 7941,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:17.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "sbLWmLkeiA5o3BWNcM4V1FKSW5mLRGxzYDDsZZy21Pv",
+          "isBot": true,
+          "pnlUsd": -23150.23828516392,
+          "realizedPnlUsd": -23150.23828516392,
+          "volumeUsd": 7679749.603066351,
+          "trades": 7952,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:12.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CeY7jeMNxqzmaDyzW6VpVf5XNwhxbnJqtUPkTAWJyTKV",
+          "isBot": true,
+          "pnlUsd": -23695.088506117565,
+          "realizedPnlUsd": -18240.39891731131,
+          "volumeUsd": 7692320.936876984,
+          "trades": 7970,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:13.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "AW69vdfo1rK2PzaNA6nHvGQ4upGb5J1FNwcUHR7eU4md",
+          "isBot": true,
+          "pnlUsd": -24060.311154080297,
+          "realizedPnlUsd": -18988.498167384638,
+          "volumeUsd": 7661918.596277422,
+          "trades": 7933,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:07.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "F6Ma86SA6uYMUPTVcwLFunWJSWM8qTMRJy3J1Un9hEU",
+          "isBot": true,
+          "pnlUsd": -26429.513780722806,
+          "realizedPnlUsd": -14148.436811468944,
+          "volumeUsd": 7652613.026129099,
+          "trades": 7921,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T13:02:12.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "9i6x3mkVVxHm1hsJZDL4g39nimVHERgkwLqtbdpXVY5j",
+      "name": "CLEAR / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_wRnCLodciZQrrZZidFe1Fj4zYjt9Y1jTPTPF7Dhry72",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T03:08:39Z",
+      "priceUsd": 0.003999397906724356,
+      "fdvUsd": 3999397.907,
+      "liquidityUsd": 0.0102,
+      "volume24hUsd": 8280786.43626826,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 7738.473
+      },
+      "txns24h": {
+        "buys": 8886,
+        "sells": 5150,
+        "buyers": 1916,
+        "sellers": 41
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "CLEAR",
+      "ageDays": 0.53,
+      "churn": null,
+      "buyerSellerRatio": 46.73,
+      "buysPerBuyer": 4.6,
+      "sellsPerSeller": 125.6,
+      "score": 62.78,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 3999398,
+        "low": 4255,
+        "high": 72449859166779,
+        "multiple": null,
+        "peakAt": "2026-09-14T04:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "AT354fhPwPMh8bV6ep6ghMyhwQPMBtFmHiVyj1uKwgtM",
+          "isBot": true,
+          "pnlUsd": -1952.0191413042803,
+          "realizedPnlUsd": -751.0155839733235,
+          "volumeUsd": 829169.6323553749,
+          "trades": 1134,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:40.000Z",
+          "lastSellAt": "2026-09-14T03:55:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2TvSq5efKYGXdtF1qUEkMtupzmiURxP6mzED5nZkDL2u",
+          "isBot": true,
+          "pnlUsd": -2017.541787147692,
+          "realizedPnlUsd": -1315.3031380040727,
+          "volumeUsd": 807548.0394345393,
+          "trades": 1114,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:41.000Z",
+          "lastSellAt": "2026-09-14T03:55:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9ZYMMXvVPSfq6JdUjXBv9yCo1J1XbphPQMbWS5oDThJ",
+          "isBot": true,
+          "pnlUsd": -2335.377058441675,
+          "realizedPnlUsd": -704.8561159241752,
+          "volumeUsd": 820899.2211575038,
+          "trades": 1128,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:38.000Z",
+          "lastSellAt": "2026-09-14T03:55:33.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "H3TQiRHNr5N6hi8ZrQ3w31HkfmxxAxgJWUAvgK1bioR3",
+          "isBot": true,
+          "pnlUsd": -3058.8653900338163,
+          "realizedPnlUsd": -1129.4931319761308,
+          "volumeUsd": 833077.2055283727,
+          "trades": 1135,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:44.000Z",
+          "lastSellAt": "2026-09-14T03:55:34.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "4q1uAhqPThryq8bhWNQ6ZcKeJFWTFSdsAGfArncQLy8f",
+          "isBot": true,
+          "pnlUsd": -3829.9940009410784,
+          "realizedPnlUsd": -541.8488645662906,
+          "volumeUsd": 834542.7851725502,
+          "trades": 1139,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:45.000Z",
+          "lastSellAt": "2026-09-14T03:55:37.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "8hjeVX2213Ep2WAihKJjhCUSKCph2oUEFLmeBzqX18X7",
+          "isBot": true,
+          "pnlUsd": -5065.824019127202,
+          "realizedPnlUsd": -2371.755092694837,
+          "volumeUsd": 831357.1871688573,
+          "trades": 1135,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:32.000Z",
+          "lastSellAt": "2026-09-14T03:55:38.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "2AJayhZQpWXFEkBat2LAv5gqkBEFMfXMfsV9zyExJR2J",
+          "isBot": true,
+          "pnlUsd": -6615.551589225261,
+          "realizedPnlUsd": -556.8955993607423,
+          "volumeUsd": 832285.0670561749,
+          "trades": 1138,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:37.000Z",
+          "lastSellAt": "2026-09-14T03:55:35.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "5yM7ZW7hkVcafuiKyWHZUxb3j3bnVfXoAQ26xz4NkYnU",
+          "isBot": true,
+          "pnlUsd": -6879.76814166812,
+          "realizedPnlUsd": -406.4169862780018,
+          "volumeUsd": 830181.868870665,
+          "trades": 1130,
+          "tags": [
+            "fresh",
+            "bundler"
+          ],
+          "firstBuyAt": "2026-09-13T17:06:36.000Z",
+          "lastSellAt": "2026-09-14T03:55:36.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "635k8aMqtcfa4jrcrx7KNaWfwF8U1wEKqt5FQfs7hNLc",
+      "name": "鹈鹕 / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_5435sdGn1HxiqJ1jt44vNrmszfke5BKHfWsMy774xc9",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T07:36:01Z",
+      "priceUsd": 0.0021852099422515407,
+      "fdvUsd": 2185209.942,
+      "liquidityUsd": 0.0102,
+      "volume24hUsd": 9734420.03902171,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 241864.803,
+        "h24": 2682.618
+      },
+      "txns24h": {
+        "buys": 8494,
+        "sells": 5902,
+        "buyers": 2643,
+        "sellers": 54
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "鹈鹕",
+      "ageDays": 0.34,
+      "churn": null,
+      "buyerSellerRatio": 48.94,
+      "buysPerBuyer": 3.2,
+      "sellsPerSeller": 109.3,
+      "score": 58.533,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 2185210,
+        "low": 903,
+        "high": 2185210,
+        "multiple": null,
+        "peakAt": "2026-09-14T08:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "Created on https://wx.tech-melon.top/50e479",
+      "tickerCopies": 0,
+      "traders": [
+        {
+          "wallet": "DxkxRj4Pd2DpfHNET8zZNuiYx2K4tFMs8WWPCgPfwrwt",
+          "isBot": true,
+          "pnlUsd": -86.36463045449466,
+          "realizedPnlUsd": -86.36463045449466,
+          "volumeUsd": 204345.92411440727,
+          "trades": 248,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:23:05.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "6MsJTwpdW2t46TXen4jSYczzH2ZWWaApoBhrA8E1nucC",
+          "isBot": true,
+          "pnlUsd": -190.6724072317904,
+          "realizedPnlUsd": -190.6724072317904,
+          "volumeUsd": 208802.16724304628,
+          "trades": 258,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:50.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "CV6Q24Wpyn2Me1T8kGijjuRoU9pF97grtU5YsFF7FtED",
+          "isBot": true,
+          "pnlUsd": -416.77778228811985,
+          "realizedPnlUsd": -416.77778228811985,
+          "volumeUsd": 206009.71533272704,
+          "trades": 248,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:53.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "5oQNuJqWyzb23PomYEhmY9YvTxkpCN8BdixGvXKQSYxG",
+          "isBot": true,
+          "pnlUsd": -699.923785140955,
+          "realizedPnlUsd": -431.85475958840425,
+          "volumeUsd": 202088.86680739553,
+          "trades": 246,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:23:02.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "9G6sGuXk5vrQoZ6xNtRNx3VHNkZ4wLfKP3aYbNL3dBqg",
+          "isBot": true,
+          "pnlUsd": -949.0611221354933,
+          "realizedPnlUsd": -57.12902079875679,
+          "volumeUsd": 203884.25210303982,
+          "trades": 242,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:49.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "Ffu6TYK5D1vTS5FHf5mWkQf5CBcK97h7LvRw2waG2STJ",
+          "isBot": true,
+          "pnlUsd": -1479.3327011679867,
+          "realizedPnlUsd": 71.7035654132324,
+          "volumeUsd": 206184.0059505589,
+          "trades": 254,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:46.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "B6yQMsThf1CXm92bSs77d32nS4sjNnuYovLjn9ueDNU2",
+          "isBot": true,
+          "pnlUsd": -1752.536290860981,
+          "realizedPnlUsd": -138.6966821277305,
+          "volumeUsd": 201097.09102357418,
+          "trades": 242,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:49.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        },
+        {
+          "wallet": "BSkTiGWazENYMGbyq7rUpBamutEVZjv44oqkPocGKSwD",
+          "isBot": true,
+          "pnlUsd": -2090.0304342601457,
+          "realizedPnlUsd": 485.83198472528215,
+          "volumeUsd": 202976.6116345279,
+          "trades": 244,
+          "tags": [
+            "bundler"
+          ],
+          "firstBuyAt": null,
+          "lastSellAt": "2026-09-14T08:22:53.000Z",
+          "handle": null,
+          "thesis": null,
+          "thesisPostedAt": null,
+          "followers": null
+        }
+      ],
+      "bigWinners": 0,
+      "botTraders": 8
+    },
+    {
+      "poolAddress": "BAxhnTAwWaWEqYbEBWhT9MTmRGdUNKvqCiGYmDLQHFSu",
+      "name": "$MSFT / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_5Sem4htBScJmz5B8s1dKUcToPginRZsgDLA4PMFzwJ9n",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T06:06:48Z",
+      "priceUsd": 0.00005801298013176123,
+      "fdvUsd": 5769120.31,
+      "liquidityUsd": 7.44361537475269e-7,
+      "volume24hUsd": 43976343.2316909,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 50.521,
+        "h24": 640.624
+      },
+      "txns24h": {
+        "buys": 26887,
+        "sells": 22751,
+        "buyers": 1958,
+        "sellers": 53
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "$MSFT",
+      "ageDays": 0.41,
+      "churn": null,
+      "buyerSellerRatio": 36.94,
+      "buysPerBuyer": 13.7,
+      "sellsPerSeller": 429.3,
+      "score": 52.153,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 5769120,
+        "low": 509959,
+        "high": 5780237,
+        "multiple": null,
+        "peakAt": "2026-09-14T09:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "stock",
+        "name": "Microsoft"
+      },
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "HMzvsEEmtzHhvZNw9uwbaG85HCTmFnkbhzUx16cy7ca3",
+      "name": "CATE / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_Ai66LHZG9MCzg1WKdawwqduVAXpNDUuV8M3uyq5ppump",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-07-26T16:32:43Z",
+      "priceUsd": 0.07343562121488792,
+      "fdvUsd": 70808114.2281387,
+      "liquidityUsd": 2832007.3075,
+      "volume24hUsd": 20232720.1126683,
+      "change": {
+        "m5": -0.648,
+        "h1": -4.874,
+        "h6": -3.264,
+        "h24": 43.71
+      },
+      "txns24h": {
+        "buys": 54423,
+        "sells": 51109,
+        "buyers": 17129,
+        "sellers": 17472
+      },
+      "sources": [
+        "volume",
+        "trending"
+      ],
+      "symbol": "CATE",
+      "ageDays": 49.97,
+      "churn": 7.14,
+      "buyerSellerRatio": 0.98,
+      "buysPerBuyer": 3.2,
+      "sellsPerSeller": 2.9,
+      "score": 52.133,
+      "flags": [],
+      "mcap": {
+        "current": 70808114,
+        "low": 47072950,
+        "high": 85381563,
+        "multiple": 1.8,
+        "peakAt": "2026-09-14T11:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "79T97DUNX21CxfkuQBMxZ56mcvwWmJS4GKKJkSa9Ya4Z",
+      "name": "슈바오 / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_2bQGHQQ3WLFgBVyU62VgznVTQgniZdRbSp5Ff2vJmFCE",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T16:47:42Z",
+      "priceUsd": 0.0010071096173599717,
+      "fdvUsd": 1006634.333,
+      "liquidityUsd": 73421.0419,
+      "volume24hUsd": 6641169.86733927,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 1472.396
+      },
+      "txns24h": {
+        "buys": 14775,
+        "sells": 13679,
+        "buyers": 2182,
+        "sellers": 172
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "슈바오",
+      "ageDays": 0.96,
+      "churn": 90.45,
+      "buyerSellerRatio": 12.69,
+      "buysPerBuyer": 6.8,
+      "sellsPerSeller": 79.5,
+      "score": 51.476,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1006634,
+        "low": 50671,
+        "high": 2464756,
+        "multiple": null,
+        "peakAt": "2026-09-13T17:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "132mxyCYfNcveEu4A4kJSZ6BqgncJsq6SmRVpi7RzbqZ",
+      "name": "GTA6 / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_8xQLebUqpV5G8nGF1u8zABvENWUd8zeVxYjX7EULnb8S",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T19:03:47Z",
+      "priceUsd": 0.00004717079705564979,
+      "fdvUsd": 4742844.476,
+      "liquidityUsd": 5.950301601e-7,
+      "volume24hUsd": 40328117.2696619,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 615.608
+      },
+      "txns24h": {
+        "buys": 37318,
+        "sells": 20931,
+        "buyers": 1952,
+        "sellers": 46
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "GTA6",
+      "ageDays": 0.87,
+      "churn": null,
+      "buyerSellerRatio": 42.43,
+      "buysPerBuyer": 19.1,
+      "sellsPerSeller": 455,
+      "score": 51.466,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 4742844,
+        "low": 666392,
+        "high": 4779581,
+        "multiple": null,
+        "peakAt": "2026-09-13T21:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "2WDjBoPmF9PetPFX4q3AoVb7tH1zFQLcpfeYFmu2U46V",
+      "name": "Starbucks / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_EiXMrvhua6wxYmCoCEL4WtRCeFGRgv4u1csh3FBQ4G2D",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T16:26:56Z",
+      "priceUsd": 0.000039383079198148384,
+      "fdvUsd": 3917585.02342496,
+      "liquidityUsd": 7.30156431154092e-7,
+      "volume24hUsd": 68067127.8503587,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 302.463
+      },
+      "txns24h": {
+        "buys": 60070,
+        "sells": 34464,
+        "buyers": 3000,
+        "sellers": 31
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "Starbucks",
+      "ageDays": 0.97,
+      "churn": null,
+      "buyerSellerRatio": 96.77,
+      "buysPerBuyer": 20,
+      "sellsPerSeller": 1111.7,
+      "score": 50.344,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 3917585,
+        "low": 731680,
+        "high": 3924019,
+        "multiple": null,
+        "peakAt": "2026-09-13T21:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "brand",
+        "name": "Starbucks"
+      },
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "8DPzzJEmR2NtLyMfY38LDNfY1jCBKUkXjNmUjSSvWLfA",
+      "name": "NIKE / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_E91jpcZFfsNGrCrTKNxJedNk15rtvZHwMRDZPcVbCV6U",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T11:14:50Z",
+      "priceUsd": 0.00005317622668967882,
+      "fdvUsd": 5288343.107,
+      "liquidityUsd": 378299.1955,
+      "volume24hUsd": 63432330.9397662,
+      "change": {
+        "m5": 1.619,
+        "h1": 8.374,
+        "h6": 500.883,
+        "h24": 500.883
+      },
+      "txns24h": {
+        "buys": 42576,
+        "sells": 32752,
+        "buyers": 1958,
+        "sellers": 53
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "NIKE",
+      "ageDays": 0.19,
+      "churn": 167.68,
+      "buyerSellerRatio": 36.94,
+      "buysPerBuyer": 21.7,
+      "sellsPerSeller": 618,
+      "score": 49.59,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 5288343,
+        "low": 500755,
+        "high": 6139925,
+        "multiple": null,
+        "peakAt": "2026-09-14T15:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "brand",
+        "name": "Nike"
+      },
+      "description": null,
+      "tickerCopies": 3,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "2KdTjwHSSxorEYYCTu1gdCaAv7DNgbvz7wqAXjK1bApA",
+      "name": "b-money / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_4zBswhAfpqswcZXDDbseBsn9R3DXH89iK3AGiiqRPFkT",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T04:49:41Z",
+      "priceUsd": 0.00001360730753978133,
+      "fdvUsd": 1360730.754,
+      "liquidityUsd": 6.0877697505994e-7,
+      "volume24hUsd": 43533797.5899048,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 64.877,
+        "h24": 797.995
+      },
+      "txns24h": {
+        "buys": 29841,
+        "sells": 28900,
+        "buyers": 1008,
+        "sellers": 55
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "b-money",
+      "ageDays": 0.46,
+      "churn": null,
+      "buyerSellerRatio": 18.33,
+      "buysPerBuyer": 29.6,
+      "sellsPerSeller": 525.5,
+      "score": 49.165,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1360731,
+        "low": 151525,
+        "high": 1780455,
+        "multiple": null,
+        "peakAt": "2026-09-14T12:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "In 1998, Wei Dai developed B-money.",
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "6AHPFx7PnD9u2Y7krXkMUTj4xwWqB9t656um5Ub7uB1S",
+      "name": "ClaudeAI / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_S7eFhYhGU49ZNk35TbbnqZy3suFmPHLvHdofzEquTv9",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T23:26:23Z",
+      "priceUsd": 0.00003665052548433818,
+      "fdvUsd": 3644994.454,
+      "liquidityUsd": 6.03199752883676e-7,
+      "volume24hUsd": 74839531.6497354,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 298.122
+      },
+      "txns24h": {
+        "buys": 32954,
+        "sells": 25941,
+        "buyers": 2025,
+        "sellers": 40
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "ClaudeAI",
+      "ageDays": 0.68,
+      "churn": null,
+      "buyerSellerRatio": 50.63,
+      "buysPerBuyer": 16.3,
+      "sellsPerSeller": 648.5,
+      "score": 48.09,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 3644994,
+        "low": 626283,
+        "high": 3645299,
+        "multiple": null,
+        "peakAt": "2026-09-14T02:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "Claude is an AI assistant built by @anthropicai to be safe, accurate, and secure.",
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "AP6DWarspkPystkqRGwWXR712MzvqTacXGNFXHnytdxh",
+      "name": "Gemini AI / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_EBW4aj4xBDmjeZq34HpWZ8m3kUT3mp2tFk3eErKonauu",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T08:10:36Z",
+      "priceUsd": 0.0028265920020145024,
+      "fdvUsd": 2841863.496,
+      "liquidityUsd": 308229.524,
+      "volume24hUsd": 37298332.2637671,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 146.552,
+        "h24": 457.214
+      },
+      "txns24h": {
+        "buys": 24087,
+        "sells": 19771,
+        "buyers": 1554,
+        "sellers": 38
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "Gemini AI",
+      "ageDays": 0.32,
+      "churn": 121.01,
+      "buyerSellerRatio": 40.89,
+      "buysPerBuyer": 15.5,
+      "sellsPerSeller": 520.3,
+      "score": 46.619,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 2841863,
+        "low": 512768,
+        "high": 2992744,
+        "multiple": null,
+        "peakAt": "2026-09-14T10:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": null,
+      "tickerCopies": 0,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "4akdNcnAi8xHAVCaqVep14K83wC1jBfWQjcamiAp9Qx3",
+      "name": "TSLA / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_GbPz3DAiVaYn4b1RVFZSuYoszeT5UoehAa1fEPqw1qcC",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T13:14:19Z",
+      "priceUsd": 0.0001803266975275771,
+      "fdvUsd": 1809076.682,
+      "liquidityUsd": 235190.8746,
+      "volume24hUsd": 26136766.7112629,
+      "change": {
+        "m5": 0.226,
+        "h1": 29.91,
+        "h6": 389.178,
+        "h24": 389.178
+      },
+      "txns24h": {
+        "buys": 18549,
+        "sells": 16571,
+        "buyers": 2058,
+        "sellers": 54
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "TSLA",
+      "ageDays": 0.11,
+      "churn": 111.13,
+      "buyerSellerRatio": 38.11,
+      "buysPerBuyer": 9,
+      "sellsPerSeller": 306.9,
+      "score": 46.122,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1809077,
+        "low": 371011,
+        "high": 1868162,
+        "multiple": null,
+        "peakAt": "2026-09-14T15:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "stock",
+        "name": "Tesla"
+      },
+      "description": null,
+      "tickerCopies": 11,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "Hpb2BV5a7JQs1UzMNh3LhqhfewYDWfUasAWfS4sTPsRh",
+      "name": "TIKTOK / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_c6ot3sBbh2VaMqPgUgbSsuHDHF5Q4MbXSVpMUgPH5Gc",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-14T08:28:12Z",
+      "priceUsd": 0.00012348528409172294,
+      "fdvUsd": 1241677.41856899,
+      "liquidityUsd": 2.0552,
+      "volume24hUsd": 24023726.7124019,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 117.453,
+        "h24": 220.197
+      },
+      "txns24h": {
+        "buys": 20015,
+        "sells": 17002,
+        "buyers": 3071,
+        "sellers": 64
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "TIKTOK",
+      "ageDays": 0.31,
+      "churn": null,
+      "buyerSellerRatio": 47.98,
+      "buysPerBuyer": 6.5,
+      "sellsPerSeller": 265.7,
+      "score": 43.999,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 1241677,
+        "low": 373937,
+        "high": 1251544,
+        "multiple": null,
+        "peakAt": "2026-09-14T09:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": null,
+      "description": "TikTok coin (TikTok) Created on https://www.tiktok.com",
+      "tickerCopies": 4,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    },
+    {
+      "poolAddress": "528W6LmMexoYBEPo1oWBBUp5wiQ2fdr2TXH3Ah9DmbLR",
+      "name": "HOOD / SOL",
+      "dex": "pumpswap",
+      "baseTokenId": "solana_CFoGqGKQZei5MP7hC83vYSaN6HAMyML8gpxHw4iUUJEQ",
+      "quoteTokenId": "solana_So11111111111111111111111111111111111111112",
+      "createdAt": "2026-09-13T17:17:57Z",
+      "priceUsd": 0.000029394349403721014,
+      "fdvUsd": 2944508.30382276,
+      "liquidityUsd": 487384.8016,
+      "volume24hUsd": 61638612.1221112,
+      "change": {
+        "m5": 0,
+        "h1": 0,
+        "h6": 0,
+        "h24": 211.455
+      },
+      "txns24h": {
+        "buys": 53789,
+        "sells": 32145,
+        "buyers": 1967,
+        "sellers": 59
+      },
+      "sources": [
+        "volume"
+      ],
+      "symbol": "HOOD",
+      "ageDays": 0.94,
+      "churn": 126.47,
+      "buyerSellerRatio": 33.34,
+      "buysPerBuyer": 27.3,
+      "sellsPerSeller": 544.8,
+      "score": 43.604,
+      "flags": [
+        "launched-today",
+        "bot-driven-selling"
+      ],
+      "mcap": {
+        "current": 2944508,
+        "low": 684094,
+        "high": 2975846,
+        "multiple": null,
+        "peakAt": "2026-09-14T00:00:00.000Z"
+      },
+      "pairing": null,
+      "namesake": {
+        "kind": "stock",
+        "name": "Robinhood"
+      },
+      "description": null,
+      "tickerCopies": 6,
+      "traders": null,
+      "bigWinners": null,
+      "botTraders": null
+    }
+  ]
+}
