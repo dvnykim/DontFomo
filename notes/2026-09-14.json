@@ -1,0 +1,231 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-15T14:26:41.780Z",
+    "evidenceSha256": "bf33c51705e14c2c"
+  },
+  "mood": "brand-name conveyor running on autopilot — every deep book was bots trading themselves, buyers pouring in, almost no sellers",
+  "groups": {
+    "namesake:stock": {
+      "title": "Wall Street Tickers On Chain"
+    },
+    "namesake:ai": {
+      "title": "AI Lab Namesakes"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Bot Conveyor"
+    }
+  },
+  "coins": {
+    "NVDA": {
+      "label": "Deepest Of Three",
+      "timeline": [
+        {
+          "time": "15:51",
+          "text": "launched, named after Nvidia — 3 separate tokens wore this ticker today, this was the deepest"
+        },
+        {
+          "time": "19:00",
+          "text": "peaked at $18m on $39m volume; all 8 sampled wallets were bots, thousands of trades each"
+        }
+      ]
+    },
+    "GOOGL": {
+      "label": "Six Ways To Spell Google",
+      "timeline": [
+        {
+          "time": "06:56",
+          "text": "launched, named after Google — 6 tokens shared the ticker, this the deepest"
+        },
+        {
+          "time": "14:00",
+          "text": "peaked at $13m on $95m volume; every sampled wallet a bot running 6k+ trades"
+        }
+      ]
+    },
+    "AAPL": {
+      "label": "Named After Apple",
+      "timeline": [
+        {
+          "time": "07:57",
+          "text": "launched, named after Apple — deepest of 5 tokens using the ticker, hit $7.2m"
+        }
+      ]
+    },
+    "HOOD": {
+      "label": "Named After Robinhood",
+      "timeline": [
+        {
+          "time": "21:14",
+          "text": "launched, named after Robinhood — deepest of 6 sharing the ticker, hit $1.7m"
+        }
+      ]
+    },
+    "Claude": {
+      "label": "Named After Claude",
+      "timeline": [
+        {
+          "time": "19:10",
+          "text": "launched, named after Claude — deepest of 2 using the ticker"
+        },
+        {
+          "time": "22:00",
+          "text": "peaked at $5.8m on $71m volume; sampled wallets all bots"
+        }
+      ]
+    },
+    "OPENAI": {
+      "label": "The One With Real Sellers",
+      "timeline": [
+        {
+          "time": "06:07",
+          "text": "launched, named after OpenAI — deepest of 3; notably 4847 buyers vs 710 sellers, no bot-selling flag"
+        }
+      ]
+    },
+    "CR7": {
+      "label": "Volume Machine",
+      "timeline": [
+        {
+          "time": "05:12",
+          "text": "launched, hit $461m"
+        },
+        {
+          "time": "11:00",
+          "text": "peaked on $63m volume, 1945 buyers vs 35 sellers; all 8 sampled wallets bots"
+        }
+      ]
+    },
+    "Arc": {
+      "label": "Bills Itself As An OS",
+      "timeline": [
+        {
+          "time": "17:08",
+          "text": "launched, calls itself 'the economic OS for the internet'"
+        },
+        {
+          "time": "13:00",
+          "text": "peaked at $903m; every sampled wallet a bot"
+        }
+      ]
+    },
+    "ERIC": {
+      "label": "Deepest Of Two",
+      "timeline": [
+        {
+          "time": "07:27",
+          "text": "launched, deepest of 2 tokens sharing the ticker"
+        }
+      ]
+    },
+    "TSL": {
+      "label": "Tesla Copy",
+      "timeline": [
+        {
+          "time": "17:58",
+          "text": "launched wearing Tesla's own tagline, hit $76m; sampled wallets all bots"
+        }
+      ]
+    },
+    "MetaMask": {
+      "label": "Wallet Namesake",
+      "timeline": [
+        {
+          "time": "00:11",
+          "text": "launched borrowing MetaMask branding, peaked $16m at 03:00; sampled bots only"
+        }
+      ]
+    },
+    "linera": {
+      "label": "",
+      "timeline": []
+    },
+    "TRUMPx": {
+      "label": "",
+      "timeline": []
+    },
+    "LV": {
+      "label": "Louis Vuitton Copy",
+      "timeline": [
+        {
+          "time": "18:50",
+          "text": "launched borrowing Louis Vuitton branding, hit $4.3m"
+        }
+      ]
+    },
+    "小股东": {
+      "label": "BNB Chain Listing",
+      "timeline": [
+        {
+          "time": "19:31",
+          "text": "launched, bills itself as a cross-chain BNB swap; 6035 buyers vs 32 sellers, all sampled bots"
+        }
+      ]
+    },
+    "SCRIBE": {
+      "label": "Thin Book",
+      "timeline": [
+        {
+          "time": "11:19",
+          "text": "launched with $53k liquidity, faded to $3.3m; sampled wallets all bots"
+        }
+      ]
+    },
+    "MPLX": {
+      "label": "Metaplex Namesake",
+      "timeline": [
+        {
+          "time": "21:02",
+          "text": "launched using Metaplex governance-token copy, hit $3.3m"
+        }
+      ]
+    },
+    "BSTR": {
+      "label": "One Wallet Cleared It",
+      "timeline": [
+        {
+          "time": "11:36",
+          "text": "launched, hit $3.2m then bled to $2.0m"
+        },
+        {
+          "time": "11:00",
+          "text": "one sampled bot banked $17k in just 9 trades while the rest churned"
+        }
+      ]
+    },
+    "MCD": {
+      "label": "",
+      "timeline": []
+    },
+    "牛来": {
+      "label": "",
+      "timeline": []
+    },
+    "SpaceX": {
+      "label": "Named After SpaceX",
+      "timeline": [
+        {
+          "time": "15:16",
+          "text": "launched on the SpaceX name, hit $2.4m"
+        }
+      ]
+    },
+    "BRAIN": {
+      "label": "",
+      "timeline": []
+    },
+    "EMBER": {
+      "label": "Meteora Launcher",
+      "timeline": []
+    },
+    "HUHCAT": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "08:03",
+          "text": "launched, hit $24m on $17m volume; 3884 buyers vs 42 sellers, all sampled bots"
+        }
+      ]
+    }
+  }
+}
