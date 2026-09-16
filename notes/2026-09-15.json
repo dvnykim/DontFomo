@@ -1,0 +1,203 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-16T14:24:27.711Z",
+    "evidenceSha256": "e1676ef9d8c1ccde"
+  },
+  "mood": "launchpad conveyor running hot — bots ran most of the tape, a handful of humans cleared out early on $elon",
+  "groups": {
+    "namesake:stock": {
+      "title": "Wall Street Tickers Onchain"
+    },
+    "namesake:ai": {
+      "title": "AI Lab Namesakes"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Conveyor"
+    }
+  },
+  "coins": {
+    "HOOD": {
+      "label": "Robinhood Namesake",
+      "timeline": [
+        {
+          "time": "19:13",
+          "text": "launched named after Robinhood, deepest of 4 sharing the ticker; $74m volume, now $10m"
+        }
+      ]
+    },
+    "NVDA": {
+      "label": "Nvidia Namesake",
+      "timeline": [
+        {
+          "time": "23:44",
+          "text": "launched named after Nvidia; all 8 sampled top wallets were bots"
+        }
+      ]
+    },
+    "AAPL": {
+      "label": "Apple Namesake",
+      "timeline": []
+    },
+    "MSFT": {
+      "label": "Microsoft Namesake",
+      "timeline": []
+    },
+    "TSLA": {
+      "label": "Tesla Namesake",
+      "timeline": []
+    },
+    "OpenAI": {
+      "label": "OpenAI Namesake",
+      "timeline": [
+        {
+          "time": "15:52",
+          "text": "launched named after OpenAI, deepest of 5 sharing ticker; peaked $6.8m then round-tripped to $2.5m"
+        }
+      ]
+    },
+    "Anthropic": {
+      "label": "Anthropic Namesake",
+      "timeline": []
+    },
+    "DeepSeek": {
+      "label": "DeepSeek Namesake",
+      "timeline": []
+    },
+    "STANDARD": {
+      "label": "Bot-Run Central Bank",
+      "timeline": [
+        {
+          "time": "22:09",
+          "text": "launched billing itself as a sovereign onchain central bank"
+        },
+        {
+          "time": "05:00",
+          "text": "peaked $28m — all 8 sampled top wallets were bots, ~8-9k trades each, 2025 buyers vs 27 sellers"
+        }
+      ]
+    },
+    "Arc": {
+      "label": "Biggest Fresh Launch",
+      "timeline": [
+        {
+          "time": "07:07",
+          "text": "launched billing itself the economic OS for the internet, deepest of 4 sharing ticker"
+        }
+      ]
+    },
+    "SPCXx": {
+      "label": "SpaceX Copy",
+      "timeline": [
+        {
+          "time": "13:12",
+          "text": "launched copy citing SpaceX marketing"
+        },
+        {
+          "time": "17:00",
+          "text": "$707k to $8.8m (12.4x), selling was bot-driven"
+        }
+      ]
+    },
+    "ELON": {
+      "label": "Ran Then Faded",
+      "timeline": [
+        {
+          "time": "19:26",
+          "text": "launched, deepest of 2 sharing the ticker"
+        },
+        {
+          "time": "01:00",
+          "text": "4 of 8 sampled wallets cleared the bar with 0 bots; top realised $28k across 33 trades"
+        }
+      ]
+    },
+    "果蝇": {
+      "label": "30x Runner",
+      "timeline": [
+        {
+          "time": "11:00",
+          "text": "launched"
+        },
+        {
+          "time": "17:00",
+          "text": "$238k to $7.1m (30x); selling flagged bot-driven"
+        }
+      ]
+    },
+    "LV": {
+      "label": "Big Volume Fade",
+      "timeline": [
+        {
+          "time": "17:45",
+          "text": "launched, peaked $6.4m on $58m volume; now $5.1m"
+        }
+      ]
+    },
+    "DGAI": {
+      "label": "Wash-Flagged",
+      "timeline": [
+        {
+          "time": "08:36",
+          "text": "launched as DGrid AI; $73m volume against a $5.3m cap, flagged for possible wash trading"
+        }
+      ]
+    },
+    "IPO": {
+      "label": "Stock-Pairing Launchpad",
+      "timeline": [
+        {
+          "time": "15:31",
+          "text": "launched billing itself as a launchpad pairing tokens with stocks, forex and compute"
+        }
+      ]
+    },
+    "Pons": {
+      "label": "Fresh Launch",
+      "timeline": []
+    },
+    "TRUMP": {
+      "label": "Fees To Trump",
+      "timeline": [
+        {
+          "time": "02:11",
+          "text": "launched routing fees to Trump, per its own listing"
+        }
+      ]
+    },
+    "GNOT": {
+      "label": "Fresh Launch",
+      "timeline": []
+    },
+    "TRUMPx": {
+      "label": "Fresh Launch",
+      "timeline": []
+    },
+    "Fly": {
+      "label": "Bot-Driven Selling",
+      "timeline": [
+        {
+          "time": "15:42",
+          "text": "launched, deepest of 2 sharing ticker; $19m volume, all 8 sampled wallets bots"
+        }
+      ]
+    },
+    "APM": {
+      "label": "Fresh Launch",
+      "timeline": []
+    },
+    "POOLS": {
+      "label": "New Launch Venue",
+      "timeline": [
+        {
+          "time": "03:22",
+          "text": "launched billing itself as a new way to launch and trade tokens"
+        }
+      ]
+    },
+    "STEALF": {
+      "label": "Privacy Layer",
+      "timeline": []
+    }
+  }
+}
