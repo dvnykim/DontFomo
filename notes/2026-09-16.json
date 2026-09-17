@@ -1,0 +1,278 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-17T14:30:04.060Z",
+    "evidenceSha256": "4b98afe5be1d6253"
+  },
+  "mood": "bot conveyor ran all day — 8-of-8 sampled wallets were bots on nearly every launch, real money was thin",
+  "groups": {
+    "pair:spyx:stonk": {
+      "title": "Stonk Rides SPYx"
+    },
+    "pair:zec:zcat": {
+      "title": "Zcash Cat Copytrade"
+    },
+    "namesake:stock": {
+      "title": "Tickers On Chain"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Bot Conveyor"
+    },
+    "established": {
+      "title": "Still Grinding"
+    }
+  },
+  "coins": {
+    "STONK": {
+      "label": "Paired Mover",
+      "timeline": [
+        {
+          "time": "14:00",
+          "text": "paired with $SPYx (18% of its volume) — pushed to $202m before easing to $200m"
+        }
+      ]
+    },
+    "ZCAT": {
+      "label": "Zec Proxy",
+      "timeline": [
+        {
+          "time": "08:00",
+          "text": "paired with $ZEC (19% of volume), peaked $177m then round-tripped to $128m"
+        }
+      ]
+    },
+    "HOOD": {
+      "label": "Robinhood Cosplay",
+      "timeline": [
+        {
+          "time": "01:38",
+          "text": "launched, named after Robinhood; deepest of 3 tokens sharing the ticker today"
+        },
+        {
+          "time": "07:00",
+          "text": "peaked $2.3m"
+        }
+      ]
+    },
+    "META": {
+      "label": "Namesake Launch",
+      "timeline": [
+        {
+          "time": "11:49",
+          "text": "launched, named after Meta; hit $1.1m"
+        }
+      ]
+    },
+    "TSLA": {
+      "label": "Namesake Launch",
+      "timeline": [
+        {
+          "time": "13:18",
+          "text": "launched, named after Tesla; hit $1.1m"
+        }
+      ]
+    },
+    "跳蛛": {
+      "label": "Bot Churn",
+      "timeline": [
+        {
+          "time": "07:32",
+          "text": "launched; 1723 buyers vs 33 sellers, all 8 sampled wallets were bots"
+        }
+      ]
+    },
+    "Minara": {
+      "label": "Launchpad Listing",
+      "timeline": [
+        {
+          "time": "10:58",
+          "text": "launched, bills itself as created on minara.fun; 2487 buyers vs 54 sellers"
+        }
+      ]
+    },
+    "果蝇": {
+      "label": "Bot Churn",
+      "timeline": [
+        {
+          "time": "03:12",
+          "text": "launched; 4005 buyers vs 34 sellers, 8-of-8 sampled were bots"
+        }
+      ]
+    },
+    "HUHCAT": {
+      "label": "Even Flow",
+      "timeline": [
+        {
+          "time": "10:00",
+          "text": "peaked $552m"
+        }
+      ]
+    },
+    "WANG": {
+      "label": "Fees To Charity",
+      "timeline": [
+        {
+          "time": "08:32",
+          "text": "launched, routes fees via UsePaid per its listing; deepest of 3 tokens on this ticker"
+        },
+        {
+          "time": "10:00",
+          "text": "peaked $31m, 8-of-8 sampled wallets bots"
+        }
+      ]
+    },
+    "urmom": {
+      "label": "Bot Churn",
+      "timeline": [
+        {
+          "time": "04:46",
+          "text": "launched; $28m volume, 1992 buyers vs 22 sellers, all sampled were bots"
+        },
+        {
+          "time": "06:00",
+          "text": "peaked $30m"
+        }
+      ]
+    },
+    "ON": {
+      "label": "ZK Infra Cosplay",
+      "timeline": [
+        {
+          "time": "06:33",
+          "text": "launched, bills itself as Orochi Network verifiable-data infra; $31m volume"
+        },
+        {
+          "time": "09:00",
+          "text": "peaked $7.6m, 8-of-8 sampled bots"
+        }
+      ]
+    },
+    "ELON": {
+      "label": "Real Two-Way",
+      "timeline": [
+        {
+          "time": "03:00",
+          "text": "peaked $7.1m; sampled wallets were human, none bots, top realised ~$3k"
+        }
+      ]
+    },
+    "SKHY": {
+      "label": "SK Hynix Cosplay",
+      "timeline": [
+        {
+          "time": "12:00",
+          "text": "launched, bills itself as SK Hynix the memory-chip maker; hit $5.0m"
+        }
+      ]
+    },
+    "$1": {
+      "label": "Bot Churn",
+      "timeline": [
+        {
+          "time": "08:03",
+          "text": "launched; $15m volume, 3788 buyers vs 407 sellers"
+        },
+        {
+          "time": "11:00",
+          "text": "peaked $1.6m"
+        }
+      ]
+    },
+    "APM": {
+      "label": "Wide Book",
+      "timeline": [
+        {
+          "time": "10:41",
+          "text": "launched; 5023 buyers, deepest of 3 tokens on this ticker"
+        },
+        {
+          "time": "14:00",
+          "text": "peaked $1.3m"
+        }
+      ]
+    },
+    "Arc": {
+      "label": "Economic OS",
+      "timeline": [
+        {
+          "time": "08:40",
+          "text": "launched, bills itself as the economic OS for the internet; deepest of 2 on ticker"
+        },
+        {
+          "time": "13:00",
+          "text": "peaked $2.4m"
+        }
+      ]
+    },
+    "GNOT": {
+      "label": "Crowded Ticker",
+      "timeline": [
+        {
+          "time": "15:15",
+          "text": "launched; deepest of 4 tokens sharing this ticker today"
+        },
+        {
+          "time": "23:00",
+          "text": "peaked $2.5m"
+        }
+      ]
+    },
+    "CATE.": {
+      "label": "Launchpad Listing",
+      "timeline": [
+        {
+          "time": "14:34",
+          "text": "launched, created on cate.meme per its listing; hit $1.7m"
+        }
+      ]
+    },
+    "Anthropic": {
+      "label": "AI Namesake",
+      "timeline": [
+        {
+          "time": "06:32",
+          "text": "launched, named after Anthropic; deepest of 2 on ticker, hit $1.0m"
+        }
+      ]
+    },
+    "MUSEBOOK": {
+      "label": "Wash Flag",
+      "timeline": [
+        {
+          "time": "09:53",
+          "text": "launched; $52m volume against a $1.8m cap and $113k liquidity, flagged possible wash trading"
+        },
+        {
+          "time": "14:00",
+          "text": "peaked $1.8m"
+        }
+      ]
+    },
+    "AXIS": {
+      "label": "Robotics Namesake",
+      "timeline": [
+        {
+          "time": "12:58",
+          "text": "launched, bills itself as Axis Robotics; deepest of 3 on this ticker"
+        }
+      ]
+    },
+    "PAID": {
+      "label": "Top Wallet Banked",
+      "timeline": [
+        {
+          "time": "07:00",
+          "text": "peaked $29m; deepest of 3 tokens on this ticker"
+        },
+        {
+          "time": "07:00",
+          "text": "top sampled wallet realised $25k, another $19k — both flagged bots"
+        }
+      ]
+    },
+    "EMBER": {
+      "label": "Meteora Launchpad",
+      "timeline": []
+    }
+  }
+}
