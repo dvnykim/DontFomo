@@ -1,0 +1,178 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-18T13:47:20.731Z",
+    "evidenceSha256": "64c69a5bf65fe31c"
+  },
+  "mood": "bot-driven launch conveyor — bots on every top wallet, sellers nowhere, and a couple of eye-watering nominal peaks that round-tripped by afternoon",
+  "groups": {
+    "namesake:stock": {
+      "title": "Wall Street Tickers"
+    },
+    "namesake:ai": {
+      "title": "AI Lab Tickers"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Conveyor"
+    },
+    "fresh": {
+      "title": "Fresh Launch"
+    }
+  },
+  "coins": {
+    "GOOGL": {
+      "label": "Round-Trip Of The Day",
+      "timeline": [
+        {
+          "time": "14:05",
+          "text": "launched, named after Google — deepest of 2 tokens sharing the ticker"
+        },
+        {
+          "time": "04:00",
+          "text": "peaked $769m, then round-tripped to $264m; all 8 sampled top wallets were bots"
+        }
+      ]
+    },
+    "META": {
+      "label": "Volume Magnet",
+      "timeline": [
+        {
+          "time": "14:10",
+          "text": "launched, named after Meta — deepest of 3 sharing the ticker"
+        }
+      ]
+    },
+    "TSLA": {
+      "label": "",
+      "timeline": []
+    },
+    "AMC": {
+      "label": "",
+      "timeline": []
+    },
+    "AAPL": {
+      "label": "",
+      "timeline": []
+    },
+    "DeepSeek": {
+      "label": "",
+      "timeline": []
+    },
+    "Claude": {
+      "label": "",
+      "timeline": []
+    },
+    "Anthropic": {
+      "label": "",
+      "timeline": []
+    },
+    "OPENAI": {
+      "label": "",
+      "timeline": []
+    },
+    "DIAM": {
+      "label": "Biggest Cap, All Bots",
+      "timeline": [
+        {
+          "time": "08:47",
+          "text": "launched, bills itself as a quantum-proof layer 1 blockchain"
+        },
+        {
+          "time": "13:00",
+          "text": "peaked $785m on $25m volume; all 8 sampled top wallets were bots, 2043 buyers vs 62 sellers"
+        }
+      ]
+    },
+    "WANG": {
+      "label": "Steepest Vertical",
+      "timeline": [
+        {
+          "time": "12:51",
+          "text": "launched, fees routed to a charity via UsePaid per its listing"
+        }
+      ]
+    },
+    "ELON": {
+      "label": "Nominal Blowoff",
+      "timeline": [
+        {
+          "time": "15:02",
+          "text": "launched, deepest of 2 sharing the ticker"
+        }
+      ]
+    },
+    "果蝇": {
+      "label": "Widest Buyer Base",
+      "timeline": [
+        {
+          "time": "19:01",
+          "text": "launched as a BNB Chain cross-chain swap token per its listing; 6040 buyers vs 44 sellers, all 8 sampled wallets bots"
+        }
+      ]
+    },
+    "PERK": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "08:53",
+          "text": "launched — 'holding has its perks', peaked $60m"
+        }
+      ]
+    },
+    "SOLCAT": {
+      "label": "",
+      "timeline": []
+    },
+    "Minara": {
+      "label": "",
+      "timeline": []
+    },
+    "MEMEBANK": {
+      "label": "",
+      "timeline": []
+    },
+    "GNOT": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "23:35",
+          "text": "launched, $60m volume on the tape; deepest of 2 sharing the ticker"
+        }
+      ]
+    },
+    "Tilcayo": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "08:00",
+          "text": "peaked $3.1m then faded to $1.4m, 12k buyers against 11k sellers"
+        }
+      ]
+    },
+    "AXIS": {
+      "label": "",
+      "timeline": []
+    },
+    "STOPAI": {
+      "label": "",
+      "timeline": []
+    },
+    "Tesla": {
+      "label": "",
+      "timeline": []
+    },
+    "APM": {
+      "label": "",
+      "timeline": []
+    },
+    "MCAT": {
+      "label": "",
+      "timeline": [
+        {
+          "time": "22:00",
+          "text": "peaked $4.6m then bled to $1.8m; deepest of 7 tokens sharing the ticker"
+        }
+      ]
+    }
+  }
+}
