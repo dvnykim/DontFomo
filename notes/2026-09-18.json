@@ -1,0 +1,185 @@
+{
+  "_generated": {
+    "model": "claude-opus-4-8",
+    "generatedAt": "2026-09-19T13:18:47.506Z",
+    "evidenceSha256": "5c9b7b6fe38d0c9b"
+  },
+  "mood": "conveyor day — pumpswap firehose of launches, bot fleets running six-figure trade counts, real humans just liquidity",
+  "groups": {
+    "namesake:stock": {
+      "title": "Wall Street Cosplay"
+    },
+    "venue:pumpswap": {
+      "title": "Pumpswap Conveyor",
+      "note": "top-wallet samples came back near-100% bots on most of these launches"
+    }
+  },
+  "coins": {
+    "TSLA": {
+      "label": "Bot Fleet Runner",
+      "timeline": [
+        {
+          "time": "08:31",
+          "text": "launched named after Tesla"
+        }
+      ]
+    },
+    "AAPL": {
+      "label": "Named After Apple",
+      "timeline": []
+    },
+    "HOOD": {
+      "label": "Named After Robinhood",
+      "timeline": []
+    },
+    "AGRIPPA": {
+      "label": "Bot-Only Sample",
+      "timeline": [
+        {
+          "time": "18:47",
+          "text": "launched, bills itself as created on agripparbh.com"
+        },
+        {
+          "time": "21:00",
+          "text": "peaked; all 8 sampled top wallets were bots, none cleared the bar"
+        }
+      ]
+    },
+    "CATE": {
+      "label": "The One Survivor",
+      "timeline": []
+    },
+    "PORNHUB": {
+      "label": "Brand Squat",
+      "timeline": [
+        {
+          "time": "03:05",
+          "text": "launched borrowing the Pornhub site copy verbatim"
+        },
+        {
+          "time": "06:00",
+          "text": "peaked $30m on $41m volume"
+        }
+      ]
+    },
+    "$牛马": {
+      "label": "6k Buyers, 43 Sellers",
+      "timeline": [
+        {
+          "time": "02:35",
+          "text": "launched"
+        },
+        {
+          "time": "08:00",
+          "text": "peaked $29m; 6049 buyers against 43 sellers"
+        }
+      ]
+    },
+    "URANUS": {
+      "label": "Launch And Fade",
+      "timeline": [
+        {
+          "time": "07:26",
+          "text": "launched, peaked $27m by 09:00"
+        }
+      ]
+    },
+    "wildebeest": {
+      "label": "Bot Banked $90k",
+      "timeline": [
+        {
+          "time": "11:12",
+          "text": "launched"
+        },
+        {
+          "time": "12:00",
+          "text": "peaked $7.9m; top sampled wallet up $90k, all 8 were bots"
+        }
+      ]
+    },
+    "OPENAI": {
+      "label": "Deepest Of Five",
+      "timeline": [
+        {
+          "time": "01:47",
+          "text": "launched named after OpenAI — 5 tokens wore this ticker today, this the deepest"
+        },
+        {
+          "time": "13:00",
+          "text": "peaked $7.4m on $78m volume, $594k liquidity"
+        }
+      ]
+    },
+    "lup": {
+      "label": "Deepest Of Three",
+      "timeline": [
+        {
+          "time": "11:00",
+          "text": "peaked $4.9m on $64m volume, deepest of 3 sharing the ticker"
+        }
+      ]
+    },
+    "TIGRINO": {
+      "label": "Actual Run",
+      "timeline": [
+        {
+          "time": "21:00",
+          "text": "$776k to $4.6m (5.9x), deepest of 4 sharing the ticker; 15k buyers vs 13k sellers churn"
+        }
+      ]
+    },
+    "ANTH": {
+      "label": "Deepest Of Four",
+      "timeline": []
+    },
+    "Arc": {
+      "label": "Economic OS Pitch",
+      "timeline": []
+    },
+    "PAID": {
+      "label": "X Money Fees Pitch",
+      "timeline": []
+    },
+    "AAPLE": {
+      "label": "Apple.com Squat",
+      "timeline": []
+    },
+    "RCSC": {
+      "label": "High Volume Thin Cap",
+      "timeline": [
+        {
+          "time": "13:00",
+          "text": "peaked $2.0m on $78m volume, $355k liquidity"
+        }
+      ]
+    },
+    "CROSSR": {
+      "label": "Launch Once",
+      "timeline": []
+    },
+    "APM": {
+      "label": "Deepest Of Three",
+      "timeline": []
+    },
+    "AXIS": {
+      "label": "Axis Robotics Pitch",
+      "timeline": []
+    },
+    "CEST": {
+      "label": "Cestus Network",
+      "timeline": []
+    },
+    "NASDOG": {
+      "label": "Deepest Of Two",
+      "timeline": []
+    },
+    "ARGUS": {
+      "label": "Argus.world",
+      "timeline": []
+    },
+    "TiKTOK": {
+      "label": "Brand Squat",
+      "timeline": []
+    }
+  }
+}
